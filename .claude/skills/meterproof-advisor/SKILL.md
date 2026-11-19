@@ -1,6 +1,6 @@
 ---
 name: meterproof-advisor
-description: METERPROOF advisor/reviewer role for Claude Code. Writes Codex work orders for one subphase, reviews Codex output against milestone cards, invariants INV-01..INV-12 and real evidence, runs gate-readiness reviews, status and bounded research. Args - next | review <ID> | gate <GATE> | status | research <topic> | replan. Never implements production code, never signs gates.
+description: METERPROOF advisor/reviewer role for Claude Code. Writes Codex work orders for one subphase or an owner-approved wave, reviews Codex output against milestone cards, invariants INV-01..INV-12 and real evidence, runs gate-readiness reviews, status and bounded research. Args - next | next wave | review <ID|WAVE-nn> | gate <GATE> | status | research <topic> | replan. Never implements production code, never signs gates.
 ---
 
 # METERPROOF Advisor (Claude Code only)
@@ -17,9 +17,13 @@ Codex executes; this skill plans and reviews. Workflow, file conventions and rep
 ## Modes
 
 ### `next`
-Pick the first subphase whose prerequisites are approved. Check its gate dependency in `docs/milestones/milestones.json`; if blocked, say by what. Write `docs/ops/prompts/<ID>_CODEX.md` using the Work Order template below; return it in chat as well. One subphase per order, never a whole milestone.
+Pick the first subphase whose prerequisites are approved. Check its gate dependency in `docs/milestones/milestones.json`; if blocked, say by what. Write `docs/ops/prompts/<ID>_CODEX.md` using the Work Order template below; return it in chat as well. One subphase per order by default.
 
-### `review <ID>`
+### `next wave`
+Owner-approved option (DEC-0006, rules in `docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md` → Waves). Bundle consecutive subphases up to, never across, an owner-signed gate or an unapproved cost. A pending fix-up may become Step 0. Put every policy decision the wave needs into the order as numbered pre-approved decisions D1…Dn. Add a checkpoint after each subphase. Write `docs/ops/prompts/WAVE-<nn>_<first>-<last>_CODEX.md`. Before writing, run `ai-agent-workspace-pack/prompting-team/PROMPT_READINESS_GATE.md` on it.
+
+### `review <ID>` | `review WAVE-<nn>`
+For a wave, review each subphase separately (own verdict) in `docs/ops/reviews/WAVE-<nn>_REVIEW.md`; a wave can be partly approved.
 1. Find the branch (`git branch -a`), read `git diff main...<branch> --stat` then the diff.
 2. Read the receipt `docs/gates/<GATE>/<ID>_receipt.md` and the Codex Execution Report if the owner pasted it.
 3. Re-run the cheap, local, free checks yourself (validators, unit tests, schema checks, `git status`). Never re-run paid calls or heavy stacks without the owner.
@@ -40,11 +44,16 @@ After FAILED, BLOCKED, or a G1 NO-GO: state what evidence changed, the options (
 
 ## Work Order template (`docs/ops/prompts/<ID>_CODEX.md`)
 ```text
+@start-here Execute METERPROOF <ID> exactly as written below.
 # <ID> — <title> (Codex work order)
 Repo root: D:\DATA_ENGINEER\METERPROOF\Meterproof
 Branch: <track>/<id>-<slug>, created from main @ <sha>
-Read first: AGENTS.md; docs/ops/PROJECT_STATUS.md; docs/milestones/<area>/<ID card>; <only the contracts/ADRs needed>
-Skills: $<domain-skill> (+ generic team by name if useful)
+Skill loading (START_HERE Context Intake Tiers):
+  Tier 0: AGENTS.md (root + pack), START_HERE.md, session_start.py (OWNED), SESSION_BRIEF/OPERATING_RULES/CURRENT_TASK,
+          PROJECT_STATUS.md, ADVISOR_EXECUTOR_WORKFLOW.md
+  Tier 1: ai-agent-workspace-pack/<team>/SKILL.md + $<meterproof-skill> (.agents/skills/<name>/SKILL.md), read at step start
+  Tier 2: only the templates actually used; Tier 3: READ list below. Report every skill file read.
+Read first: docs/milestones/<area>/<ID card>; <only the contracts/ADRs needed>
 Goal: <one sentence>
 In scope (files/paths you may create or edit): <explicit list>
 Out of scope: <explicit list, incl. pack files and other subphases>

@@ -229,3 +229,79 @@ Not pushed; no push authorized.
 ### Next Step
 
 In Claude Code, run `/meterproof-advisor review P0.1`. Do not start P0.2 before review.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`Advisor review of P0.1 + WAVE-01 work order (P0.1 FIX1 -> P0.2 -> P0.3)`
+
+### Files Touched
+
+- `docs/ops/reviews/P0.1_REVIEW.md` (new)
+- `docs/ops/prompts/WAVE-01_P0.2-P0.3_CODEX.md` (new)
+- `docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md` (waves, skill-loading block, receipt status rule, exit-code rule)
+- `.claude/skills/meterproof-advisor/SKILL.md` (`next wave`, wave review, skill-loading block in the template)
+- `_agent_ops/IMPLEMENTATION_LOG.md`, `DECISION_LOG.md` (DEC-0006), `RISK_REGISTER.md` (RISK-0001, RISK-0003)
+
+### What Changed / Evidence Produced
+
+- Verdict P0.1: CHANGES_REQUESTED (small), with the fix-up as Step 0 of WAVE-01. F1: the receipt records the installer exit as 1; the code returns 2 and the advisor observed 2. F2: the Verification box can be closed because the installer refuses before any write. F3: stale status fields.
+- WAVE-01 order: P0.2 decisions D1–D9 pre-approved by pasting; checkpoint after each subphase; skill loading per START_HERE tiers.
+
+### Why
+
+The owner asked for the next prompt, with explicit skill loading, and allowed larger waves.
+
+### Tests Run
+
+```text
+python tools/meterproof/validate_overlay.py -> 0
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> 0 (286 tracked, 0 artifacts)
+PACK_MANIFEST.json check (temp script, python -I) -> 145 checked, 0 mismatches
+install_overlay.py --target . (dry run) x2 -> exit 2 both; captures byte-identical; git status --porcelain empty
+sha256sum tests/fixtures/* -> equal to REPO_OWNERSHIP_MAP.md values
+git diff --check main...p0/p0.1-preflight -> 0
+python: float 0.012+0.009 = 0.020999999999999998; Decimal = 0.0210; 0.125 HALF_EVEN 0.12 / HALF_UP 0.13 (controls used in WAVE-01)
+```
+
+### Results
+
+P0.1 evidence is real and its scope was respected; the three fixes are recordkeeping, not rework.
+
+### Bugs Found
+
+- Receipt exit codes misrecorded (1 instead of 2), probably PowerShell `$?` boolean.
+
+### Root Cause
+
+The executor's shell reports a boolean failure flag rather than the process exit code.
+
+### Fix Applied
+
+Fix assigned to WAVE-01 Step 0; workflow now states that receipts carry process exit codes.
+
+### Git Commit
+
+None by the advisor. WAVE-01 Step 0 commits these advisor files unchanged (Commit A).
+
+### Push Result
+
+Not pushed.
+
+### Remaining Risks
+
+- LICENSE still undecided (RISK-0008); needed before P0.4/G0.
+- Interpreter resolution differs between Codex and host shells (RISK-0003).
+
+### Next Step
+
+Owner pastes `docs/ops/prompts/WAVE-01_P0.2-P0.3_CODEX.md` into Codex; then `/meterproof-advisor review WAVE-01`.

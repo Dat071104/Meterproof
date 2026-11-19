@@ -31,3 +31,10 @@
 - **Context:** `PACK_MANIFEST.json` hashes raw bytes. The source pack checkout uses `core.autocrlf=true`, so 62/145 shipped files were CRLF on disk while Git stores LF (this repo's `.gitattributes` forces `eol=lf`). Fresh clones would mismatch 62 manifest hashes and `embed_pack.py --update` would treat them as host-modified.
 - **Decision:** before the first commit, removed the just-created pack folder and generated root adapters, re-ran `embed_pack.py` from a `core.autocrlf=false` clone of the same commit `d4df794` (scratch dir), restored the filled memory files.
 - **Consequences:** manifest hashes equal Git-normalized bytes. Future `--update` must also run from an LF checkout. Upstream fix recommended in the pack repository: ship a `.gitattributes` (`* text=auto eol=lf`) or hash normalized bytes.
+
+## DEC-0006 — Waves allowed (owner, 2026-11-19)
+
+- **Context:** after P0.1 the owner allowed larger prompts ("prompt phase lớn / wave lớn cũng được") and asked that every prompt load its skills explicitly.
+- **Decision:** a work order may run several consecutive subphases as a wave. It never crosses an owner-signed gate or an unapproved cost. Each subphase keeps its own receipt, commit, checkpoint and review verdict. Policy decisions are pre-approved in the order as D1…Dn. Every order starts with `@start-here` and a START_HERE tiered skill-loading block. Rules: `docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md` → Waves.
+- **Trade-off:** fewer round-trips and less copy-paste, but larger diffs per review and a later stop when something goes wrong. The per-subphase checkpoints and verdicts contain that risk.
+- **First use:** WAVE-01 = P0.1 FIX1 + P0.2 + P0.3. P0.4 stays separate (dependencies, Docker downloads, LICENSE).
