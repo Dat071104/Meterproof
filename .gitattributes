@@ -1,0 +1,14 @@
+# Normalize line endings so shell scripts, Dockerfiles and SQL behave the same
+# on Windows hosts and inside Linux containers.
+* text=auto eol=lf
+
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.pdf binary
+*.png binary
+*.jpg binary
+*.parquet binary
+*.jar binary
+*.zip binary

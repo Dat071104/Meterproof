@@ -1,0 +1,58 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+**/credentials*.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version.local
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# --- Java / Flink ---
+target/
+.gradle/
+*.class
+!pipelines/flink_java/**/gradle-wrapper.jar
+
+# --- dbt ---
+pipelines/dbt/**/target/
+pipelines/dbt/**/dbt_packages/
+pipelines/dbt/**/logs/
+profiles.yml
+
+# --- Local data / runtime state (fixtures under data/fixtures ARE tracked) ---
+data/manifests/local/
+data/samples/raw/
+*.duckdb
+*.duckdb.wal
+infra/compose/volumes/
+logs/
+*.log
+
+# --- Raw provider evidence must never land in a public repo ---
+evidence/raw/
+**/provider_raw/
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Local Claude/agent settings ---
+.claude/settings.local.json
