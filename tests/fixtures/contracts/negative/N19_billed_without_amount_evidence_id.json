@@ -1,0 +1,46 @@
+{
+  "fixture_id": "N19",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "type",
+    "path": [
+      "provider_amount_evidence_id"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-N19",
+    "source_event_id": "event-N19",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-19",
+    "provider_attempt_id": "attempt-19",
+    "provider_generation_id": "generation-19",
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_BILLED",
+    "known_provider_cost_usd": "0.0120",
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "generation-19"
+  },
+  "pre_change_instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-N19",
+    "source_event_id": "event-N19",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-19",
+    "provider_attempt_id": "attempt-19",
+    "provider_generation_id": "generation-19",
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_BILLED",
+    "known_provider_cost_usd": "0.0120",
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "generation-19"
+  }
+}

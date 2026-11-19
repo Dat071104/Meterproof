@@ -48,7 +48,10 @@
       "minLength": 1
     },
     "logical_request_id": {
-      "type": "string",
+      "type": [
+        "string",
+        "null"
+      ],
       "minLength": 1
     },
     "provider_attempt_id": {
@@ -94,7 +97,7 @@
         "string",
         "null"
       ],
-      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+      "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
     },
     "provider_amount_evidence_id": {
       "type": [
@@ -119,6 +122,213 @@
         "SANITIZED",
         "RESTRICTED"
       ]
+    },
+    "invoice_amount_usd": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "APP"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "REQUEST_INTENT",
+              "APP_OBSERVED_SUCCESS",
+              "APP_OBSERVED_FAILURE",
+              "UNKNOWN_PROVIDER_OUTCOME"
+            ]
+          },
+          "logical_request_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "outcome",
+          "logical_request_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "APP"
+          },
+          "outcome": {
+            "enum": [
+              "APP_OBSERVED_SUCCESS",
+              "APP_OBSERVED_FAILURE",
+              "UNKNOWN_PROVIDER_OUTCOME"
+            ]
+          }
+        },
+        "required": [
+          "source_kind",
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "provider_attempt_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "provider_attempt_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "PROVIDER"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "PROVIDER_CONFIRMED_BILLED",
+              "PROVIDER_CONFIRMED_NOT_BILLED"
+            ]
+          },
+          "provider_generation_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "outcome",
+          "provider_attempt_id",
+          "provider_generation_id"
+        ],
+        "oneOf": [
+          {
+            "properties": {
+              "provider_attempt_id": {
+                "type": "string"
+              },
+              "logical_request_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "provider_attempt_id": {
+                "type": "null"
+              },
+              "logical_request_id": {
+                "type": "null"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "PROVIDER"
+          },
+          "outcome": {
+            "const": "PROVIDER_CONFIRMED_BILLED"
+          }
+        },
+        "required": [
+          "source_kind",
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "known_provider_cost_usd": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
+          },
+          "provider_amount_evidence_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "known_provider_cost_usd",
+          "provider_amount_evidence_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source_kind": {
+            "const": "INVOICE"
+          }
+        },
+        "required": [
+          "source_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "outcome": {
+            "const": "INVOICE_OBSERVED"
+          },
+          "logical_request_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "billing_period_id": {
+            "type": "string"
+          },
+          "source_reference": {
+            "type": "string"
+          },
+          "invoice_amount_usd": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
+          },
+          "provider_attempt_id": {
+            "const": null
+          },
+          "provider_generation_id": {
+            "const": null
+          },
+          "known_provider_cost_usd": {
+            "const": null,
+            "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
+          },
+          "provider_amount_evidence_id": {
+            "const": null
+          }
+        },
+        "required": [
+          "outcome",
+          "logical_request_id",
+          "billing_period_id",
+          "source_reference",
+          "invoice_amount_usd"
+        ]
+      }
+    }
+  ]
 }

@@ -1,0 +1,156 @@
+{
+  "origin": "SYNTHETIC",
+  "billing_period": {
+    "billing_period_id": "2026-11-01_UTC",
+    "start": "2026-11-01T00:00:00Z",
+    "end": "2026-12-01T00:00:00Z",
+    "time_zone": "UTC"
+  },
+  "verification_decision": {
+    "schema_version": "1",
+    "run_id": "schema-example-run",
+    "manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "scope": "tenant=demo-tenant;period=2026-11-01_UTC",
+    "comparison_status": "EQUAL",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "complete within synthetic fixture scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [
+      "contract-self-check"
+    ],
+    "unresolved_items": [],
+    "policy_version": "demo-v1",
+    "published_eligible": true,
+    "origin": "SYNTHETIC"
+  },
+  "published_read_report": {
+    "schema_version": "1",
+    "report_version_id": "schema-example-report",
+    "tenant_id": "demo-tenant",
+    "origin": "SYNTHETIC",
+    "source_manifest_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "published_at": "2026-12-01T00:00:01Z",
+    "billing_period_id": "2026-11-01_UTC",
+    "business_verdict": "VERIFIED",
+    "coverage_note": "complete synthetic fixture scope",
+    "read_only": true,
+    "known_provider_spend_usd": "0.021000000000",
+    "customer_charge_usd": "0.05",
+    "invoice_amount_usd": "0.100000000000",
+    "source_refs": [
+      "synthetic"
+    ]
+  },
+  "replay_manifest": {
+    "schema_version": "1",
+    "run_id": "schema-example-run",
+    "tenant_id": "demo-tenant",
+    "billing_period_id": "2026-11-01_UTC",
+    "origin": "SYNTHETIC",
+    "app_source_snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "app_source_cut": {
+      "consistent_snapshot_reference": "synthetic-snapshot-1",
+      "source_event_ids_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "postgres_lsn": null,
+      "snapshot_notes": "synthetic test fixture"
+    },
+    "external_provider_scope": {
+      "retrieved_generation_ids": [
+        "generation-A",
+        "generation-B"
+      ],
+      "unknown_attempt_ids": [],
+      "observation_window": "2026-11-01/2026-12-01",
+      "coverage_note": "complete within synthetic fixture",
+      "export_sha256": null
+    },
+    "invoice_scope": {
+      "import_ids": [
+        "invoice-import-1"
+      ],
+      "period": "2026-11-01_UTC",
+      "origin": "SYNTHETIC",
+      "coverage_note": "synthetic invoice fixture",
+      "export_sha256": null
+    },
+    "source_exclusions": [],
+    "price_policy_version": "demo-v1",
+    "money_currency": "USD",
+    "money_rounding_mode": "ROUND_HALF_EVEN",
+    "time_zone": "UTC",
+    "sql_git_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "flink_git_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "correction_window_policy": "freeze at source cut",
+    "created_at": "2026-12-01T00:00:02Z",
+    "kafka_offset_vector": [
+      {
+        "topic": "synthetic-events",
+        "partition": 0,
+        "offset": 18
+      }
+    ],
+    "flink_completed_checkpoint_id": null,
+    "flink_sink_commit_receipt": null,
+    "previous_publication_id": null
+  },
+  "unlinked_billed_provider_receipt": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-unlinked-billed-example",
+    "source_event_id": "provider-event-unlinked-example",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "demo-tenant",
+    "logical_request_id": null,
+    "provider_attempt_id": null,
+    "provider_generation_id": "generation-unlinked-example",
+    "occurred_at": "2026-11-18T12:00:00Z",
+    "first_observed_at": "2026-11-19T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_BILLED",
+    "known_provider_cost_usd": "0.0030",
+    "provider_amount_evidence_id": "provider-evidence-unlinked-example",
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "generation-unlinked-example",
+    "redaction_status": "SANITIZED"
+  },
+  "additional_source_receipts": [
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-app-failure-example",
+      "source_event_id": "app-event-failure-example",
+      "origin": "SYNTHETIC",
+      "source_kind": "APP",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "request-failure-example",
+      "provider_attempt_id": "attempt-failure-example",
+      "provider_generation_id": null,
+      "occurred_at": "2026-11-18T12:00:00Z",
+      "first_observed_at": "2026-11-18T12:00:01Z",
+      "outcome": "APP_OBSERVED_FAILURE",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": null,
+      "redaction_status": "SANITIZED"
+    },
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-provider-not-billed-example",
+      "source_event_id": "provider-event-not-billed-example",
+      "origin": "SYNTHETIC",
+      "source_kind": "PROVIDER",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "request-not-billed-example",
+      "provider_attempt_id": "attempt-not-billed-example",
+      "provider_generation_id": "generation-not-billed-example",
+      "occurred_at": "2026-11-18T12:00:00Z",
+      "first_observed_at": "2026-11-19T12:00:00Z",
+      "outcome": "PROVIDER_CONFIRMED_NOT_BILLED",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": "generation-not-billed-example",
+      "redaction_status": "SANITIZED"
+    }
+  ]
+}

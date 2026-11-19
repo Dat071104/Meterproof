@@ -1,0 +1,24 @@
+{
+  "fixture_id": "N13",
+  "target_schema": "published_read_report.v1.schema.json",
+  "expected_error": {
+    "validator": "pattern",
+    "path": [
+      "known_provider_spend_usd"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "report_version_id": "report-negative",
+    "tenant_id": "tenant-1",
+    "origin": "SYNTHETIC",
+    "source_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "published_at": "2026-11-20T00:00:00Z",
+    "billing_period_id": "2026-11-01_UTC",
+    "business_verdict": "VERIFIED",
+    "coverage_note": "synthetic bounded report",
+    "read_only": true,
+    "source_refs": [],
+    "known_provider_spend_usd": "1e-3"
+  }
+}

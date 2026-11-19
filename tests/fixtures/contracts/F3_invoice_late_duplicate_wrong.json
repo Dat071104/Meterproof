@@ -1,0 +1,279 @@
+{
+  "origin": "SYNTHETIC",
+  "fixture_id": "F3_invoice_late_duplicate_wrong",
+  "billing_period": {
+    "billing_period_id": "2026-11-01_UTC",
+    "start": "2026-11-01T00:00:00Z",
+    "end": "2026-12-01T00:00:00Z",
+    "time_zone": "UTC"
+  },
+  "price_policy": {
+    "name": "demo-v1",
+    "price_policy_version": "demo-v1",
+    "unit_price_usd": "0.05",
+    "currency": "USD",
+    "rounding_mode": "ROUND_HALF_EVEN",
+    "billable_unit_rule": "distinct logical_request_id with at least one APP_OBSERVED_SUCCESS; at most one per request"
+  },
+  "source_cut": {
+    "as_known_at": "2026-12-01T00:00:00Z",
+    "rule": "include source receipts with first_observed_at <= as_known_at"
+  },
+  "cases": [
+    {
+      "case_id": "F3_DUPLICATE_DELIVERY",
+      "scope": "invoice reconciliation as known at source cut",
+      "receipts": [
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-app-success-F3-dup",
+          "source_event_id": "app-event-success-F3-dup",
+          "origin": "SYNTHETIC",
+          "source_kind": "APP",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": "R-003",
+          "provider_attempt_id": "attempt-C",
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-15T10:00:01Z",
+          "outcome": "APP_OBSERVED_SUCCESS",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": null,
+          "redaction_status": "SANITIZED"
+        },
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-invoice-dup-delivery-1",
+          "source_event_id": "invoice-event-line-dup",
+          "origin": "SYNTHETIC",
+          "source_kind": "INVOICE",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": null,
+          "provider_attempt_id": null,
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-20T00:00:00Z",
+          "outcome": "INVOICE_OBSERVED",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": "invoice-line-dup",
+          "redaction_status": "SANITIZED",
+          "invoice_amount_usd": "0.05"
+        },
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-invoice-dup-delivery-2",
+          "source_event_id": "invoice-event-line-dup",
+          "origin": "SYNTHETIC",
+          "source_kind": "INVOICE",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": null,
+          "provider_attempt_id": null,
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-20T00:00:02Z",
+          "outcome": "INVOICE_OBSERVED",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": "invoice-line-dup",
+          "redaction_status": "SANITIZED",
+          "invoice_amount_usd": "0.05"
+        }
+      ],
+      "raw_delivery_audit": [
+        {
+          "source_event_id": "invoice-event-line-dup",
+          "transport_delivery_id": {
+            "topic": "synthetic-invoice",
+            "partition": 0,
+            "offset": 17
+          }
+        },
+        {
+          "source_event_id": "invoice-event-line-dup",
+          "transport_delivery_id": {
+            "topic": "synthetic-invoice",
+            "partition": 0,
+            "offset": 18
+          }
+        }
+      ],
+      "expected_facts": {
+        "known_provider_spend_usd": null,
+        "provider_generation_ids_counted": [],
+        "billable_units": 1,
+        "customer_charge_usd": "0.05",
+        "invoice_amount_usd": "0.05",
+        "invoice_delta": "0.00",
+        "unresolved_items": [],
+        "source_exclusions": [],
+        "counted_invoice_source_event_ids": [
+          "invoice-event-line-dup"
+        ],
+        "unattributed_known_spend_usd": "0.0000"
+      },
+      "expected_verdicts": {
+        "invoice_reconciliation": {
+          "business_verdict": "VERIFIED",
+          "reason": "Two deliveries share one source_event_id and are counted once; the resulting invoice amount equals the charge."
+        }
+      }
+    },
+    {
+      "case_id": "F3_LATE_LINE_EXCLUDED",
+      "scope": "invoice reconciliation as known at source cut",
+      "receipts": [
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-app-success-F3-late",
+          "source_event_id": "app-event-success-F3-late",
+          "origin": "SYNTHETIC",
+          "source_kind": "APP",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": "R-004",
+          "provider_attempt_id": "attempt-D",
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-15T10:00:01Z",
+          "outcome": "APP_OBSERVED_SUCCESS",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": null,
+          "redaction_status": "SANITIZED"
+        },
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-invoice-regular",
+          "source_event_id": "invoice-event-line-regular",
+          "origin": "SYNTHETIC",
+          "source_kind": "INVOICE",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": null,
+          "provider_attempt_id": null,
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-20T00:00:00Z",
+          "outcome": "INVOICE_OBSERVED",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": "invoice-line-regular",
+          "redaction_status": "SANITIZED",
+          "invoice_amount_usd": "0.05"
+        },
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-invoice-late",
+          "source_event_id": "invoice-event-line-late",
+          "origin": "SYNTHETIC",
+          "source_kind": "INVOICE",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": null,
+          "provider_attempt_id": null,
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-30T22:00:00Z",
+          "first_observed_at": "2026-12-03T00:00:00Z",
+          "outcome": "INVOICE_OBSERVED",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": "invoice-line-late",
+          "redaction_status": "SANITIZED",
+          "invoice_amount_usd": "0.02"
+        }
+      ],
+      "expected_facts": {
+        "known_provider_spend_usd": null,
+        "provider_generation_ids_counted": [],
+        "billable_units": 1,
+        "customer_charge_usd": "0.05",
+        "invoice_amount_usd": "0.05",
+        "invoice_delta": "0.00",
+        "unresolved_items": [],
+        "source_exclusions": [
+          "invoice-event-line-late: first_observed_at 2026-12-03T00:00:00Z is after source cut 2026-12-01T00:00:00Z"
+        ],
+        "counted_invoice_source_event_ids": [
+          "invoice-event-line-regular"
+        ],
+        "unattributed_known_spend_usd": "0.0000"
+      },
+      "expected_verdicts": {
+        "invoice_reconciliation": {
+          "business_verdict": "VERIFIED",
+          "reason": "The late line was first observed after the cut, is excluded with a reason, and the as-known-at-cut invoice amount equals the charge."
+        }
+      }
+    },
+    {
+      "case_id": "F3_WRONG_INVOICE_AMOUNT",
+      "scope": "invoice reconciliation as known at source cut",
+      "receipts": [
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-app-success-F3-wrong",
+          "source_event_id": "app-event-success-F3-wrong",
+          "origin": "SYNTHETIC",
+          "source_kind": "APP",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": "R-005",
+          "provider_attempt_id": "attempt-E",
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-15T10:00:01Z",
+          "outcome": "APP_OBSERVED_SUCCESS",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": null,
+          "redaction_status": "SANITIZED"
+        },
+        {
+          "schema_version": "1",
+          "source_receipt_id": "receipt-invoice-wrong",
+          "source_event_id": "invoice-event-line-wrong",
+          "origin": "SYNTHETIC",
+          "source_kind": "INVOICE",
+          "tenant_id": "demo-tenant",
+          "logical_request_id": null,
+          "provider_attempt_id": null,
+          "provider_generation_id": null,
+          "occurred_at": "2026-11-15T10:00:00Z",
+          "first_observed_at": "2026-11-25T00:00:00Z",
+          "outcome": "INVOICE_OBSERVED",
+          "known_provider_cost_usd": null,
+          "provider_amount_evidence_id": null,
+          "billing_period_id": "2026-11-01_UTC",
+          "source_reference": "invoice-line-wrong",
+          "redaction_status": "SANITIZED",
+          "invoice_amount_usd": "0.04"
+        }
+      ],
+      "expected_facts": {
+        "known_provider_spend_usd": null,
+        "provider_generation_ids_counted": [],
+        "billable_units": 1,
+        "customer_charge_usd": "0.05",
+        "invoice_amount_usd": "0.04",
+        "invoice_delta": "-0.01",
+        "unresolved_items": [],
+        "source_exclusions": [],
+        "counted_invoice_source_event_ids": [
+          "invoice-event-line-wrong"
+        ],
+        "unattributed_known_spend_usd": "0.0000"
+      },
+      "expected_verdicts": {
+        "invoice_reconciliation": {
+          "business_verdict": "MISMATCH",
+          "reason": "The observed synthetic invoice amount 0.04 differs from the demo-v1 charge 0.05."
+        }
+      }
+    }
+  ]
+}

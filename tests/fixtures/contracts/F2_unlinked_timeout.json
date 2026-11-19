@@ -1,0 +1,157 @@
+{
+  "origin": "SYNTHETIC",
+  "fixture_id": "F2_unlinked_timeout",
+  "billing_period": {
+    "billing_period_id": "2026-11-01_UTC",
+    "start": "2026-11-01T00:00:00Z",
+    "end": "2026-12-01T00:00:00Z",
+    "time_zone": "UTC"
+  },
+  "price_policy": {
+    "name": "demo-v1",
+    "price_policy_version": "demo-v1",
+    "unit_price_usd": "0.05",
+    "currency": "USD",
+    "rounding_mode": "ROUND_HALF_EVEN",
+    "billable_unit_rule": "distinct logical_request_id with at least one APP_OBSERVED_SUCCESS; at most one per request"
+  },
+  "source_cut": {
+    "as_known_at": "2026-12-01T00:00:00Z",
+    "rule": "include source receipts with first_observed_at <= as_known_at"
+  },
+  "provider_scope": {
+    "declared_scope": "known provider records in this synthetic fixture",
+    "complete_within_fixture": false,
+    "coverage_note": "attempt A has no attributable provider generation record"
+  },
+  "receipts": [
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-app-intent-002",
+      "source_event_id": "app-event-intent-002",
+      "origin": "SYNTHETIC",
+      "source_kind": "APP",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "R-002",
+      "provider_attempt_id": null,
+      "provider_generation_id": null,
+      "occurred_at": "2026-11-15T10:00:00Z",
+      "first_observed_at": "2026-11-15T10:00:01Z",
+      "outcome": "REQUEST_INTENT",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": null,
+      "redaction_status": "SANITIZED"
+    },
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-app-timeout-A",
+      "source_event_id": "app-event-timeout-A",
+      "origin": "SYNTHETIC",
+      "source_kind": "APP",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "R-002",
+      "provider_attempt_id": "attempt-A",
+      "provider_generation_id": null,
+      "occurred_at": "2026-11-15T10:00:00Z",
+      "first_observed_at": "2026-11-15T10:00:01Z",
+      "outcome": "UNKNOWN_PROVIDER_OUTCOME",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": null,
+      "redaction_status": "SANITIZED"
+    },
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-app-retry-B",
+      "source_event_id": "app-event-retry-B",
+      "origin": "SYNTHETIC",
+      "source_kind": "APP",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "R-002",
+      "provider_attempt_id": "attempt-B",
+      "provider_generation_id": null,
+      "occurred_at": "2026-11-15T10:00:00Z",
+      "first_observed_at": "2026-11-15T10:00:01Z",
+      "outcome": "APP_OBSERVED_SUCCESS",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": null,
+      "redaction_status": "SANITIZED"
+    },
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-provider-retry-B",
+      "source_event_id": "provider-event-retry-B",
+      "origin": "SYNTHETIC",
+      "source_kind": "PROVIDER",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": "R-002",
+      "provider_attempt_id": "attempt-B",
+      "provider_generation_id": "generation-B",
+      "occurred_at": "2026-11-15T10:00:00Z",
+      "first_observed_at": "2026-11-15T10:00:01Z",
+      "outcome": "PROVIDER_CONFIRMED_BILLED",
+      "known_provider_cost_usd": "0.0090",
+      "provider_amount_evidence_id": "provider-evidence-B",
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": "generation-B",
+      "redaction_status": "SANITIZED"
+    },
+    {
+      "schema_version": "1",
+      "source_receipt_id": "receipt-invoice-F2",
+      "source_event_id": "invoice-event-F2",
+      "origin": "SYNTHETIC",
+      "source_kind": "INVOICE",
+      "tenant_id": "demo-tenant",
+      "logical_request_id": null,
+      "provider_attempt_id": null,
+      "provider_generation_id": null,
+      "occurred_at": "2026-11-15T10:00:00Z",
+      "first_observed_at": "2026-11-15T10:00:01Z",
+      "outcome": "INVOICE_OBSERVED",
+      "known_provider_cost_usd": null,
+      "provider_amount_evidence_id": null,
+      "billing_period_id": "2026-11-01_UTC",
+      "source_reference": "synthetic-invoice-2026-11-F2",
+      "redaction_status": "SANITIZED",
+      "invoice_amount_usd": "0.05"
+    }
+  ],
+  "expected_facts": {
+    "known_provider_spend_usd": "0.0090",
+    "provider_generation_ids_counted": [
+      "generation-B"
+    ],
+    "billable_units": 1,
+    "customer_charge_usd": "0.05",
+    "invoice_amount_usd": "0.05",
+    "invoice_delta": "0.00",
+    "unresolved_items": [
+      "attempt-A: UNKNOWN_PROVIDER_OUTCOME with no linked provider receipt"
+    ],
+    "source_exclusions": [],
+    "counted_invoice_source_event_ids": [
+      "invoice-event-F2"
+    ],
+    "unattributed_known_spend_usd": "0.0000"
+  },
+  "expected_verdicts": {
+    "provider_spend": {
+      "business_verdict": "UNDETERMINED",
+      "reason": "The known subtotal excludes attempt A, whose timeout has no attributable provider receipt; it is not zero-cost and cannot be VERIFIED."
+    },
+    "customer_charge_vs_invoice": {
+      "business_verdict": "VERIFIED",
+      "reason": "Within the declared synthetic customer-charge and invoice scope, 0.05 equals 0.05."
+    },
+    "overall_fixture_scope": {
+      "business_verdict": "UNDETERMINED",
+      "reason": "The included provider-spend scope retains one unresolved attempt."
+    }
+  }
+}

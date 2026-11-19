@@ -1,0 +1,47 @@
+{
+  "fixture_id": "N10",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "type",
+    "path": [
+      "invoice_amount_usd"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-negative",
+    "source_event_id": "event-negative",
+    "origin": "SYNTHETIC",
+    "source_kind": "INVOICE",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-1",
+    "provider_attempt_id": null,
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "INVOICE_OBSERVED",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "invoice-line-1",
+    "invoice_amount_usd": null
+  },
+  "pre_change_instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-negative",
+    "source_event_id": "event-negative",
+    "origin": "SYNTHETIC",
+    "source_kind": "INVOICE",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-1",
+    "provider_attempt_id": null,
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "INVOICE_OBSERVED",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "invoice-line-1"
+  }
+}

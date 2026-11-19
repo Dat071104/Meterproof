@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 `IN_PROGRESS`. P0.1 evidence is complete in `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS — evidence complete; advisor re-review pending`). Continue P0.2/P0.3 in WAVE-01; no gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 `IN_PROGRESS`. P0.1 and P0.2 evidence is recorded in `docs/gates/G0/P0.1_receipt.md` and `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). P0.3 remains in WAVE-01; no gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -41,8 +41,8 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 
 ## Current Branch / Commit
 
-- Branch: `p0/p0.1-preflight` (work-order branch from `main`)
-- Evidence base: WAVE-01 Step 0 checks ran at Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`, based on main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`; Step 0 receipt updates are in the current worktree for Commit B.
+- Branch: `p0/wave-01-p0.2-p0.3` (created from P0.1 Commit B)
+- Evidence base: P0.1 Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; Commit B / WAVE-01 base `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; original main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
 
 ## How to Run
 
@@ -63,7 +63,7 @@ See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope
 
 ## Next Step
 
-After Step 0 Commit B, create `p0/wave-01-p0.2-p0.3` and execute P0.2 under the pasted WAVE-01 order. Advisor reviews WAVE-01 after P0.2/P0.3.
+Continue P0.3 architecture ADR/schema graph on the WAVE-01 branch. Advisor reviews the full wave after P0.3.
 
 ## Do Not Do
 
@@ -71,7 +71,7 @@ After Step 0 Commit B, create `p0/wave-01-p0.2-p0.3` and execute P0.2 under the 
 
 ## Last Verified Commit
 
-`P0.1 final per-stream verification ran at Commit A 95be8bfe4bf5b934e9727784b534f1bbbd181bbb; evidence is documented in docs/gates/G0/P0.1_receipt.md.`
+`P0.2 contract suite passed 8 tests in Python 3.13.2 on p0/wave-01-p0.2-p0.3; evidence is documented in docs/gates/G0/P0.2_receipt.md.`
 
 ## Last Updated
 

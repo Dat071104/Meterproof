@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N05",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "type",
+    "path": [
+      "known_provider_cost_usd"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-negative",
+    "source_event_id": "event-negative",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-1",
+    "provider_attempt_id": "attempt-A",
+    "provider_generation_id": "generation-A",
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_BILLED",
+    "provider_amount_evidence_id": "provider-evidence-A",
+    "billing_period_id": null,
+    "source_reference": null,
+    "known_provider_cost_usd": null
+  }
+}

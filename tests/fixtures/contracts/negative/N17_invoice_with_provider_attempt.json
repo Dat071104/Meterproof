@@ -1,0 +1,49 @@
+{
+  "fixture_id": "N17",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "const",
+    "path": [
+      "provider_attempt_id"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-N17",
+    "source_event_id": "event-N17",
+    "origin": "SYNTHETIC",
+    "source_kind": "INVOICE",
+    "tenant_id": "tenant-1",
+    "logical_request_id": null,
+    "provider_attempt_id": "attempt-invoice",
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "INVOICE_OBSERVED",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "invoice-line",
+    "redaction_status": "SANITIZED",
+    "invoice_amount_usd": "0.10"
+  },
+  "pre_change_instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-N17",
+    "source_event_id": "event-N17",
+    "origin": "SYNTHETIC",
+    "source_kind": "INVOICE",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-legacy-N17",
+    "provider_attempt_id": "attempt-invoice",
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "INVOICE_OBSERVED",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "invoice-line",
+    "redaction_status": "SANITIZED"
+  }
+}

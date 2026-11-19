@@ -8,17 +8,17 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`ca46c11`
+`f895e2d`
 
 ## Indexed Source Fingerprint
 
-`sha256:1:7244fd576b5f7f029cce707509d76d8f2250040aaad87f343ebcc2d63f5a27cb`
+`sha256:3:a703927ffba10c52c19577b8c2121aea2468524fa7b2eda054e1d0ea62a0cc97`
 
 ## Snapshot
 
-- Branch: `main`
+- Branch: `p0/wave-01-p0.2-p0.3`
 - Generated: `2026-11-19`
-- Code files indexed: 1
+- Code files indexed: 3
 - Stack: Unknown
 
 ## Modules
@@ -28,6 +28,7 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
+| `tests/contracts` | 2 | 0 | - |
 | `tools/meterproof` | 1 | 0 | - |
 
 ## Hot Files (widest blast radius)
@@ -40,13 +41,24 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 ## Symbol Graph
 
-1 symbols, 1 edges (exact 1, heuristic 0, ambiguous 0, weak 0).
+24 symbols, 30 edges (exact 30, heuristic 0, ambiguous 0, weak 0).
 
 ### Most-called symbols
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `main` | 1 | `tools/meterproof/validate_overlay.py:22` |
+| `load_json` | 6 | `tests/contracts/test_contract_schemas.py:13` |
+| `schema_for` | 3 | `tests/contracts/test_contract_schemas.py:17` |
+| `compute_case` | 3 | `tests/contracts/test_expected_facts.py:121` |
+| `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:131` |
+| `money_text` | 3 | `tests/contracts/test_expected_facts.py:23` |
+| `all_cases` | 2 | `tests/contracts/test_expected_facts.py:176` |
+| `flatten` | 1 | `tests/contracts/test_contract_schemas.py:21` |
+| `positive_receipts` | 1 | `tests/contracts/test_contract_schemas.py:27` |
+| `test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field.walk` | 1 | `tests/contracts/test_contract_schemas.py:90` |
+| `canonical_digest` | 1 | `tests/contracts/test_expected_facts.py:157` |
+| `compute_billable_facts` | 1 | `tests/contracts/test_expected_facts.py:27` |
+| `compute_invoice_facts` | 1 | `tests/contracts/test_expected_facts.py:91` |
 
 Query it instead of grepping:
 
@@ -62,7 +74,7 @@ python ai-agent-workspace-pack/_agent_ops/tools/explore.py --root . --path <a> <
 
 ## Isolated Files
 
-1 file(s) have no resolved local imports in either direction.
+3 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

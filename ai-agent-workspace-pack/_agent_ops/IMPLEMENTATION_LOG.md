@@ -526,3 +526,96 @@ Not pushed; no push authorized.
 ### Next Step
 
 Run Commit B after reviewing the staged paths and passing required checks, then create `p0/wave-01-p0.2-p0.3` from the updated P0.1 branch.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 1 — P0.2 data authority and money contract`
+
+### Files Touched
+
+- `docs/contracts/DOMAIN_SPEC_v1.md`
+- `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (D9 gate-state line only)
+- `contracts/jsonschema/source_receipt.v1.schema.json`
+- `contracts/jsonschema/verification_decision.v1.schema.json`
+- `contracts/jsonschema/published_read_report.v1.schema.json`
+- `contracts/jsonschema/CHANGELOG.md`
+- `tests/fixtures/contracts/F1_two_billed_attempts_one_request.json`
+- `tests/fixtures/contracts/F2_unlinked_timeout.json`
+- `tests/fixtures/contracts/F3_invoice_late_duplicate_wrong.json`
+- `tests/fixtures/contracts/negative/N01–N20` and `schema_examples.json`
+- `tests/contracts/test_contract_schemas.py`
+- `tests/contracts/test_expected_facts.py`
+- `tests/fixtures/README.md`
+- `docs/research/openmeter-review.md`, `docs/research/lago-review.md`, `docs/research/OSS_REFERENCE_REGISTER.md` (Review cells only)
+- `docs/gates/G0/P0.2_receipt.md`
+- `docs/milestones/core/P0.md`, `docs/ops/PROJECT_STATUS.md`
+- `ai-agent-workspace-pack/_agent_ops/PROJECT_CONTEXT_CARD.md`, `CURRENT_TASK.md`, `SESSION_BRIEF.md`
+
+### What Changed / Evidence Produced
+
+- Wrote contract v1 as a pre-release draft, including field authority, identities, half-open UTC period, source/outcome rules, outcome observations, verdict table, D5 money representation, D6 demo policy, D7 unknowns/OPEN-Q-1, D8 publication/origin and explicit non-claims.
+- Updated three schemas for D4/D5/D8; `replay_manifest.v1` stays unchanged because it has no `*_usd` fields and no D4/D8 rule applies. Added per-change reasons, invariants and negative fixture IDs in the schema changelog.
+- Added hand-worked F1/F2/F3 fixture cases and 20 negative fixtures. MP-004 base fixture hash remains `11234f3e1541f09f53240334daf08db4e165ac9cbc8dc72d7de1b1c43dd50832`.
+- Test-first control against four schemas copied from main `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`: old schema accepted N01-N06, N09-N14 and N16-N20; N07, N08 and N15 were already rejected. New schemas reject all 20 for the intended validator/property path.
+- Contract suite passed 8 tests with Python 3.13.2: schema meta/positive/negative checks; F1/F2/F3 Decimal recomputation; float, rounding and digest controls; unlinked billed record remains unattributed/UNDETERMINED.
+- Input manifest covers 29 schema/fixture JSON files; SHA-256 `371514f59812db55008371260384b79310c67a48458e918633f79f86147356dc`.
+- OpenMeter review pinned at `55759ef876f6326d57550ca982f8ac131a9d13ff`; Lago and Lago API pinned at `1a30b73b951cc14e329605b1329207ffbb93fc8c` and `91c5d29b75faf6527bd1202dac7881cabad512bb`. Lago API checkout had two Windows long-path failures; reviewed relevant blobs via `git show`. No code copied.
+- Validator exit 0; hygiene final exit 0 (288 tracked, 0 artifacts); `git diff --check` exit 0.
+
+### Why
+
+Implement the owner-pasted P0.2 decisions D1-D9 and create auditable synthetic contract evidence before P0.3.
+
+### Tests Run
+
+```text
+Pre-change schema control (Draft202012 + FORMAT_CHECKER) -> exit 0; old accepted/rejected fixture IDs recorded in P0.2 receipt
+uv run --no-project --python C:\Python313\python.exe --with jsonschema==4.23.0 --with rfc3339-validator==0.1.4 --with pytest==8.3.5 python -m pytest tests/contracts -q -> 8 passed, exit 0
+python tools/meterproof/validate_overlay.py -> exit 0
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> exit 0 (288 tracked; 0 artifacts)
+git diff --check -> exit 0
+```
+
+### Results
+
+All four P0.2 acceptance items have evidence in `docs/gates/G0/P0.2_receipt.md`. D1-D9 were implemented without a conflict with the frozen domain/source-cut rules. OPEN-Q-1 remains deferred to owner confirmation at G1/P1.2. P0.3 has not started.
+
+### Bugs Found
+
+- The required `uv --python 3.13` selector could not run under this Windows sandbox (Access Denied); explicit installed `C:\Python313\python.exe` worked. No project dependency or configuration was changed.
+
+### Root Cause
+
+Not fully established. The selector/cache path failed in this environment; explicit Python 3.13.2 with `UV_CACHE_DIR` under the authorized external temp root succeeded.
+
+### Fix Applied
+
+Recorded the actual uv command and interpreter. No package was added to project configuration or lockfiles.
+
+### Git Commit
+
+P0.2 commit is prepared by this work order and will be recorded in Git history after explicit staging and repo-map refresh.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- OPEN-Q-1 (unlinked billed provider record) requires owner confirmation at G1/P1.2.
+- Lago API checkout was incomplete due two Windows filename-length errors; relevant pinned Git objects were readable and the limitation is documented.
+- P0.2 schemas remain pre-release until advisor review/owner approval.
+
+### Next Step
+
+Stage explicit P0.2 paths, run `refresh_repo_map.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops --stage`, review the staged map and commit P0.2; then begin P0.3.

@@ -1,0 +1,45 @@
+{
+  "fixture_id": "N03",
+  "target_schema": "verification_decision.v1.schema.json",
+  "expected_error": {
+    "validator": "maxItems",
+    "path": [
+      "unresolved_items"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "run_id": "run-negative",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scope": "tenant=t1;period=2026-11-01_UTC",
+    "comparison_status": "EQUAL",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "synthetic test scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [],
+    "unresolved_items": [
+      "attempt-A has unknown outcome"
+    ],
+    "policy_version": "demo-v1",
+    "published_eligible": false,
+    "origin": "SYNTHETIC"
+  },
+  "pre_change_instance": {
+    "schema_version": "1",
+    "run_id": "run-negative",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scope": "tenant=t1;period=2026-11-01_UTC",
+    "comparison_status": "EQUAL",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "synthetic test scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [],
+    "unresolved_items": [
+      "attempt-A has unknown outcome"
+    ],
+    "policy_version": "demo-v1",
+    "published_eligible": false
+  }
+}

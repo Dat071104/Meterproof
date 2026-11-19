@@ -6,6 +6,7 @@
   "additionalProperties": false,
   "required": [
     "schema_version",
+    "origin",
     "run_id",
     "manifest_sha256",
     "scope",
@@ -81,6 +82,69 @@
     },
     "published_eligible": {
       "type": "boolean"
+    },
+    "origin": {
+      "enum": [
+        "PRODUCTION",
+        "PILOT",
+        "SANDBOX",
+        "SYNTHETIC"
+      ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "published_eligible": {
+            "const": true
+          }
+        },
+        "required": [
+          "published_eligible"
+        ]
+      },
+      "then": {
+        "properties": {
+          "business_verdict": {
+            "const": "VERIFIED"
+          },
+          "comparison_status": {
+            "const": "EQUAL"
+          }
+        },
+        "required": [
+          "business_verdict",
+          "comparison_status"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "business_verdict": {
+            "const": "VERIFIED"
+          }
+        },
+        "required": [
+          "business_verdict"
+        ]
+      },
+      "then": {
+        "properties": {
+          "comparison_status": {
+            "const": "EQUAL"
+          },
+          "unresolved_items": {
+            "type": "array",
+            "maxItems": 0
+          }
+        },
+        "required": [
+          "comparison_status",
+          "unresolved_items"
+        ]
+      }
+    }
+  ]
 }

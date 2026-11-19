@@ -1,0 +1,23 @@
+{
+  "fixture_id": "N14",
+  "target_schema": "published_read_report.v1.schema.json",
+  "expected_error": {
+    "validator": "const",
+    "path": [
+      "business_verdict"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "report_version_id": "report-negative",
+    "tenant_id": "tenant-1",
+    "origin": "SYNTHETIC",
+    "source_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "published_at": "2026-11-20T00:00:00Z",
+    "billing_period_id": "2026-11-01_UTC",
+    "business_verdict": "MISMATCH",
+    "coverage_note": "synthetic bounded report",
+    "read_only": true,
+    "source_refs": []
+  }
+}

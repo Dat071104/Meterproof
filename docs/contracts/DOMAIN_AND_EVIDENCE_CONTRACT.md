@@ -22,7 +22,7 @@
 
 **Comparator result**: `EQUAL`, `DIFFERENT`, `NOT_COMPARABLE`, `ERROR`; it is not the business decision. Batch vs stream `EQUAL` + source gaps can result in `UNDETERMINED`.
 
-**Gate state**: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `FAILED`, `PASS`, `HUMAN_GO`, `HUMAN_NO_GO`. No PASS without real evidence.
+**Gate state**: `NOT_STARTED`, `IN_PROGRESS`, `BLOCKED`, `FAILED`, `PASS`, `HUMAN_GO`, `HUMAN_CONDITIONAL_GO`, `HUMAN_NO_GO`. No PASS without real evidence.
 
 ## Invariant registry
 - INV-01: stable logical request and distinct provider attempts preserve cardinality across retries.

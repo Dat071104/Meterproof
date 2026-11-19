@@ -1,0 +1,41 @@
+{
+  "fixture_id": "N02",
+  "target_schema": "verification_decision.v1.schema.json",
+  "expected_error": {
+    "validator": "const",
+    "path": [
+      "comparison_status"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "run_id": "run-negative",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scope": "tenant=t1;period=2026-11-01_UTC",
+    "comparison_status": "NOT_COMPARABLE",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "synthetic test scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [],
+    "unresolved_items": [],
+    "policy_version": "demo-v1",
+    "published_eligible": false,
+    "origin": "SYNTHETIC"
+  },
+  "pre_change_instance": {
+    "schema_version": "1",
+    "run_id": "run-negative",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scope": "tenant=t1;period=2026-11-01_UTC",
+    "comparison_status": "NOT_COMPARABLE",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "synthetic test scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [],
+    "unresolved_items": [],
+    "policy_version": "demo-v1",
+    "published_eligible": false
+  }
+}

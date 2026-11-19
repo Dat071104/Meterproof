@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N18",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "type",
+    "path": [
+      "provider_attempt_id"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-N18",
+    "source_event_id": "event-N18",
+    "origin": "SYNTHETIC",
+    "source_kind": "APP",
+    "tenant_id": "tenant-1",
+    "logical_request_id": "request-18",
+    "provider_attempt_id": null,
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T12:00:00Z",
+    "first_observed_at": "2026-11-16T12:00:00Z",
+    "outcome": "APP_OBSERVED_SUCCESS",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": null
+  }
+}
