@@ -38,3 +38,10 @@
 - **Decision:** a work order may run several consecutive subphases as a wave. It never crosses an owner-signed gate or an unapproved cost. Each subphase keeps its own receipt, commit, checkpoint and review verdict. Policy decisions are pre-approved in the order as D1…Dn. Every order starts with `@start-here` and a START_HERE tiered skill-loading block. Rules: `docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md` → Waves.
 - **Trade-off:** fewer round-trips and less copy-paste, but larger diffs per review and a later stop when something goes wrong. The per-subphase checkpoints and verdicts contain that risk.
 - **First use:** WAVE-01 = P0.1 FIX1 + P0.2 + P0.3. P0.4 stays separate (dependencies, Docker downloads, LICENSE).
+
+## DEC-0007 — Overlay installer retired (owner, 2026-11-19)
+
+- **Context:** After the first import, a refused dry run still planned two `ADD` entries for `data/fixtures/`, which had been relocated to `tests/fixtures/`; six intentional conflicts caused refusal before any write.
+- **Decision:** Overlay installer retired for this repository after the first import (2026-11-19). Future overlay revisions are merged by reviewed diff under a work order; install_overlay.py --apply is never run here. The two ADD lines for data/fixtures/ are plan output of a refused run, not writes.
+- **Evidence:** Final clarified dry-run pair returned process exit 2 twice; stdout SHA-256 matched across runs (`F23FA1BCE8BEFBDEA0461BDEA48D53834E20D4CFF35F2DCA9D2C71E73C4F270A`), stderr SHA-256 matched (`C60AE641A8E3E398CC7437F768C781CD10713BB235B2B02553FA93352F45BD97`); no installer-created Git changes; PACK_MANIFEST 145/145.
+- **Consequences:** Do not run this installer with `--apply` in this repository. Merge future overlay changes only as a reviewed diff under an owner-authorized work order.

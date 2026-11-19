@@ -8,7 +8,7 @@
 - Embedded pack manifest: 145 entries checked from a temporary directory with `python -I`; 0 mismatches.
 - Overlay package manifest: 86 entries checked from a temporary directory with `python -I`; 0 mismatches.
 - Baseline overlay dry run, before P0.1 edits: exactly four `CONFLICT (no overwrite)` entries listed below; every other overlay entry was `SKIP_IDENTICAL`; `AGENTS.md` was `SKIP_IDENTICAL`; no files were written.
-- Post-change overlay dry run: exit 1 and no writes; six conflicts (the original four plus the authorized `REPOSITORY_STRUCTURE.md` and `milestones.json` edits) and two `ADD` plans for the moved fixtures under `data/`; `AGENTS.md` remained `SKIP_IDENTICAL`.
+- Post-change overlay dry run: process exit 2 and no writes; six conflicts (the original four plus the authorized `REPOSITORY_STRUCTURE.md` and `milestones.json` edits) and two `ADD` plans for the moved fixtures under `data/`; `AGENTS.md` remained `SKIP_IDENTICAL`. PowerShell process exits were captured with `$LASTEXITCODE`, not `$?`.
 - Baseline overlay validator: exit 0. Its negative control set P0 to `PASS` in a temporary repository copy without a G0 gate receipt; validator exit 3 with the expected failure.
 - Hygiene check: initially found only the untracked `data/` artifact; after C-1 relocation it exited 0 with no filesystem artifacts.
 
@@ -80,8 +80,9 @@ All four were the only baseline conflicts; all other overlay entries were identi
 | `docs/architecture/REPOSITORY_STRUCTURE.md` — `CONFLICT` | The P0.1 order required the one-line C-1 relocation note; baseline dry run had shown this path identical. | No decision pending for this work order; change is authorized and documented. |
 | `docs/milestones/milestones.json` — `CONFLICT` | The P0.1 order required P0 status to advance to `IN_PROGRESS`. | No decision pending for this work order; change is authorized and documented. |
 | `data/fixtures/MP004_F1_SYNTHETIC.json`, `data/fixtures/README.md` — `ADD` | The overlay package still contains these paths, while C-1 moved the repository copies to `tests/fixtures/`. The additive installer plans to add any packaged path missing from the target. | No `--apply` was run. Review package-level C-1 maintenance before any future apply. |
+| Overlay installer lifecycle — DEC-0007 | The first import is complete; subsequent plans still include the two original fixture ADD entries and report intentional project-owned conflicts. | Retired for this repository. Never run `install_overlay.py --apply`; merge future overlay revisions only as reviewed diffs under an owner-authorized work order. The two ADD entries are refused-run plan output, not writes. |
 
-These post-change results do not alter the successful baseline no-overwrite check. They show that the current post-change plan still offers the relocated fixtures under `data/`; the installer refuses the plan because of the conflicts and writes nothing. The C-1 re-add plan needs owner/advisor review before any future `--apply`. The P0.1 `Verification` checkbox remains unchecked for that reason.
+The baseline and post-change plans both refused before writes. The post-change plan still offers the relocated fixtures under `data/`, but DEC-0007 retires the installer for this repository; these two `ADD` entries are refused-run plan output, not writes. Final per-stream dry-run captures matched across two runs (stdout hash `F23FA1BCE8BEFBDEA0461BDEA48D53834E20D4CFF35F2DCA9D2C71E73C4F270A`; stderr hash `C60AE641A8E3E398CC7437F768C781CD10713BB235B2B02553FA93352F45BD97`). The P0.1 `Verification` checkbox is checked based on refusal-before-write, matching per-stream captures, and the manifest check. Never run `install_overlay.py --apply` here; future revisions use a reviewed diff under a work order.
 
 ### C-1 — fixtures under `data/`
 

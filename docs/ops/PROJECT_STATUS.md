@@ -4,7 +4,7 @@
 - **Design status:** planning only; imported from v3.1/v3.2/v3.3 plus Lite and Atlas extensions
 - **Repository:** `D:\DATA_ENGINEER\METERPROOF\Meterproof` → `github.com/Dat071104/Meterproof` (public), branch `main`
 - **Roles:** owner approves; Claude Code = advisor/reviewer; Codex = executor (`docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md`)
-- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1 evidence recorded; advisor review pending; not a gate PASS)
+- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1 evidence complete; WAVE-01 P0.2/P0.3 remain; not a gate PASS)
 - **Current Lite milestone:** L0 / LG0 — `NOT_STARTED` (requires G2 released contracts)
 - **Current Atlas milestone:** A0 / AG0 — `NOT_STARTED` (requires G3 verified read model)
 - **Current Adoption milestone:** U0 / UG0 — `NOT_STARTED` (no users claimed)
@@ -14,7 +14,7 @@
 - **Core tests T01–T12:** all `NOT_RUN`
 - **Known external evidence:** none
 
-## Setup log (advisor bootstrap, 2026-11-19 — unverified until P0.1 reproduces it)
+## Setup log (advisor bootstrap, 2026-11-19 — verified by P0.1, `docs/gates/G0/P0.1_receipt.md`)
 1. Cloned the empty GitHub repository; root commit with `README.md`, `.gitignore`, `.gitattributes` (LF normalization for Docker/shell).
 2. Embedded the workspace pack from the source checkout `D:\DATA_ENGINEER\METERPROOF\ai-agent-workspace-pack` (clean, version `d4df794`) with `scripts/embed_pack.py --target .` → `ai-agent-workspace-pack/` + fresh `_agent_ops/`, root `AGENTS.md` managed block, `CLAUDE.md`, `GEMINI.md`, `.claude/`, `.codex/`. The first embed came from a CRLF working tree (62/145 manifest hashes would not survive Git's LF normalization), so before any commit the pack folder and generated adapters were removed and re-embedded from a `core.autocrlf=false` clone of the same commit; result 145/145 manifest hashes match, 0 CRLF files (`_agent_ops/DECISION_LOG.md` DEC-0005).
 3. Overlay package checksums verified: 86/86 entries of `PACKAGE_MANIFEST_SHA256.json` matched.
@@ -29,15 +29,15 @@
 
 ## Recent session log
 - 2026-11-19 — advisor bootstrap (above). No implementation code exists. No gate evidence exists.
-- 2026-11-19 — Codex executed P0.1 on `p0/p0.1-preflight` from main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`. Pack 145/145 and overlay 86/86 manifest entries matched; the baseline installer dry run refused exactly four intentional conflicts without writes. After the authorized C-1/status edits, a second dry run showed six conflicts and two `ADD` plans for the original `data/fixtures/` paths, with no writes; the P0.1 Verification checkbox remains unchecked. Validator passed and its missing-gate-receipt negative control failed as expected; C-1 fixture hashes were preserved and hygiene passed. Receipt: `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS`, advisor review pending). No product tests or paid/cloud calls.
+- 2026-11-19 — Codex completed WAVE-01 Step 0 on `p0/p0.1-preflight` (Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; baseline main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`). P0.1 Verification is checked: installer process exit 2 on both final dry runs; stdout and stderr hashes match independently; two refused `ADD` plans and six conflicts; no installer writes; PACK_MANIFEST 145/145; validator, hygiene, and `git diff --check` pass. Earlier merged-capture hashes differed due stdout buffering/stderr interleaving; retained in the receipt. DEC-0007 retires the installer; `--apply` is never run here. Receipt: `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS — evidence complete; advisor re-review pending`). No product tests or paid/cloud calls.
 
 ## RESUME_POINT
-- **Current branch / evidence base:** `p0/p0.1-preflight`, based on main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a` (the SHA used during P0.1 checks before the local work-order commit).
-- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1 receipt is `docs/gates/G0/P0.1_receipt.md`; advisor review is pending; no gate is signed.
-- **Known risk:** the external overlay package still ships the two fixtures under `data/`; post-change dry run plans to add them back and reports the P0.1 `REPOSITORY_STRUCTURE.md`/`milestones.json` changes as conflicts. Review the plan before any future apply. See `docs/ops/REPO_OWNERSHIP_MAP.md`.
+- **Current branch / evidence base:** `p0/p0.1-preflight`, WAVE-01 Step 0 checked at Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`, based on main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1 evidence is complete in `docs/gates/G0/P0.1_receipt.md`; continue P0.2/P0.3 on the WAVE-01 branch, then request advisor review; no gate is signed.
+- **Known risk:** the external overlay package still ships the two fixtures under `data/`; its refused plan lists them as ADD. DEC-0007 retires the installer here: never run `--apply`; future changes use reviewed diffs. See `docs/ops/REPO_OWNERSHIP_MAP.md`.
 - **Cost:** no paid API, cloud, or package installation.
-- **Last validation:** `python tools/meterproof/validate_overlay.py` exit 0; final repo-hygiene check exit 0; `git diff --check` exit 0.
-- **Next exact command:** in Claude Code run `/meterproof-advisor review P0.1`.
+- **Last validation:** WAVE-01 Step 0 validator exit 0; repo-hygiene exit 0; `git diff --check` exit 0; pack manifest 145/145.
+- **Next exact command:** after Commit B, `git switch -c p0/wave-01-p0.2-p0.3`.
 - No provider call, cloud action, push or merge is authorized for agents.
 
 ### Update protocol

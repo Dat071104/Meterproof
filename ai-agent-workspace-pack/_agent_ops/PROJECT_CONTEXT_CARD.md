@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 `IN_PROGRESS`. P0.1 execution evidence is recorded in `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS`, advisor review pending). No gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 `IN_PROGRESS`. P0.1 evidence is complete in `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS — evidence complete; advisor re-review pending`). Continue P0.2/P0.3 in WAVE-01; no gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -37,12 +37,12 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 
 ## Key Decisions
 
-- DEC-0001 repo layout (repo at `Meterproof/`, source pack kept outside); DEC-0002 advisor/executor split; DEC-0003 just-in-time OSS study; DEC-0004 validator status rule. See `DECISION_LOG.md`.
+- DEC-0001 repo layout (repo at `Meterproof/`, source pack kept outside); DEC-0002 advisor/executor split; DEC-0003 just-in-time OSS study; DEC-0004 validator status rule; DEC-0007 overlay installer retired after first import. See `DECISION_LOG.md`.
 
 ## Current Branch / Commit
 
 - Branch: `p0/p0.1-preflight` (work-order branch from `main`)
-- Evidence base: `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`; checks ran on this source base with the P0.1 worktree changes described in the receipt.
+- Evidence base: WAVE-01 Step 0 checks ran at Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`, based on main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`; Step 0 receipt updates are in the current worktree for Commit B.
 
 ## How to Run
 
@@ -63,7 +63,7 @@ See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope
 
 ## Next Step
 
-In Claude Code, run `/meterproof-advisor review P0.1`; do not start P0.2 until review is complete.
+After Step 0 Commit B, create `p0/wave-01-p0.2-p0.3` and execute P0.2 under the pasted WAVE-01 order. Advisor reviews WAVE-01 after P0.2/P0.3.
 
 ## Do Not Do
 
@@ -71,7 +71,7 @@ In Claude Code, run `/meterproof-advisor review P0.1`; do not start P0.2 until r
 
 ## Last Verified Commit
 
-`P0.1 checks ran on the work-order branch from base commit 2b5f2031c27103fc7f098da6cf073ee3bd547a1a; see docs/gates/G0/P0.1_receipt.md.`
+`P0.1 final per-stream verification ran at Commit A 95be8bfe4bf5b934e9727784b534f1bbbd181bbb; evidence is documented in docs/gates/G0/P0.1_receipt.md.`
 
 ## Last Updated
 

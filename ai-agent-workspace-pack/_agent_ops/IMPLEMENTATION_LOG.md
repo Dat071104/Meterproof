@@ -305,3 +305,224 @@ Not pushed.
 ### Next Step
 
 Owner pastes `docs/ops/prompts/WAVE-01_P0.2-P0.3_CODEX.md` into Codex; then `/meterproof-advisor review WAVE-01`.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 0 / P0.1 FIX1 — Checkpoint 0 stopped`
+
+### Files Touched
+
+- `ai-agent-workspace-pack/_agent_ops/CURRENT_TASK.md`
+- `ai-agent-workspace-pack/_agent_ops/IMPLEMENTATION_LOG.md`
+
+### What Changed / Evidence Produced
+
+- Commit A created on `p0/p0.1-preflight`: `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`, exactly the seven advisor-authored paths, committed unchanged.
+- Ran the overlay dry run twice with `python <install_overlay.py> --target .` (PowerShell, no `--apply`). Both process exit codes were 2. Captured stdout/stderr hashes differed: `E5D38E9F316DC5813F0F7056FFA4D606790F4A3F1570F7A386CBF8EE36A71C97` and `D474EAAA63F469868F1B6DE75B6DED6BECF07DBB0A9F7872A0C70BB1452B5B5C`. The captures were written under the shell temp directory; a later shell invocation could not access that path to diff them.
+- After both runs, `git status --porcelain=v1` was empty; no writes were observed. `PACK_MANIFEST.json` check returned `145 checked, 0 mismatches` (process exit 0).
+- Read `install_overlay.py`: collision refusal returns 2 at lines 73–77 before the dry-run/apply gate at lines 80–82 and all file writes at lines 83–95.
+- `CURRENT_TASK.md` now records the failed checkpoint and waits for owner direction.
+
+### Why
+
+The WAVE-01 order requires identical captures as part of Checkpoint 0 and says to stop and ask if a checkpoint fails. Therefore P0.2/P0.3 did not start.
+
+### Tests Run
+
+```text
+python '<overlay install_overlay.py>' --target . x2 -> process exit 2 / 2; stdout+stderr SHA-256 values differ
+PACK_MANIFEST.json verifier (python -I) -> 145 checked, 0 mismatches; exit 0
+git status --porcelain=v1 after both runs -> empty
+```
+
+### Results
+
+Checkpoint 0 failed on capture equality. The output mismatch cause is not established; no hypothesis is recorded as fact. No `--apply`, project-file edit, Commit B, branch switch, or P0.2/P0.3 work occurred.
+
+### Bugs Found
+
+- Required dry-run capture hashes did not match.
+
+### Root Cause
+
+Unknown; the saved captures could not be reopened from a subsequent shell invocation.
+
+### Fix Applied
+
+No Step 0 source/docs fix has been applied yet; awaiting owner direction after the failed checkpoint.
+
+### Git Commit
+
+Commit A: `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`. No other commit made.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- Whether the mismatch reflects output ordering during combined stream capture or another source is unverified.
+
+### Next Step
+
+Wait for owner direction: rerun the two captures with a reliable native stdout/stderr merge, or leave the checkpoint for advisor review. Do not proceed to P0.2 unless Checkpoint 0 passes.
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 0 / P0.1 FIX1 — authorized recapture still failed`
+
+### Files Touched
+
+- `ai-agent-workspace-pack/_agent_ops/CURRENT_TASK.md`
+- `ai-agent-workspace-pack/_agent_ops/IMPLEMENTATION_LOG.md`
+
+### What Changed / Evidence Produced
+
+- Owner authorized one fresh pair using native stdout/stderr capture.
+- PowerShell native redirection (`python <install_overlay.py> --target . > capture 2>&1`) returned process exit 2 for both runs. SHA-256 values: `387778C722C81DC1D0EB6369249852A43499A8A866767B054D6023077DC55653` and `D474EAAA63F469868F1B6DE75B6DED6BECF07DBB0A9F7872A0C70BB1452B5B5C`; not identical. Both files had 87 lines. The displayed line comparison shows the refusal block in different positions; full line-multiset equality was not established.
+- Post-run Git status had the same pre-existing local `_agent_ops/IMPLEMENTATION_LOG.md` modification and no installer-created paths. Manifest recheck: 145 checked, 0 mismatches, exit 0.
+
+### Why
+
+The owner-authorized recapture still did not satisfy the required hash-equality condition, so Checkpoint 0 remains failed. The order requires stopping at a failed checkpoint.
+
+### Tests Run
+
+```text
+python '<overlay install_overlay.py>' --target . x2 with PowerShell native `> capture 2>&1` -> process exit 2 / 2; capture hashes differ
+PACK_MANIFEST.json verifier (python -I) -> 145 checked, 0 mismatches; exit 0
+git status --porcelain=v1 -> no installer-created changes
+```
+
+### Results
+
+No `--apply`, Step 0 project-file edit, Commit B, branch switch, or P0.2/P0.3 work occurred. No conclusion is made about whether the hash difference is solely stream order.
+
+### Bugs Found
+
+- Capture hash equality still fails under PowerShell native redirection.
+
+### Root Cause
+
+Not fully established; output order visibly differs around the stderr refusal block.
+
+### Fix Applied
+
+None. Await owner direction.
+
+### Git Commit
+
+Commit A: `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`. No other commit made.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- Whether a process-level shared-handle capture yields identical bytes remains unverified.
+
+### Next Step
+
+Wait for owner direction: authorize a process-level shared-handle recapture or stop for advisor review. Do not proceed to P0.2 unless Checkpoint 0 passes.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 0 — P0.1 FIX1 completed after advisor capture clarification`
+
+### Files Touched
+
+- `docs/gates/G0/P0.1_receipt.md`
+- `docs/ops/REPO_OWNERSHIP_MAP.md`
+- `docs/milestones/core/P0.md`
+- `docs/ops/PROJECT_STATUS.md`
+- `ai-agent-workspace-pack/_agent_ops/DECISION_LOG.md`
+- `ai-agent-workspace-pack/_agent_ops/RISK_REGISTER.md`
+- `ai-agent-workspace-pack/_agent_ops/PROJECT_CONTEXT_CARD.md`
+- `ai-agent-workspace-pack/_agent_ops/CURRENT_TASK.md`
+- `ai-agent-workspace-pack/_agent_ops/SESSION_BRIEF.md`
+
+### What Changed / Evidence Produced
+
+- Corrected the two historical installer refusal rows from exit 1 to observed process exit 2. The shell was PowerShell 7.6.9; installer process statuses were captured with `$LASTEXITCODE`, not `$?`.
+- Preserved the two earlier merged-capture mismatch attempts in the receipt. Per advisor clarification, redirected stdout and stderr separately with `PYTHONUNBUFFERED=1` and `python -u`: both runs exited 2; stdout SHA-256 matched (`F23FA1BCE8BEFBDEA0461BDEA48D53834E20D4CFF35F2DCA9D2C71E73C4F270A`); stderr SHA-256 matched (`C60AE641A8E3E398CC7437F768C781CD10713BB235B2B02553FA93352F45BD97`). Each stdout had 2 ADD plans; each stderr had the refusal heading plus 6 conflicts.
+- Verified `install_overlay.py` returns on collisions at lines 73–77 before the apply gate and writes at lines 80–95. No `--apply` ran. The two `data/fixtures/` ADD entries are refused-run plan output, not writes.
+- Added owner decision DEC-0007 and recorded the installer-retirement collision entry; added RISK-0010 to record that the external package still contains relocated fixtures while the installer is retired.
+- Updated the P0.1 receipt, checked P0.1 Verification, changed the P0 evidence header and resume point, and marked the setup log verified by the P0.1 receipt.
+- Pack manifest: 145 checked, 0 mismatches. Validator exit 0. Hygiene exit 0 (288 tracked files checked, 0 filesystem artifacts). `git diff --check` exit 0.
+
+### Why
+
+Complete the P0.1 review fixes and continue WAVE-01 only after the clarified idempotence evidence passed.
+
+### Tests Run
+
+```text
+python -u '<install_overlay.py>' --target . with separate stdout/stderr captures x2 -> process exit 2 / 2; stdout and stderr hashes match independently
+PACK_MANIFEST verifier (python -I) -> 145 checked, 0 mismatches; exit 0
+python tools/meterproof/validate_overlay.py -> exit 0
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> exit 0 (288 tracked, 0 artifacts)
+git diff --check -> exit 0
+```
+
+### Results
+
+Checkpoint 0 passed under the advisor clarification. The earlier merged-hash mismatches are retained and attributed to stdout buffering/stderr interleaving as clarified by the advisor; the sorted-line-set fallback could not be performed because the earlier temp directories were inaccessible from later invocations. P0.2/P0.3 have not started yet.
+
+### Bugs Found
+
+- The original PowerShell merged-capture hash comparison was invalid for idempotence because separate stdout/stderr buffering/interleaving changed merged ordering.
+
+### Root Cause
+
+Stdout is block-buffered when redirected while stderr is not; captured merged ordering varies. The advisor supplied the corrected per-stream criterion.
+
+### Fix Applied
+
+Receipt now records process exit codes and per-stream results; DEC-0007 retires the overlay installer for this repository after first import; no installer apply was performed.
+
+### Git Commit
+
+Commit A: `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`. Commit B will contain the explicit Step 0 paths.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- The external overlay package continues to contain the two moved fixture paths; DEC-0007 forbids applying it here, and RISK-0010 records the mitigation.
+- Java version remains unobserved as recorded in the receipt.
+
+### Next Step
+
+Run Commit B after reviewing the staged paths and passing required checks, then create `p0/wave-01-p0.2-p0.3` from the updated P0.1 branch.
