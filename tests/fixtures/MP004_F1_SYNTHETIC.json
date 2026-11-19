@@ -1,0 +1,49 @@
+{
+  "origin": "SYNTHETIC",
+  "fixture_id": "MP004_F1_2CONFIRMED",
+  "billing_period_id": "2026-11-01_UTC",
+  "policy": {
+    "name": "bill_server_confirmed_logical_request_once",
+    "price_policy_version": "demo-v1",
+    "unit_price_usd": "0.05",
+    "rounding": "ROUND_HALF_EVEN",
+    "currency": "USD"
+  },
+  "logical_requests": [
+    {
+      "logical_request_id": "R-001",
+      "tenant_id": "demo-tenant",
+      "server_confirmed_success": true
+    }
+  ],
+  "provider_attempts": [
+    {
+      "provider_attempt_id": "A",
+      "logical_request_id": "R-001",
+      "generation_id": "generation-A",
+      "provider_confirmed_billed": true,
+      "known_provider_cost_usd": "0.0120",
+      "app_response_dropped": true
+    },
+    {
+      "provider_attempt_id": "B",
+      "logical_request_id": "R-001",
+      "generation_id": "generation-B",
+      "provider_confirmed_billed": true,
+      "known_provider_cost_usd": "0.0090",
+      "app_response_dropped": false
+    }
+  ],
+  "invoice_export_observed_usd": "0.10",
+  "expected_by_manual_policy": {
+    "known_provider_spend_usd": "0.0210",
+    "billable_units": "1",
+    "customer_charge_usd": "0.05",
+    "invoice_delta_usd": "0.05",
+    "business_verdict": "MISMATCH"
+  },
+  "limits": [
+    "This is a controlled synthetic case, not evidence of actual OpenRouter billing.",
+    "A genuinely unlinked timeout is a different F2 fixture; never infer confirmed billing from this example."
+  ]
+}

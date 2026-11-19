@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 `NOT_STARTED`. Repository bootstrapped 2026-11-19 (pack + overlay installed, advisor additions). Work order `docs/ops/prompts/P0.1_CODEX.md` issued, not executed. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 `IN_PROGRESS`. P0.1 execution evidence is recorded in `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS`, advisor review pending). No gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -41,8 +41,8 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 
 ## Current Branch / Commit
 
-- Branch: `main`
-- Commit: see `git log -1` (setup commit of 2026-11-19)
+- Branch: `p0/p0.1-preflight` (work-order branch from `main`)
+- Evidence base: `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`; checks ran on this source base with the P0.1 worktree changes described in the receipt.
 
 ## How to Run
 
@@ -63,7 +63,7 @@ See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope
 
 ## Next Step
 
-Owner pastes `docs/ops/prompts/P0.1_CODEX.md` into Codex; then `/meterproof-advisor review P0.1` in Claude Code.
+In Claude Code, run `/meterproof-advisor review P0.1`; do not start P0.2 until review is complete.
 
 ## Do Not Do
 
@@ -71,7 +71,7 @@ Owner pastes `docs/ops/prompts/P0.1_CODEX.md` into Codex; then `/meterproof-advi
 
 ## Last Verified Commit
 
-`set at setup commit, 2026-11-19`
+`P0.1 checks ran on the work-order branch from base commit 2b5f2031c27103fc7f098da6cf073ee3bd547a1a; see docs/gates/G0/P0.1_receipt.md.`
 
 ## Last Updated
 

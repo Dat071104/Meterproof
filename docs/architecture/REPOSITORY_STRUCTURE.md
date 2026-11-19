@@ -36,7 +36,7 @@
 │   ├── lite/                         # uvx/PyPI CLI, SDK, DuckDB, HTML, GitHub Action
 │   └── atlas/                        # read-only marts/tools/retrieval/agent/evals/UI
 ├── infra/{compose,cloud}/           # no automatic cloud provisioning
-├── data/{fixtures,manifests,samples}/
+├── data/{manifests,samples}/             # local and untracked; synthetic fixtures live in tests/fixtures/
 ├── tests/{unit,contracts,integration,cdc,fault,security,mutations,e2e}/
 └── tools/meterproof/                 # validate overlay, local developer commands
 ```

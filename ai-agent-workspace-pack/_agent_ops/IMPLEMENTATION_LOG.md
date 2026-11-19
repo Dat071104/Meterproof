@@ -140,3 +140,92 @@ See DEC-0004.
 ### Next Step
 
 Owner runs `docs/ops/prompts/P0.1_CODEX.md` in Codex; advisor reviews with `/meterproof-advisor review P0.1`.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0002`
+
+### Phase / Task
+
+`P0.1 — Existing repo / pack / Git preflight`
+
+### Files Touched
+
+- `.gitignore`
+- `docs/architecture/REPOSITORY_STRUCTURE.md`
+- `docs/gates/G0/P0.1_receipt.md`
+- `docs/milestones/core/P0.md`
+- `docs/milestones/milestones.json`
+- `docs/ops/PROJECT_STATUS.md`
+- `docs/ops/REPO_OWNERSHIP_MAP.md`
+- `tests/fixtures/README.md` (moved unchanged from `data/fixtures/`)
+- `tests/fixtures/MP004_F1_SYNTHETIC.json` (moved unchanged from `data/fixtures/`)
+- Removed empty `data/` tree after confirming it held only the two moved fixtures.
+- `ai-agent-workspace-pack/_agent_ops/PROJECT_CONTEXT_CARD.md`, `CURRENT_TASK.md`, `SESSION_BRIEF.md`, `IMPLEMENTATION_LOG.md`
+
+### What Changed / Evidence Produced
+
+- Created the work-order branch from `main` after recording main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- Pack session check returned `OWNED`; embedded pack version `d4df794`; 145/145 pack hashes and 86/86 overlay-package hashes matched.
+- Baseline installer dry run refused exactly the four setup conflicts and wrote nothing. Package-to-repository diffs confirmed each reason.
+- Validator passed normally; the temporary-copy P0=`PASS` without G0 receipt negative control failed with exit 3.
+- C-1 moved the two synthetic fixtures with identical before/after SHA-256. Hygiene moved from one expected `data/` finding to exit 0.
+- A post-change dry run showed six conflicts (the baseline four plus the authorized `REPOSITORY_STRUCTURE.md` and `milestones.json` changes) and two `ADD` plans for the package's original `data/fixtures/` paths. It wrote nothing. The P0.1 Verification checkbox remains unchecked pending advisor review; do not apply the package.
+- Updated P0 to `IN_PROGRESS`, created the ownership map and receipt, and recorded the required handoff state. No implementation code was added.
+
+### Why
+
+Owner-issued work order P0.1 independently verifies the bootstrap, establishes ownership, resolves the approved hygiene collision, and preserves honest evidence before review.
+
+### Tests Run
+
+```text
+python ai-agent-workspace-pack/_agent_ops/tools/session_start.py --root . -> 0 (OWNED)
+python -I - [temporary pack-manifest verifier] -> 0 (145 checked, 0 mismatches)
+python -I - [temporary overlay-manifest verifier] -> 0 (86 checked, 0 mismatches)
+python 'D:\DATA_ENGINEER\METERPROOF\METERPROOF_v3_4_Architecture_Milestones_Agent_Overlay\METERPROOF_v3_4_Execution_Overlay\install_overlay.py' --target . -> 1 (baseline expected refusal; four conflicts, no writes)
+python tools/meterproof/validate_overlay.py -> 0 (baseline and after P0 status update)
+temporary-copy validator negative control, P0=PASS without G0 receipt -> 3 (expected failure)
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> 1 before C-1; 0 after/final
+python 'D:\DATA_ENGINEER\METERPROOF\METERPROOF_v3_4_Architecture_Milestones_Agent_Overlay\METERPROOF_v3_4_Execution_Overlay\install_overlay.py' --target . -> 1 (post-change refusal; six conflicts, two ADD plans, no writes)
+git diff --check -> 0
+```
+
+### Results
+
+Pack integrity and baseline no-overwrite control passed. Final structural validator and hygiene check passed. Post-change installer reapplication is not safe to treat as idempotent: it would offer the relocated fixtures under `data/` and reports the authorized P0.1 status/layout edits as conflicts. No product suite or Core pipeline was run.
+
+### Bugs Found
+
+- No source-code bug. Found pre-identified C-1 and confirmed the overlay package still offers the moved fixture files for re-addition.
+
+### Root Cause
+
+The overlay package stores synthetic fixtures under `data/fixtures/`; the hygiene check rejects a root `data/` directory, while the additive installer offers any missing packaged files for addition.
+
+### Fix Applied
+
+Moved the two files unchanged to `tests/fixtures/`, removed the empty `data/` tree, updated the data-layout line and comment, and documented that package-level reinstallation behavior remains outside P0.1.
+
+### Git Commit
+
+Local work-order commit on `p0/p0.1-preflight`; SHA is reported in the final EXECUTION REPORT.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- The overlay still contains `data/fixtures/`; after the move its dry run plans two `ADD`s and does not meet the final idempotence expectation. P0.1 Verification remains unchecked; review and resolve before any future `--apply`.
+- Java version was not observed because `java -version` remained running without output and was interrupted.
+
+### Next Step
+
+In Claude Code, run `/meterproof-advisor review P0.1`. Do not start P0.2 before review.

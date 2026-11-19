@@ -4,7 +4,7 @@
 - **Design status:** planning only; imported from v3.1/v3.2/v3.3 plus Lite and Atlas extensions
 - **Repository:** `D:\DATA_ENGINEER\METERPROOF\Meterproof` → `github.com/Dat071104/Meterproof` (public), branch `main`
 - **Roles:** owner approves; Claude Code = advisor/reviewer; Codex = executor (`docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md`)
-- **Current Core milestone:** P0 / G0 — `NOT_STARTED` (work order for P0.1 issued, not executed)
+- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1 evidence recorded; advisor review pending; not a gate PASS)
 - **Current Lite milestone:** L0 / LG0 — `NOT_STARTED` (requires G2 released contracts)
 - **Current Atlas milestone:** A0 / AG0 — `NOT_STARTED` (requires G3 verified read model)
 - **Current Adoption milestone:** U0 / UG0 — `NOT_STARTED` (no users claimed)
@@ -29,10 +29,15 @@
 
 ## Recent session log
 - 2026-11-19 — advisor bootstrap (above). No implementation code exists. No gate evidence exists.
+- 2026-11-19 — Codex executed P0.1 on `p0/p0.1-preflight` from main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`. Pack 145/145 and overlay 86/86 manifest entries matched; the baseline installer dry run refused exactly four intentional conflicts without writes. After the authorized C-1/status edits, a second dry run showed six conflicts and two `ADD` plans for the original `data/fixtures/` paths, with no writes; the P0.1 Verification checkbox remains unchecked. Validator passed and its missing-gate-receipt negative control failed as expected; C-1 fixture hashes were preserved and hygiene passed. Receipt: `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS`, advisor review pending). No product tests or paid/cloud calls.
 
 ## RESUME_POINT
-- **Next exact step:** owner pastes `docs/ops/prompts/P0.1_CODEX.md` into Codex from the repository root.
-- **After Codex reports:** in Claude Code run `/meterproof-advisor review P0.1`.
+- **Current branch / evidence base:** `p0/p0.1-preflight`, based on main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a` (the SHA used during P0.1 checks before the local work-order commit).
+- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1 receipt is `docs/gates/G0/P0.1_receipt.md`; advisor review is pending; no gate is signed.
+- **Known risk:** the external overlay package still ships the two fixtures under `data/`; post-change dry run plans to add them back and reports the P0.1 `REPOSITORY_STRUCTURE.md`/`milestones.json` changes as conflicts. Review the plan before any future apply. See `docs/ops/REPO_OWNERSHIP_MAP.md`.
+- **Cost:** no paid API, cloud, or package installation.
+- **Last validation:** `python tools/meterproof/validate_overlay.py` exit 0; final repo-hygiene check exit 0; `git diff --check` exit 0.
+- **Next exact command:** in Claude Code run `/meterproof-advisor review P0.1`.
 - No provider call, cloud action, push or merge is authorized for agents.
 
 ### Update protocol

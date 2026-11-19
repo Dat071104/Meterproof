@@ -9,7 +9,7 @@
       "title": "Architecture, governance & honest business specification",
       "gate": "G0",
       "requires": [],
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "subphases": [
         "P0.1",
         "P0.2",
