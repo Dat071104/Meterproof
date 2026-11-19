@@ -1,0 +1,49 @@
+# Managed Work Command
+
+Use this after `@start-here` has initialized the session. Normal natural-language
+requests also use `auto`; this command is only for an explicit mode override.
+
+```text
+@work <auto | solo | parallel | sequential> [--prefer-subagents] <task>
+
+Continue the managed session defined by AGENTS.md and
+_agent_ops/SESSION_PROTOCOL.md.
+
+1. Re-read only _agent_ops/SESSION_BRIEF.md, _agent_ops/CURRENT_TASK.md, and the
+   active task's minimal context; do not reload every log or team folder. To
+   locate code, read _agent_ops/REPO_MAP.md before grepping the repository.
+2. Restate the goal, non-goals, constraints, and the relevant missing context.
+   Check CURRENT_TASK.md's "Ruled Out / Already Tried" first and do not retry
+   anything listed there.
+3. Recommend the smallest useful mode. Treat `parallel`, or a clear natural-
+   language request to spawn/use subagents, as a request to assess eligibility,
+   not permission to spawn blindly. The latter enters `auto --prefer-subagents`
+   without requiring the user to type this command again.
+4. For real parallel work, require at least two independent workstreams,
+   capability-detect native child-agent support, state token cost, give each
+   child a bounded read-only context capsule, and keep all writes serialized.
+5. If spawning is unavailable or not worthwhile, use sequential role checks and
+   say so plainly.
+6. Keep the advisor behavior: ask one focused clarification/confirmation when
+   it materially changes the decision; do not infer broad scope.
+7. Keep _agent_ops/CURRENT_TASK.md current as the task proceeds: files touched,
+   approaches ruled out with evidence, open questions, next step. Overwrite it;
+   do not append.
+8. Before a meaningful completion report, let the root classify actual work
+   under SESSION_PROTOCOL.md, not the prompt's file list. Write every triggered
+   durable record first: the implementation log for implementation/test/audit/
+   gate/verification evidence, the project context card for durable state, and
+   the decision log for material trade-offs. Then print the Closure Receipt:
+   one row per ops file, each resolved as updated-with-what or
+   not-needed-with-a-missing-trigger. Draft it first with
+   `python _agent_ops/tools/closure_check.py --root .` and resolve every
+   MISSING/decide row. Do not stage, commit, or push them
+   automatically, except that the explicit repo-map refresh helper stages only
+   REPO_MAP.md for an already-authorized source commit.
+9. For an authorized local commit with staged project code: run tests, then run
+   _agent_ops/tools/refresh_repo_map.py with --stage, review its map diff, and
+   commit. Do not bypass a managed hook with --no-verify.
+
+Never use git add . Do not claim agents were spawned unless real child agents
+were created by the current harness.
+```

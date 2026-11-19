@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# JavaScript / TypeScript
+node_modules/
+dist/
+build/
+coverage/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Local/generated artifacts
+artifacts/
+logs/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+data/
+models/
+mlruns/
+target/
+
+# Originals saved by `embed_pack.py --update` before it overwrote a host edit
+.update-backup/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

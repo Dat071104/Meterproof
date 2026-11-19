@@ -1,0 +1,80 @@
+# Team Router
+
+For a namespaced embedded install, resolve every `_agent_ops/` path below from
+the pack root: `ai-agent-workspace-pack/_agent_ops/`.
+
+Use this file before loading any long team folder. Route first, then load only the recommended team if the user confirms.
+
+| User intent | Recommended team | Token/risk | Writes files by default? | Subagent | Confirmation needed? |
+| --- | --- | --- | --- | --- | --- |
+| Overview: what to improve next, priorities, ROI | `advisor-team/` | Medium | No | — | Yes, before routing follow-up work |
+| Idea, architecture, options, roadmap | `analyze-team/` | Medium | No | — | Yes, before creating files or context cards |
+| Create prompt, harness, phase prompt | `prompting-team/` | Medium to Very Heavy | No | — | Yes, before writing prompt files or autonomous prompts |
+| Test, audit, QA, production readiness | `tester-team/` | Medium to Very Heavy | No | `tester` (read-only) | Yes, before running expensive checks |
+| Implement a new feature, endpoint, or module (smallest complete change, ponytail `full`) | `build-team/` | Medium to Heavy | No | `tester` (read-only, to verify) | Yes, before writing code |
+| Bug report or suspected broken behavior (failing test first; fast path when obvious) | `bug-fix-team/` | Medium | No | `bug_hunter` (read-only), `bug_fixer` (write) | Yes, before fixing |
+| Cleanup, refactor, repo is messy | `clean-code-team/` | Very Heavy | No | — | Yes, before every cleanup batch |
+| Git safety, public repo, release check | `repo-hygiene-team/` | Light to Medium | No | `repo_hygiene_reviewer` (read-only) | Yes, before deleting/staging/committing |
+| Handoff, report, continue later | `handoff-team/` | Light to Medium | No | — | Yes, before writing handoff files |
+
+`@start-here` starts a managed session and initializes/refreshes only
+`_agent_ops/` context. Subagents run only when the task has at least two truly
+independent workstreams, native spawning is available, and you confirm after a
+token-cost warning. Otherwise the root recommends solo or sequential roles.
+When native spawning is unavailable or the model is weaker/less-suited, use
+`sequential`: exactly one selected team, one bounded slice, and one explicit
+stop gate before source-changing work.
+Empty or near-empty repo with an unclear spec: `analyze-team/` first (minimal
+design and acceptance criteria), then `build-team/` for the smallest slice.
+Not sure which team? Type `@start-here <one line>`.
+
+## Before Reading Code
+
+Whatever the team, locate code through `_agent_ops/REPO_MAP.md` before grepping
+the repository. It is a generated, size-capped map of modules, routes, and the
+files and symbols with the widest blast radius. For symbol-level questions:
+
+```bash
+python _agent_ops/tools/explore.py --symbol <name>   # definitions, callers, callees, flow
+python _agent_ops/tools/explore.py --path <a> <b>  # how control reaches a symbol
+python _agent_ops/tools/explore.py --impact <name>   # blast radius + tests to run (ambiguous: pass Cls.method or file::qualname)
+```
+
+Edges are tagged `exact` / `heuristic` / `ambiguous` / `weak`; the last two need
+confirming by reading the code.
+
+Start a managed session with `python _agent_ops/tools/session_start.py --root .` for git
+state, memory staleness, and unfilled placeholders. Both have manual fallbacks
+in `core-context/SESSION_PROTOCOL.template.md` when Python is unavailable.
+
+## Router-First Rule
+
+When a user starts with a broad request:
+
+1. Do not read every team folder.
+2. Use this table or the README routing table.
+3. Recommend the best team.
+4. Explain why in one or two sentences.
+5. Identify missing context.
+6. Show expected output.
+7. Ask whether to proceed.
+
+## Work-Mode Recommendation
+
+After routing, recommend one mode without assuming the user wants parallelism:
+
+- `solo`: a small contained task;
+- `auto`: root decides after minimal inspection (default);
+- `parallel`: independent read-only workstreams; capability-detect first;
+- `sequential`: dependent work or no real native spawning.
+
+Explain the benefit, token cost, and risk of the recommendation. The root agent
+keeps advisor behavior: it must state what it understood, context missing, and
+the one confirmation needed before material scope or cost changes.
+
+## Token/Risk Short Guide
+
+- Light: quick routing, small report, simple hygiene check.
+- Medium: analysis, scoped prompt, bug triage, scoped audit.
+- Heavy: multi-phase prompt, broad audit, production review.
+- Very Heavy: clean-code, full codebase audit, multi-phase autonomous execution prompt.

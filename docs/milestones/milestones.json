@@ -1,0 +1,340 @@
+{
+  "schema": "meterproof.milestones.v1",
+  "version": "3.4",
+  "generated_status": "NOT_STARTED",
+  "milestones": [
+    {
+      "id": "P0",
+      "area": "Core",
+      "title": "Architecture, governance & honest business specification",
+      "gate": "G0",
+      "requires": [],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P0.1",
+        "P0.2",
+        "P0.3",
+        "P0.4"
+      ]
+    },
+    {
+      "id": "P1",
+      "area": "Core",
+      "title": "Real provider technical spike and honest evidence boundaries",
+      "gate": "G1",
+      "requires": [
+        "G0"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P1.1",
+        "P1.2",
+        "P1.3",
+        "P1.4",
+        "P1.5"
+      ]
+    },
+    {
+      "id": "P2",
+      "area": "Core",
+      "title": "Durable vertical slice + SQL/dbt reconciliation",
+      "gate": "G2",
+      "requires": [
+        "G1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P2.1",
+        "P2.2",
+        "P2.3",
+        "P2.4"
+      ]
+    },
+    {
+      "id": "P3",
+      "area": "Core",
+      "title": "Temporal correctness, immutable replay and safe publication",
+      "gate": "G3",
+      "requires": [
+        "G2"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P3.1",
+        "P3.2",
+        "P3.3",
+        "P3.4"
+      ]
+    },
+    {
+      "id": "P4",
+      "area": "Core",
+      "title": "Real WAL CDC → Kafka → Flink independently implemented shadow",
+      "gate": "G4",
+      "requires": [
+        "G3"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P4.1",
+        "P4.2",
+        "P4.3",
+        "P4.4"
+      ]
+    },
+    {
+      "id": "P5",
+      "area": "Core",
+      "title": "Differential verifier, mutations and MP-004 failure lab",
+      "gate": "G5",
+      "requires": [
+        "G4"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P5.1",
+        "P5.2",
+        "P5.3",
+        "P5.4"
+      ]
+    },
+    {
+      "id": "P6",
+      "area": "Core",
+      "title": "Production-style demo, operating metrics and security",
+      "gate": "G6",
+      "requires": [
+        "G5"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P6.1",
+        "P6.2",
+        "P6.3",
+        "P6.4"
+      ]
+    },
+    {
+      "id": "P7",
+      "area": "Core",
+      "title": "Technical case study, benchmark and defendable portfolio",
+      "gate": "G7",
+      "requires": [
+        "G6"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "P7.1",
+        "P7.2",
+        "P7.3",
+        "P7.4"
+      ]
+    },
+    {
+      "id": "L0",
+      "area": "Lite",
+      "title": "User-facing specification and clean CLI boundary",
+      "gate": "LG0",
+      "requires": [
+        "G2"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "L0.1",
+        "L0.2",
+        "L0.3",
+        "L0.4"
+      ]
+    },
+    {
+      "id": "L1",
+      "area": "Lite",
+      "title": "One-command local usage audit",
+      "gate": "LG1",
+      "requires": [
+        "LG0"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "L1.1",
+        "L1.2",
+        "L1.3",
+        "L1.4"
+      ]
+    },
+    {
+      "id": "L2",
+      "area": "Lite",
+      "title": "SDK/adapters and GitHub Action",
+      "gate": "LG2",
+      "requires": [
+        "LG1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "L2.1",
+        "L2.2",
+        "L2.3",
+        "L2.4"
+      ]
+    },
+    {
+      "id": "L3",
+      "area": "Lite",
+      "title": "Open-source distribution and reliability",
+      "gate": "LG3",
+      "requires": [
+        "LG2"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "L3.1",
+        "L3.2",
+        "L3.3",
+        "L3.4"
+      ]
+    },
+    {
+      "id": "A0",
+      "area": "Atlas",
+      "title": "Read-only AI/product architecture boundary",
+      "gate": "AG0",
+      "requires": [
+        "G3"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A0.1",
+        "A0.2",
+        "A0.3",
+        "A0.4"
+      ]
+    },
+    {
+      "id": "A1",
+      "area": "Atlas",
+      "title": "Governed analytics and dashboards",
+      "gate": "AG1",
+      "requires": [
+        "AG0"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A1.1",
+        "A1.2",
+        "A1.3",
+        "A1.4"
+      ]
+    },
+    {
+      "id": "A2",
+      "area": "Atlas",
+      "title": "Evidence retrieval & secured tools",
+      "gate": "AG2",
+      "requires": [
+        "AG1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A2.1",
+        "A2.2",
+        "A2.3",
+        "A2.4"
+      ]
+    },
+    {
+      "id": "A3",
+      "area": "Atlas",
+      "title": "LangGraph AI Incident Analyst",
+      "gate": "AG3",
+      "requires": [
+        "AG2"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A3.1",
+        "A3.2",
+        "A3.3",
+        "A3.4"
+      ]
+    },
+    {
+      "id": "A4",
+      "area": "Atlas",
+      "title": "Evaluation, non-interference and AI security",
+      "gate": "AG4",
+      "requires": [
+        "AG3"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A4.1",
+        "A4.2",
+        "A4.3",
+        "A4.4"
+      ]
+    },
+    {
+      "id": "A5",
+      "area": "Atlas",
+      "title": "Capstone integration, demo and release",
+      "gate": "AG5",
+      "requires": [
+        "AG4"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "A5.1",
+        "A5.2",
+        "A5.3",
+        "A5.4"
+      ]
+    },
+    {
+      "id": "U0",
+      "area": "Adoption",
+      "title": "Problem validation (not presumed market fit)",
+      "gate": "UG0",
+      "requires": [
+        "G1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "U0.1",
+        "U0.2",
+        "U0.3"
+      ]
+    },
+    {
+      "id": "U1",
+      "area": "Adoption",
+      "title": "External user onboarding and activation",
+      "gate": "UG1",
+      "requires": [
+        "LG1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "U1.1",
+        "U1.2",
+        "U1.3"
+      ]
+    },
+    {
+      "id": "U2",
+      "area": "Adoption",
+      "title": "Repeat usage and integration evidence",
+      "gate": "UG2",
+      "requires": [
+        "LG3",
+        "UG1"
+      ],
+      "status": "NOT_STARTED",
+      "subphases": [
+        "U2.1",
+        "U2.2",
+        "U2.3"
+      ]
+    }
+  ]
+}

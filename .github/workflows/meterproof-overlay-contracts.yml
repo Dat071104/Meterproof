@@ -1,0 +1,29 @@
+name: METERPROOF overlay structure (NOT product test suite)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'contracts/jsonschema/**'
+      - 'tools/meterproof/**'
+      - '.github/workflows/meterproof-overlay-contracts.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'contracts/jsonschema/**'
+      - '.agents/skills/meterproof-*/**'
+      - '.agents/skills/atlas-ai-grounding/**'
+      - 'tools/meterproof/**'
+  workflow_dispatch:
+jobs:
+  docs-and-schema-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install schema checker
+        run: python -m pip install "jsonschema==4.23.0"
+      - name: Validate overlay structure (not DE acceptance gates)
+        run: python tools/meterproof/validate_overlay.py --target .

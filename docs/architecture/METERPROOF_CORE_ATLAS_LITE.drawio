@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="METERPROOF v3.4 generator" version="24.7.17" type="device">
+  <diagram id="page-core" name="1 - Core to Lite and Atlas">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="METERPROOF v3.4  |  Independent verification core + two safe product surfaces" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=23;fontStyle=1;fontColor=#152C47;" vertex="1" parent="1">
+          <mxGeometry x="60" y="25" width="1500" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Authoritative write plane • independent batch/stream • coverage-aware publication • Lite local-first • Atlas read-only" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontColor=#65758A;" vertex="1" parent="1">
+          <mxGeometry x="60" y="75" width="1580" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="Owner-controlled AI application&#10;Request intents • actual provider attempts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FE;strokeColor=#6486BA;fontColor=#1F3555;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="140" width="440" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="provider" value="Provider evidence&#10;Generation IDs • observed USD spend • gaps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FE;strokeColor=#6486BA;fontColor=#1F3555;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="660" y="140" width="440" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="invoice" value="Billing CSV / invoice export&#10;Declared period &amp; source window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FE;strokeColor=#6486BA;fontColor=#1F3555;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="140" width="440" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ingest" value="Private authenticated FastAPI&#10;Append-only observations + transactional outbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5ED;strokeColor=#528A69;fontColor=#173C2C;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="300" width="660" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="imports" value="Scoped provider/invoice import&#10;Validation • origin • redaction • provenance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5ED;strokeColor=#528A69;fontColor=#173C2C;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="300" width="610" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="pg" value="PostgreSQL source of record&#10;Intents • attempts • receipts • outbox" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#FFF3DC;strokeColor=#B98E3D;fontColor=#5B3B05;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="180" y="475" width="680" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="manifest" value="Frozen source manifest + provider/invoice scope&#10;SHA • source cut • unknowns/exclusions • price policy V" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="475" width="660" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="batch" value="SQL/dbt BATCH REFERENCE&#10;Independent transformations • canonical candidate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="100" y="660" width="470" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="debezium" value="Debezium&#10;Postgres WAL CDC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="660" width="260" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka" value="Kafka topics&#10;Offsets / replay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="660" width="270" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="flink" value="Apache Flink Java&#10;Keyed event-time • checkpoint • isolated sink" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="660" width="450" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="oracle" value="Independent Python oracle&#10;Hand-reviewed fixture &amp; mutation tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="865" width="490" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="compare" value="Source-aligned differential verifier&#10;Row-level differences • coverage • NOT_COMPARABLE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="865" width="860" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="publication" value="Immutable report version + CAS publication gate&#10;VERIFIED scoped / MISMATCH / INCOMPLETE / UNDETERMINED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="1045" width="860" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="read_api" value="Verified versioned READ API&#10;No business-writer credentials" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5ED;strokeColor=#528A69;fontColor=#173C2C;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="690" y="1200" width="860" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="core_ui" value="Core evidence lab&#10;Read-only incident demo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F3F7;strokeColor=#7B8795;fontColor=#293340;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1365" width="450" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="atlas" value="Atlas analytics + LangGraph&#10;Published version + citations only; no writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F3F7;strokeColor=#7B8795;fontColor=#293340;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1365" width="510" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lite" value="Lite local CLI / SDK / CI&#10;User exports • DuckDB • HTML • no cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F3F7;strokeColor=#7B8795;fontColor=#293340;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="1365" width="470" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lite_note" value="Lite reuses wire contracts &amp; selected checks, NOT Flink runtime&#10;It cannot assert provider completeness absent evidence." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontColor=#65758A;" vertex="1" parent="1">
+          <mxGeometry x="1355" y="1490" width="570" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="edge01" value="app receipts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="app" target="ingest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge02" value="bounded provider records" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="provider" target="imports">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge03" value="invoice observations" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="invoice" target="imports">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge04" value="ACID" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="ingest" target="pg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge05" value="ingest before cut" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="imports" target="pg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge06" value="snapshot/LSN" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="pg" target="manifest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge07" value="external scope" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;dashed=1;dashPattern=5 3;" edge="1" parent="1" source="imports" target="manifest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge08" value="frozen batch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="pg" target="batch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge09" value="real WAL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="pg" target="debezium">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge10" value="CDC" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="debezium" target="kafka">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge11" value="offset vector" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="kafka" target="flink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge12" value="policy + scope" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;dashed=1;dashPattern=5 3;" edge="1" parent="1" source="manifest" target="batch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge13" value="same source cut" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;dashed=1;dashPattern=5 3;" edge="1" parent="1" source="manifest" target="flink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge14" value="candidate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="batch" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge15" value="isolated candidate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="flink" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge16" value="independent expected" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="oracle" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge17" value="coverage gate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;dashed=1;dashPattern=5 3;" edge="1" parent="1" source="manifest" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge18" value="verified decision" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="compare" target="publication">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge19" value="approved only" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="publication" target="read_api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge20" value="versioned" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="read_api" target="core_ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge21" value="read-only" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="read_api" target="atlas">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge22" value="schema/spec only" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;dashed=1;dashPattern=5 3;" edge="1" parent="1" source="manifest" target="lite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-cut" name="2 - Source-cut and failure guarantees">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Source-consistent cut and failure-aware replay | what is actually proven" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=23;fontStyle=1;fontColor=#152C47;" vertex="1" parent="1">
+          <mxGeometry x="65" y="35" width="1500" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="appcut" value="APP source snapshot&#10;Transaction-consistent receipt/outbox rows&#10;Source IDs • PG LSN • SHA" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#FFF3DC;strokeColor=#B98E3D;fontColor=#5B3B05;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="85" y="165" width="515" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="extcut" value="EXTERNAL provider/invoice scope&#10;Retrieved IDs • export windows • unknowns&#10;Independent checksums and exclusions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2FE;strokeColor=#6486BA;fontColor=#1F3555;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="745" y="165" width="560" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="policy" value="Business policy + environment&#10;Pricing V • UTC period • correction rule&#10;SQL/Flink SHAs and Decimal mode" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="165" width="465" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="sealed" value="IMMUTABLE SEALED MANIFEST&#10;A hash proves retained bytes, NOT global provider completeness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="580" y="370" width="900" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sql" value="BATCH: SQL/dbt&#10;Frozen population + versioned policy&#10;Stable canonical output digest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="140" y="615" width="630" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="cdc" value="CDC handshake&#10;PG LSN → Debezium Kafka offset vector&#10;Flink checkpoint + sink commit receipt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="600" width="780" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="compare" value="COMPARABILITY PRECHECK&#10;Same tenant/period/cut/policy/correction/finalized offsets?&#10;No → NOT_COMPARABLE (NOT MISMATCH)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="595" y="875" width="950" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="oracle" value="Independent Oracle + Mutations&#10;Small manually reviewed fixtures&#10;Negative control must fail wrong result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0EAFE;strokeColor=#9177C5;fontColor=#382B63;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="105" y="1085" width="695" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="verdict" value="Coverage-aware business verdict&#10;VERIFIED scoped | MISMATCH | INCOMPLETE | UNDETERMINED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEEDF1;strokeColor=#BF7385;fontColor=#5C2537;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1085" width="845" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="pub" value="Immutable version + CAS pointer&#10;Only approved scoped VERIFIED candidate published&#10;Keep old version and exact source evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5ED;strokeColor=#528A69;fontColor=#173C2C;fontSize=14;align=center;verticalAlign=middle;strokeWidth=1.6;" vertex="1" parent="1">
+          <mxGeometry x="640" y="1310" width="1050" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="rule" value="Never infer unknown provider charge from timeout.&#10;Never claim checkpoint alone proves external sink exactly-once.&#10;Never call matching SQL/Flink totals scientific truth without oracle+coverage." style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;fontColor=#65758A;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1500" width="1530" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex101" value="app cut" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="appcut" target="sealed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex102" value="bounded external snapshot" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="extcut" target="sealed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex103" value="policy V" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="policy" target="sealed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex104" value="frozen source" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="sealed" target="sql">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex105" value="identity/offset targets" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="sealed" target="cdc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex106" value="batch candidate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="sql" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex107" value="checkpointed shadow" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="cdc" target="compare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex108" value="comparison valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="compare" target="verdict">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex109" value="negative controls" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="oracle" target="verdict">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgex110" value="gate pass" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#697C8F;strokeWidth=2;fontSize=11;fontColor=#34475A;" edge="1" parent="1" source="verdict" target="pub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

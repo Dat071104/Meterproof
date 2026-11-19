@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meterproof.local/contracts/source-receipt.v1.schema.json",
+  "title": "METERPROOF v1 observed source receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_receipt_id",
+    "source_event_id",
+    "origin",
+    "source_kind",
+    "tenant_id",
+    "logical_request_id",
+    "occurred_at",
+    "first_observed_at",
+    "outcome"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "source_receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "origin": {
+      "enum": [
+        "PRODUCTION",
+        "PILOT",
+        "SANDBOX",
+        "SYNTHETIC"
+      ]
+    },
+    "source_kind": {
+      "enum": [
+        "APP",
+        "PROVIDER",
+        "INVOICE"
+      ]
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "logical_request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_attempt_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provider_generation_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_committed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "first_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "outcome": {
+      "enum": [
+        "REQUEST_INTENT",
+        "APP_OBSERVED_SUCCESS",
+        "APP_OBSERVED_FAILURE",
+        "UNKNOWN_PROVIDER_OUTCOME",
+        "PROVIDER_CONFIRMED_BILLED",
+        "PROVIDER_CONFIRMED_NOT_BILLED",
+        "INVOICE_OBSERVED"
+      ]
+    },
+    "known_provider_cost_usd": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+    },
+    "provider_amount_evidence_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "billing_period_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_reference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "redaction_status": {
+      "enum": [
+        "SANITIZED",
+        "RESTRICTED"
+      ]
+    }
+  }
+}

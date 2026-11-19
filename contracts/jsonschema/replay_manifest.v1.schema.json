@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meterproof.local/contracts/replay-manifest.v1.schema.json",
+  "title": "METERPROOF immutable source run manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "tenant_id",
+    "billing_period_id",
+    "origin",
+    "app_source_snapshot_sha256",
+    "app_source_cut",
+    "external_provider_scope",
+    "invoice_scope",
+    "source_exclusions",
+    "price_policy_version",
+    "money_currency",
+    "money_rounding_mode",
+    "time_zone",
+    "sql_git_sha",
+    "flink_git_sha",
+    "correction_window_policy",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "billing_period_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "origin": {
+      "enum": [
+        "PRODUCTION",
+        "PILOT",
+        "SANDBOX",
+        "SYNTHETIC"
+      ]
+    },
+    "app_source_snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "app_source_cut": {
+      "type": "object",
+      "required": [
+        "consistent_snapshot_reference",
+        "source_event_ids_sha256",
+        "postgres_lsn"
+      ],
+      "properties": {
+        "consistent_snapshot_reference": {
+          "type": "string"
+        },
+        "source_event_ids_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "postgres_lsn": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshot_notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "external_provider_scope": {
+      "type": "object",
+      "required": [
+        "retrieved_generation_ids",
+        "unknown_attempt_ids",
+        "observation_window",
+        "coverage_note"
+      ],
+      "properties": {
+        "retrieved_generation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unknown_attempt_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "observation_window": {
+          "type": "string"
+        },
+        "coverage_note": {
+          "type": "string"
+        },
+        "export_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "invoice_scope": {
+      "type": "object",
+      "required": [
+        "import_ids",
+        "period",
+        "origin",
+        "coverage_note"
+      ],
+      "properties": {
+        "import_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "period": {
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "PRODUCTION",
+            "PILOT",
+            "SANDBOX",
+            "SYNTHETIC"
+          ]
+        },
+        "coverage_note": {
+          "type": "string"
+        },
+        "export_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price_policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "money_currency": {
+      "const": "USD"
+    },
+    "money_rounding_mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "time_zone": {
+      "type": "string"
+    },
+    "sql_git_sha": {
+      "type": "string"
+    },
+    "flink_git_sha": {
+      "type": "string"
+    },
+    "flink_artifact_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "oracle_fixture_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "correction_window_policy": {
+      "type": "string"
+    },
+    "kafka_offset_vector": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "topic",
+          "partition",
+          "offset"
+        ],
+        "properties": {
+          "topic": {
+            "type": "string"
+          },
+          "partition": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "flink_completed_checkpoint_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "flink_sink_commit_receipt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "previous_publication_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

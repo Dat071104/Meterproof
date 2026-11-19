@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meterproof.local/contracts/verification-decision.v1.schema.json",
+  "title": "Verification decision and comparison distinct v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "manifest_sha256",
+    "scope",
+    "comparison_status",
+    "business_verdict",
+    "coverage_summary",
+    "source_exclusions",
+    "test_receipts",
+    "published_eligible"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "comparison_status": {
+      "enum": [
+        "EQUAL",
+        "DIFFERENT",
+        "NOT_COMPARABLE",
+        "ERROR"
+      ]
+    },
+    "business_verdict": {
+      "enum": [
+        "VERIFIED",
+        "MISMATCH",
+        "INCOMPLETE",
+        "UNDETERMINED"
+      ]
+    },
+    "coverage_summary": {
+      "type": "string"
+    },
+    "source_exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected_business_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "test_receipts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unresolved_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "policy_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "published_eligible": {
+      "type": "boolean"
+    }
+  }
+}

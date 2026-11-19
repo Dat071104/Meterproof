@@ -1,0 +1,27 @@
+digraph G {
+  graph [rankdir=TB, fontname="DejaVu Sans", label="METERPROOF v3.4 — Data Architecture", labelloc=t, fontsize=21, bgcolor="white", nodesep=0.55, ranksep=0.75, splines=ortho, pad="0.3"];
+  node [shape=box, style="rounded,filled", color="#66788B", fontname="DejaVu Sans", fontsize=12, margin="0.2,0.13"];
+  edge [color="#7B8794", arrowsize=0.75, penwidth=1.5];
+  app [label="AI app receipts\nintent + provider attempts", fillcolor="#EAF2FE"];
+  provider [label="Provider evidence\nscoped generation records", fillcolor="#EAF2FE"];
+  invoice [label="Invoice/export\nperiod + origin", fillcolor="#EAF2FE"];
+  {rank=same; app; provider; invoice;}
+  ingest [label="Private FastAPI ingest + normalized import\nauth · append-only receipts · transactional outbox", fillcolor="#E8F5ED"];
+  pg [label="PostgreSQL + durable outbox\nsource event IDs · WAL", fillcolor="#FFF3DC"];
+  manifest [label="IMMUTABLE SOURCE MANIFEST\ncut · provider/invoice scope · unknowns · SHA · policy V", fillcolor="#FCEAF0"];
+  batch [label="SQL/dbt\nindependent batch result", fillcolor="#F0EAFE"];
+  cdc [label="Debezium → Kafka → Flink\ncheckpointed, isolated shadow", fillcolor="#F0EAFE"];
+  oracle [label="Pure Python ORACLE\nmanual fixtures · mutants", fillcolor="#F0EAFE"];
+  {rank=same; batch; cdc; oracle;}
+  verify [label="SOURCE-ALIGNED DIFFERENTIAL + COVERAGE GATE\nEQUAL / DIFFERENT / NOT_COMPARABLE → VERIFIED / MISMATCH / INCOMPLETE / UNDETERMINED", fillcolor="#FCEAF0"];
+  publish [label="Immutable report versions + CAS pointer\nversioned read-only verified API", fillcolor="#E8F5ED"];
+  core [label="Core incident UI", fillcolor="#F0F3F7"];
+  atlas [label="Atlas dashboard + AI\nread-only evidence grounded", fillcolor="#F0F3F7"];
+  lite [label="Lite CLI/SDK/CI\nlocal exports; separate process", fillcolor="#F0F3F7"];
+  {rank=same; core; atlas; lite;}
+  app -> ingest; provider -> ingest; invoice -> ingest;
+  ingest -> pg -> manifest;
+  manifest -> batch; pg -> cdc; manifest -> cdc [style=dashed];
+  batch -> verify; cdc -> verify; oracle -> verify; manifest -> verify;
+  verify -> publish; publish -> core; publish -> atlas; manifest -> lite [style=dashed,label="contracts only",fontcolor="#66788B"];
+}

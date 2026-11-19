@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://meterproof.local/contracts/published-read-report.v1.schema.json",
+  "title": "Published verified read API response v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_version_id",
+    "tenant_id",
+    "origin",
+    "source_manifest_sha256",
+    "published_at",
+    "billing_period_id",
+    "business_verdict",
+    "coverage_note",
+    "read_only"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "report_version_id": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "PRODUCTION",
+        "PILOT",
+        "SANDBOX",
+        "SYNTHETIC"
+      ]
+    },
+    "source_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "billing_period_id": {
+      "type": "string"
+    },
+    "business_verdict": {
+      "enum": [
+        "VERIFIED",
+        "MISMATCH",
+        "INCOMPLETE",
+        "UNDETERMINED"
+      ]
+    },
+    "coverage_note": {
+      "type": "string"
+    },
+    "read_only": {
+      "const": true
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "known_provider_spend_usd": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "customer_charge_usd": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "invoice_amount_usd": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

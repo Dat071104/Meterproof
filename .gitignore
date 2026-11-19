@@ -34,7 +34,9 @@ pipelines/dbt/**/dbt_packages/
 pipelines/dbt/**/logs/
 profiles.yml
 
-# --- Local data / runtime state (fixtures under data/fixtures ARE tracked) ---
+# --- Local data / runtime state ---
+# Pack hygiene forbids tracking data/*. Reviewed synthetic fixtures move to
+# tests/fixtures/ (P0.1 collision C-1); data/ stays local runtime state.
 data/manifests/local/
 data/samples/raw/
 *.duckdb

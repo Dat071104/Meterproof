@@ -1,0 +1,3 @@
+# ADR-001 — Independent SQL/dbt and Flink implementations
+
+**Status:** Proposed for G0 acceptance. **Decision:** common wire schemas + human-reviewed billing specification, but independently authored transformations in SQL/dbt and Flink Java; a third small pure-Python fixture oracle imports neither production transformation. **Reason:** shared executable reducer creates correlated failure and makes differential agreement weak evidence. **Tradeoff:** duplicated policy implementation/maintenance intentionally accepted for independent checks. **Tests:** mutation T06/T07/T11 plus aligned cut protocol. **Reopen only with:** empirical evidence showing a guarantee can be maintained and an ADR + full regression.

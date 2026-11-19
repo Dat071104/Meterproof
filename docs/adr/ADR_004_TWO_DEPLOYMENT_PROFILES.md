@@ -1,0 +1,3 @@
+# ADR-004 — Full CDC failure lab vs budget-safe public read deployment
+
+**Status:** Proposed for G0. **Decision:** run true PostgreSQL→Debezium→Kafka→Flink in an on-demand local/reproducible failure lab; separate public reference service uses durable SQL/dbt path and immutable read-only reports, with explicitly disclosed lack of always-on Flink parity unless shadow validation is run and evidenced. **Reason:** minimize cost without misrepresenting actual execution. **Tradeoff:** separate operation profiles with explicit evidence metadata. **Tests:** CDC runs and checkpoint receipts, deployment-level claim audit.

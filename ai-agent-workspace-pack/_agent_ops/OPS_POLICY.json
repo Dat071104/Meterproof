@@ -1,0 +1,8 @@
+{
+  "generated": {
+    "INDEX.md": "sha256:dab80faacbd254a42f97fa786a07b6386ca47a791cb489c7f1c7dc0b79e2ea0f",
+    "OPERATING_RULES.md": "sha256:1a611f44567fae76fbb568bef00aa5a86dccb5b3de7afa1f07468ceff5629c1d",
+    "SESSION_PROTOCOL.md": "sha256:27ae0b7c9fcb64815f8935232b3ebb0de7e1c1084d8ac3586bd88121aea97c6f"
+  },
+  "schema": 1
+}

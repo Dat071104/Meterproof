@@ -1,0 +1,86 @@
+# Project Context Card / The ngu canh du an
+
+## Project Name
+
+`<project-name>`
+
+## One-Paragraph Summary
+
+English: `<what this project does and who it serves>`
+
+Vietnamese: `<du an lam gi va phuc vu ai>`
+
+## Current Phase / State
+
+`<phase, milestone, or current status>`
+
+Update this section when a durable phase or gate becomes accepted, rejected, or
+blocked, even when the task prompt only names task-level files. Put detailed
+commands and raw outcomes in IMPLEMENTATION_LOG.md; keep this card to the
+current durable state.
+
+## Tech Stack
+
+- Language:
+- Framework:
+- Runtime:
+- Database:
+- Test tools:
+
+## Architecture
+
+`<main modules, services, data flow, boundaries>`
+
+See `_agent_ops/REPO_MAP.md` for the generated module table, hot files, and
+entry points. Describe here only what a scanner cannot infer: intent,
+boundaries, and the reasons behind the structure.
+
+## Business Rules & Acceptance Criteria
+
+`<the domain rules the code must satisfy, and how to tell "correct" from "compiles">`
+
+- Rule: `<business rule>` -> Accept when: `<observable acceptance criterion>`
+
+Note: if this section is empty, the agent must ask before implementing logic, to
+avoid code that is syntactically right but semantically wrong.
+
+## Key Decisions
+
+- `<decision and reason>`
+
+## Current Branch / Commit
+
+- Branch:
+- Commit:
+
+## How to Run
+
+```bash
+<run command>
+```
+
+## How to Test
+
+```bash
+<test command>
+```
+
+## Known Risks
+
+- `<risk>`
+
+## Next Step
+
+`<next concrete task>`
+
+## Do Not Do
+
+- `<actions the agent must avoid>`
+
+## Last Verified Commit
+
+`<short SHA of HEAD when these facts were last confirmed against the code>`
+
+## Last Updated
+
+`YYYY-MM-DD`
