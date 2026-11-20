@@ -200,7 +200,10 @@
             "type": "string",
             "minLength": 1
           }
-        }
+        },
+        "required": [
+          "policy_version"
+        ]
       }
     }
   ]
