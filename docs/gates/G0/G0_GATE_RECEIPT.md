@@ -3,7 +3,7 @@
 | Field | Observed value |
 |---|---|
 | Gate + subphases | `G0 / P0.1–P0.4` |
-| Status | `IN_PROGRESS — gate packet drafted; advisor gate review and owner signoff pending` |
+| Status | `PASS` — signed by owner Dat, 2026-11-21 (block below) |
 | Git branch & SHA | `p0/wave-02-p0.4-g0`; evidence source cut at `aff1b2f8809b8d52349d8452767c3e96428cb4cd` |
 | Origin | `SYNTHETIC / N/A — no provider or invoice data used in P0` |
 | Owner signoff | Signed PASS by Dat on 2026-11-21 (see block below). |
