@@ -18,19 +18,19 @@ Weights sum to 100. Scores are 1–5 (5 is strongest); weighted score is `sum(we
 
 | Criterion | Weight | Why it matters | Option 0 | A | B | C |
 |---|---:|---|---:|---:|---:|---:|
-| Stale-writer prevention | 30 | A slower publisher must not overwrite a newer approved version. | 1 | 2 | 5 | 4 |
+| Stale-writer prevention | 30 | A slower publisher must not overwrite a newer approved version. | 1 | 2 | 5 | 2 |
 | Historical auditability | 25 | Corrections must preserve prior reports. | 1 | 5 | 5 | 5 |
 | Tenant/consumer isolation | 20 | Atlas and Lite cannot write Core truth. | 1 | 2 | 5 | 4 |
 | Fail-closed publication | 15 | Unknown or incomplete cases cannot publish. | 1 | 3 | 5 | 4 |
 | Operational simplicity | 10 | Versioning/CAS adds storage and transaction work. | 5 | 3 | 2 | 3 |
-| **Weighted total / 5** | **100** |  | **1.40** | **3.30** | **4.70** | **3.60** |
+| **Weighted total / 5** | **100** |  | **1.40** | **3.00** | **4.70** | **3.55** |
 
 | Option | Summary | Pros | Cons / risks | Effort | Reversibility | Pre-mortem | Size | Cost to verify |
 |---|---|---|---|---|---|---|---|---|
 | 0 | Do nothing: mutate one current report in place | Lowest schema and storage cost | Loses history and lets late/stale writes rewrite prior truth | Low | One-way after old values are overwritten | This fails when a late invoice correction changes the only report record | S | T05 history assertion immediately fails |
 | A | Keep immutable report versions but use last-write-wins pointer updates | Preserves history | A stale publisher can still move the pointer backward | Medium | Two-way before users depend on pointer semantics | This fails when the older candidate commits last | M | T09 concurrent publisher race |
 | B | Immutable versions plus scoped CAS/fencing pointer and strict read-only consumer API | Preserves history, blocks stale writers and separates trust | More DB/control-plane state and transaction logic | High | Two-way before release; migration required once clients depend on version IDs | This fails when CAS checks an unscoped pointer or a consumer gets write credentials | L | T05/T09/T12 plus Atlas non-interference |
-| C | Immutable versions with a manual operator-controlled pointer | Clear human gate | Manual step does not solve concurrent automation or auditable CAS semantics | Medium | Two-way, but the operating process can drift | This fails when two operators publish based on stale state | M | T09 under concurrent candidates |
+| C | Immutable versions with a manual operator-controlled pointer | Clear human gate | Manual step does not solve concurrent automation or auditable CAS semantics. Score 2 reflects limited human coordination: it may catch some errors, but two operators can still publish from stale state because there is no fence. | Medium | Two-way, but the operating process can drift | This fails when two operators publish based on stale state | M | T09 under concurrent candidates |
 
 ## Consequences
 

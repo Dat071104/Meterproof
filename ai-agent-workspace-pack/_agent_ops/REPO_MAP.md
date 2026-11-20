@@ -8,17 +8,17 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`231d9d7`
+`2c935d6`
 
 ## Indexed Source Fingerprint
 
-`sha256:3:a267675849c914a560a63e440f1bcedd0459c51fce2b955184cf06290d484041`
+`sha256:5:5c6d0746bdc3b7621b5308628133a7a3f522110ee98bc18d3887ee9bf7aeb3f2`
 
 ## Snapshot
 
 - Branch: `p0/wave-01-p0.2-p0.3`
 - Generated: `2026-11-20`
-- Code files indexed: 3
+- Code files indexed: 5
 - Stack: Unknown
 
 ## Modules
@@ -28,8 +28,8 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `tests/contracts` | 2 | 0 | - |
-| `tools/meterproof` | 1 | 0 | - |
+| `tools` | 2 | 1 | - |
+| `tests` | 3 | 0 | - |
 
 ## Hot Files (widest blast radius)
 
@@ -37,11 +37,11 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 | File | Imported by | Imports |
 | --- | --- | --- |
-| _no local import edges resolved_ | | |
+| `tools/meterproof/check_adr_scores.py` | 1 | 0 |
 
 ## Symbol Graph
 
-28 symbols, 39 edges (exact 33, heuristic 0, ambiguous 6, weak 0).
+35 symbols, 48 edges (exact 39, heuristic 3, ambiguous 6, weak 0).
 
 ### Most-called symbols
 
@@ -54,11 +54,11 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 | `test_unformatted_strings_and_string_array_items_are_nonempty.walk` | 3 | `tests/contracts/test_contract_schemas.py:118` |
 | `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:142` |
 | `money_text` | 3 | `tests/contracts/test_expected_facts.py:23` |
+| `inspect_markdown` | 3 | `tools/meterproof/check_adr_scores.py:41` |
 | `all_cases` | 2 | `tests/contracts/test_expected_facts.py:187` |
 | `load_json` | 2 | `tests/contracts/test_expected_facts.py:15` |
+| `weighted_tables` | 2 | `tools/meterproof/check_adr_scores.py:22` |
 | `flatten` | 1 | `tests/contracts/test_contract_schemas.py:21` |
-| `positive_receipts` | 1 | `tests/contracts/test_contract_schemas.py:27` |
-| `apply_source_cut` | 1 | `tests/contracts/test_expected_facts.py:27` |
 
 Query it instead of grepping:
 

@@ -48,7 +48,7 @@ Weights sum to 100. Scores are 1–5 (5 is strongest); weighted score is `sum(we
 | Snapshot/recovery/source-cut evidence | 20 | The two engines need the same committed population. | 1 | 4 | 3 | 2 |
 | Data minimization and source isolation | 15 | CDC must not expose unrelated rows or tenant data. | 4 | 4 | 2 | 4 |
 | Operational simplicity | 10 | Connector/slot costs must remain bounded and observable. | 5 | 3 | 3 | 3 |
-| **Weighted total / 5** | **100** |  | **1.85** | **4.45** | **2.95** | **2.40** |
+| **Weighted total / 5** | **100** |  | **1.85** | **4.45** | **2.85** | **2.40** |
 
 | Option | Summary | Pros | Cons / risks | Effort | Reversibility | Pre-mortem | Size | Cost to verify |
 |---|---|---|---|---|---|---|---|---|
