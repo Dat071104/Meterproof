@@ -140,6 +140,7 @@ if (-not $env:UV_PROJECT_ENVIRONMENT) { $env:UV_PROJECT_ENVIRONMENT = Join-Path 
 $env:METERPROOF_POSTGRES_PORT = "55432"
 $env:METERPROOF_DATABASE_URL = "postgresql+psycopg://meterproof_local:meterproof_local_only@127.0.0.1:55432/meterproof"
 uv sync --locked --offline --all-groups
+uv run --offline --locked python -c "import sys; print(sys.executable); print(sys.version)"
 uv run --offline --locked ruff check tests tools/meterproof
 uv run --offline --locked ruff format --check tests tools/meterproof
 uv run --offline --locked mypy --cache-dir $env:MYPY_CACHE_DIR tests tools/meterproof
@@ -147,12 +148,16 @@ uv run --offline --locked pytest tests/contracts tests/unit -q
 uv run --offline --locked python tools/meterproof/validate_overlay.py --target .
 uv run --offline --locked python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --warn-only-artifacts
 uv run --offline --locked python tools/meterproof/check_adr_scores.py --root .
-docker compose -f infra/compose/compose.yaml --profile db config --quiet
+foreach ($profile in @("db", "cdc", "stream", "full")) {
+    docker compose -f infra/compose/compose.yaml --profile $profile config --quiet
+}
 docker compose -f infra/compose/compose.yaml --profile db up -d --wait --pull never
 $env:METERPROOF_DB_SMOKE = "1"
 uv run --offline --locked pytest tests/integration/test_migration_smoke.py -q
 docker compose -f infra/compose/compose.yaml --profile db down -v --remove-orphans
 Remove-Item Env:\METERPROOF_DB_SMOKE
+if (@(docker ps -a --filter "label=com.docker.compose.project=meterproof" --format "{{.ID}}").Count -ne 0) { throw "Meterproof containers remain" }
+if (@(docker volume ls --filter "label=com.docker.compose.project=meterproof" --format "{{.Name}}").Count -ne 0) { throw "Meterproof volumes remain" }
 ```
 
 The verification receipt must report skipped integration tests as skipped, never as passed. The offline clean-checkout run must set `METERPROOF_DB_SMOKE=1` and show the migration smoke actually ran.
