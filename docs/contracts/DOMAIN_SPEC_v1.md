@@ -45,8 +45,8 @@ A provider generation may be linked to at most one app attempt. The two linked f
 
 | source_kind | allowed outcome and conditional fields |
 |---|---|
-| APP | Outcomes: `REQUEST_INTENT`, `APP_OBSERVED_SUCCESS`, `APP_OBSERVED_FAILURE`, `UNKNOWN_PROVIDER_OUTCOME`. `logical_request_id` is required. `provider_attempt_id` is required for every listed outcome except `REQUEST_INTENT`. |
-| PROVIDER | Outcomes: `PROVIDER_CONFIRMED_BILLED`, `PROVIDER_CONFIRMED_NOT_BILLED`; `provider_generation_id` is required. BILLED also requires `known_provider_cost_usd` and `provider_amount_evidence_id`. `provider_attempt_id` and `logical_request_id` are either both linked or both null. |
+| APP | Outcomes: `REQUEST_INTENT`, `APP_OBSERVED_SUCCESS`, `APP_OBSERVED_FAILURE`, `UNKNOWN_PROVIDER_OUTCOME`. `logical_request_id` is required. `provider_attempt_id` is required for every listed outcome except `REQUEST_INTENT`. `provider_generation_id` may be an app-observed correlation hint only; `known_provider_cost_usd` and `provider_amount_evidence_id` are absent or null, and `invoice_amount_usd` is absent. |
+| PROVIDER | Outcomes: `PROVIDER_CONFIRMED_BILLED`, `PROVIDER_CONFIRMED_NOT_BILLED`; `provider_generation_id` is required. BILLED also requires `known_provider_cost_usd` and `provider_amount_evidence_id`. `provider_attempt_id` and `logical_request_id` are either both linked or both null. `invoice_amount_usd` is absent; NOT_BILLED has `known_provider_cost_usd` absent or null. |
 | INVOICE | Outcome: `INVOICE_OBSERVED`; `logical_request_id` may be null. `billing_period_id`, `source_reference`, and `invoice_amount_usd` are required. Provider attempt, generation, cost and provider-amount-evidence fields are null when present; INVOICE receipts carry no provider data. |
 
 No other source-kind/outcome pair is valid. `transport_delivery_id` is deliberately excluded from `source_receipt.v1`.
@@ -74,12 +74,17 @@ An `UNKNOWN_PROVIDER_OUTCOME` attempt with no linked provider receipt contribute
 
 `verification_decision.v1` requires `origin`. `published_eligible: true` requires `business_verdict: VERIFIED` and `comparison_status: EQUAL`. Any `VERIFIED` decision requires `comparison_status: EQUAL` and an explicitly empty `unresolved_items` array. `published_read_report.v1` permits only `business_verdict: VERIFIED`; only a covered and explicitly checked VERIFIED candidate reaches publication. No report implies global provider completeness.
 
+## Comparison status vs business verdict (DEC-0008)
+
+`comparison_status` describes whether the independent candidate computations agree on a comparable source cut. `business_verdict` describes the evidence for the declared business scope. Only `EQUAL` permits `VERIFIED` or `MISMATCH`. `DIFFERENT`, `NOT_COMPARABLE` and `ERROR` permit only `INCOMPLETE` or `UNDETERMINED`; each blocks publication. A `DIFFERENT` candidate requires a failure slice under `SOURCE_CUT_PROTOCOL.md` §11. F1 is `EQUAL` + `MISMATCH`: the candidates are expected to agree on the comparable fixture while its invoice contradicts the policy charge. The MP-004 wrong-rule regression is `DIFFERENT` + `UNDETERMINED`, or `DIFFERENT` + `INCOMPLETE` when a known source segment is missing.
+
 ## Verdict truth table by declared scope
 
 | Evidence condition in this scope | Comparison status | Business verdict | Publish eligible | Reason |
 |---|---|---|---|---|
-| Comparable source cut, declared coverage complete, no unresolved items, result equal | `EQUAL` | `VERIFIED` | May be true | Verification is limited to the declared covered scope. |
-| Comparable, complete scope with positive contradictory evidence (e.g. invoice differs from policy charge) | `DIFFERENT` | `MISMATCH` | False | A mismatch requires observed contradiction, not missing data. |
+| Comparable source cut, declared coverage complete, no unresolved items, and independent results agree | `EQUAL` | `VERIFIED` | May be true | Verification is limited to the declared covered scope. |
+| Comparable, complete scope; independent results agree that positive contradictory evidence exists (e.g. invoice differs from policy charge; F1) | `EQUAL` | `MISMATCH` | False | A mismatch is a business conclusion from the agreed computation, not candidate disagreement. |
+| Independent candidates disagree on a comparable cut (e.g. MP-004 wrong-rule regression) | `DIFFERENT` | `UNDETERMINED`, or `INCOMPLETE` if a known required segment is missing | False | Block the candidate and produce the §11 failure slice; disagreement alone does not establish a business mismatch. |
 | Known mandatory source segment is missing or pending | `NOT_COMPARABLE` or `ERROR` as applicable | `INCOMPLETE` | False | The missing segment is known and must be named. |
 | Timeout without linked provider evidence, or unlinked billed amount | May be `EQUAL` for compared known rows; never by itself enough to resolve spend | `UNDETERMINED` for affected spend scope | False | Preserve known subtotal and unresolved/unattributed item; never infer zero or assignment. |
 | Cuts, policy versions, correction boundary or finalized inputs differ | `NOT_COMPARABLE` | `INCOMPLETE` if a known required segment is missing; otherwise `UNDETERMINED` | False | Unequal inputs are not a business mismatch. |

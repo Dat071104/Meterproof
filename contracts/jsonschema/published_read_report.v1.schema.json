@@ -21,10 +21,12 @@
       "const": "1"
     },
     "report_version_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "tenant_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "origin": {
       "enum": [
@@ -43,13 +45,15 @@
       "format": "date-time"
     },
     "billing_period_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "business_verdict": {
       "const": "VERIFIED"
     },
     "coverage_note": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "read_only": {
       "const": true
@@ -57,7 +61,8 @@
     "source_refs": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "known_provider_spend_usd": {
@@ -72,7 +77,12 @@
         "string",
         "null"
       ],
-      "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$"
+      "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,12})?$",
+      "allOf": [
+        {
+          "pattern": "^(0|[1-9][0-9]{0,11})(\\.[0-9]{1,2})?$"
+        }
+      ]
     },
     "invoice_amount_usd": {
       "type": [

@@ -24,6 +24,21 @@ def money_text(value: Decimal) -> str:
     return format(value, "f")
 
 
+def apply_source_cut(fixture, receipts):
+    cut = parse_time(fixture["source_cut"]["as_known_at"])
+    included = []
+    excluded = []
+    for receipt in receipts:
+        first_observed = parse_time(receipt["first_observed_at"])
+        if first_observed > cut:
+            excluded.append(
+                f"{receipt['source_event_id']}: first_observed_at {receipt['first_observed_at']} is after source cut {fixture['source_cut']['as_known_at']}"
+            )
+        else:
+            included.append(receipt)
+    return included, sorted(excluded)
+
+
 def compute_billable_facts(policy, receipts):
     successful_requests = {
         receipt["logical_request_id"]
@@ -88,18 +103,10 @@ def compute_provider_facts(receipts):
     }
 
 
-def compute_invoice_facts(fixture, receipts, charge):
-    cut = parse_time(fixture["source_cut"]["as_known_at"])
-    excluded = []
+def compute_invoice_facts(receipts, charge, source_exclusions):
     included_by_source_event = {}
     for receipt in receipts:
         if receipt["source_kind"] != "INVOICE":
-            continue
-        first_observed = parse_time(receipt["first_observed_at"])
-        if first_observed > cut:
-            excluded.append(
-                f"{receipt['source_event_id']}: first_observed_at {receipt['first_observed_at']} is after source cut {fixture['source_cut']['as_known_at']}"
-            )
             continue
         included_by_source_event.setdefault(
             receipt["source_event_id"], Decimal(receipt["invoice_amount_usd"])
@@ -113,7 +120,7 @@ def compute_invoice_facts(fixture, receipts, charge):
     return {
         "invoice_amount_usd": money_text(invoice_amount) if invoice_amount is not None else None,
         "invoice_delta": money_text(invoice_delta) if invoice_delta is not None else None,
-        "source_exclusions": sorted(excluded),
+        "source_exclusions": source_exclusions,
         "counted_invoice_source_event_ids": sorted(included_by_source_event),
     }
 
@@ -121,11 +128,15 @@ def compute_invoice_facts(fixture, receipts, charge):
 def compute_case(fixture, case=None):
     if case is None:
         case = fixture
-    receipts = case["receipts"]
+    receipts, source_exclusions = apply_source_cut(fixture, case["receipts"])
     policy = fixture["price_policy"]
     billable = compute_billable_facts(policy, receipts)
     facts = {**billable, **compute_provider_facts(receipts)}
-    facts.update(compute_invoice_facts(fixture, receipts, Decimal(billable["customer_charge_usd"])))
+    facts.update(
+        compute_invoice_facts(
+            receipts, Decimal(billable["customer_charge_usd"]), source_exclusions
+        )
+    )
     return facts
 
 def compute_verdicts(fixture, facts, case=None):
@@ -220,6 +231,7 @@ def test_unlinked_billed_provider_spend_is_known_unattributed_and_undetermined()
         "provider_attempt_id": None, "logical_request_id": None,
         "provider_generation_id": "generation-orphan", "known_provider_cost_usd": "0.0030",
         "provider_amount_evidence_id": "provider-evidence-orphan",
+        "first_observed_at": "2026-11-19T12:00:00Z",
     }
     case = {"receipts": [receipt]}
     facts = compute_case(fixture, case)
@@ -227,3 +239,27 @@ def test_unlinked_billed_provider_spend_is_known_unattributed_and_undetermined()
     assert facts["known_provider_spend_usd"] == "0.0030"
     assert facts["unattributed_known_spend_usd"] == "0.0030"
     assert verdicts["provider_spend"] == "UNDETERMINED"
+
+
+def test_app_success_after_source_cut_is_excluded_before_billing():
+    fixture = load_json(FIXTURES / "F1_two_billed_attempts_one_request.json")
+    case = dict(fixture)
+    case["receipts"] = list(fixture["receipts"])
+    late_success = dict(fixture["receipts"][2])
+    late_success.update(
+        source_receipt_id="receipt-app-success-after-cut",
+        source_event_id="app-event-success-after-cut",
+        logical_request_id="R-LATE",
+        provider_attempt_id="attempt-late",
+        first_observed_at="2026-12-01T00:00:01Z",
+    )
+    case["receipts"].append(late_success)
+
+    facts = compute_case(fixture, case)
+
+    assert facts["billable_units"] == 1
+    assert any(
+        "app-event-success-after-cut" in exclusion
+        and "after source cut" in exclusion
+        for exclusion in facts["source_exclusions"]
+    )

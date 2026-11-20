@@ -22,14 +22,16 @@
       "const": "1"
     },
     "run_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "manifest_sha256": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
     "scope": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "comparison_status": {
       "enum": [
@@ -48,37 +50,43 @@
       ]
     },
     "coverage_summary": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "source_exclusions": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "affected_business_keys": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "test_receipts": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "unresolved_items": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "policy_version": {
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "minLength": 1
     },
     "published_eligible": {
       "type": "boolean"
@@ -143,6 +151,35 @@
         "required": [
           "comparison_status",
           "unresolved_items"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "comparison_status": {
+            "enum": [
+              "DIFFERENT",
+              "NOT_COMPARABLE",
+              "ERROR"
+            ]
+          }
+        },
+        "required": [
+          "comparison_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "business_verdict": {
+            "enum": [
+              "INCOMPLETE",
+              "UNDETERMINED"
+            ]
+          }
+        },
+        "required": [
+          "business_verdict"
         ]
       }
     }

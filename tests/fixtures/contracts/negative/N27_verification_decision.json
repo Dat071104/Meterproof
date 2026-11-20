@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N27",
+  "target_schema": "verification_decision.v1.schema.json",
+  "expected_error": {
+    "validator": "minLength",
+    "path": [
+      "scope"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "run_id": "schema-example-run",
+    "manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "scope": "",
+    "comparison_status": "EQUAL",
+    "business_verdict": "VERIFIED",
+    "coverage_summary": "complete within synthetic fixture scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [
+      "contract-self-check"
+    ],
+    "unresolved_items": [],
+    "policy_version": "demo-v1",
+    "published_eligible": true,
+    "origin": "SYNTHETIC"
+  }
+}

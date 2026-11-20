@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N30",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "not",
+    "path": []
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-app-failure-example",
+    "source_event_id": "app-event-failure-example",
+    "origin": "SYNTHETIC",
+    "source_kind": "APP",
+    "tenant_id": "demo-tenant",
+    "logical_request_id": "request-failure-example",
+    "provider_attempt_id": "attempt-failure-example",
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-18T12:00:00Z",
+    "first_observed_at": "2026-11-18T12:00:01Z",
+    "outcome": "APP_OBSERVED_FAILURE",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": null,
+    "redaction_status": "SANITIZED",
+    "invoice_amount_usd": "0.10"
+  }
+}

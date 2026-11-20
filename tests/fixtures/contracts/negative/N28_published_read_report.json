@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N28",
+  "target_schema": "published_read_report.v1.schema.json",
+  "expected_error": {
+    "validator": "minLength",
+    "path": [
+      "tenant_id"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "report_version_id": "schema-example-report",
+    "tenant_id": "",
+    "origin": "SYNTHETIC",
+    "source_manifest_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "published_at": "2026-12-01T00:00:01Z",
+    "billing_period_id": "2026-11-01_UTC",
+    "business_verdict": "VERIFIED",
+    "coverage_note": "complete synthetic fixture scope",
+    "read_only": true,
+    "known_provider_spend_usd": "0.021000000000",
+    "customer_charge_usd": "0.05",
+    "invoice_amount_usd": "0.100000000000",
+    "source_refs": [
+      "synthetic"
+    ]
+  }
+}

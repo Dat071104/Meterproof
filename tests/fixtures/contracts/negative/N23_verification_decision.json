@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N23",
+  "target_schema": "verification_decision.v1.schema.json",
+  "expected_error": {
+    "validator": "enum",
+    "path": [
+      "business_verdict"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "run_id": "schema-example-run",
+    "manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "scope": "tenant=demo-tenant;period=2026-11-01_UTC",
+    "comparison_status": "ERROR",
+    "business_verdict": "MISMATCH",
+    "coverage_summary": "complete within synthetic fixture scope",
+    "source_exclusions": [],
+    "affected_business_keys": [],
+    "test_receipts": [
+      "contract-self-check"
+    ],
+    "unresolved_items": [],
+    "policy_version": "demo-v1",
+    "published_eligible": false,
+    "origin": "SYNTHETIC"
+  }
+}

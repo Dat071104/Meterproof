@@ -1,0 +1,28 @@
+{
+  "fixture_id": "N31",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "not",
+    "path": []
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-unlinked-billed-example",
+    "source_event_id": "provider-event-unlinked-example",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "demo-tenant",
+    "logical_request_id": null,
+    "provider_attempt_id": null,
+    "provider_generation_id": "generation-unlinked-example",
+    "occurred_at": "2026-11-18T12:00:00Z",
+    "first_observed_at": "2026-11-19T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_BILLED",
+    "known_provider_cost_usd": "0.0030",
+    "provider_amount_evidence_id": "provider-evidence-unlinked-example",
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "generation-unlinked-example",
+    "redaction_status": "SANITIZED",
+    "invoice_amount_usd": "0.10"
+  }
+}

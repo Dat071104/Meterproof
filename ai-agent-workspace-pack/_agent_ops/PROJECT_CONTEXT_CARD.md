@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 `IN_PROGRESS`. P0.1 and P0.2 evidence is recorded in `docs/gates/G0/P0.1_receipt.md` and `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). P0.3 evidence is complete in `docs/gates/G0/P0.3_receipt.md`; ADRs are Proposed pending advisor/owner review; P0 / G0 remains IN_PROGRESS and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 remains `IN_PROGRESS`. WAVE-01 Step 0 is approved; P0.2/P0.3 received `CHANGES_REQUESTED` and their WAVE-02 FIX1 evidence is complete in the P0.2/P0.3 receipts, awaiting advisor re-review. ADR-001–005 remain Proposed. P0.4 and G0 are not signed; no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -33,6 +33,7 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 - Rule: provider spend sums attempts, not logical requests -> Accept when: F1 fixture yields 2 charged attempts, 1 billable request.
 - Rule: timeout without generation ID is unknown -> Accept when: F2 is never VERIFIED and never zero-cost.
 - Rule: SQL vs Flink compared only on equal source cut -> Accept when: unequal cut yields NOT_COMPARABLE, not MISMATCH.
+- Decision axes (DEC-0008): only EQUAL permits VERIFIED or MISMATCH; DIFFERENT, NOT_COMPARABLE and ERROR permit only INCOMPLETE or UNDETERMINED, and a DIFFERENT candidate requires a failure slice.
 - Rule: stale publisher never wins -> Accept when: T09 concurrent CAS test blocks the stale writer.
 
 ## Key Decisions
@@ -63,7 +64,7 @@ See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope
 
 ## Next Step
 
-After P0.3 commit and closure checks, run `/meterproof-advisor review WAVE-01` in Claude Code.
+After WAVE-02 Step 0 Commit D, create `p0/wave-02-p0.4-g0` and continue P0.4. After the unsigned G0 packet is committed, run `/meterproof-advisor review WAVE-02` in Claude Code.
 
 ## Do Not Do
 

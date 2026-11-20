@@ -52,6 +52,12 @@ def test_every_positive_contract_record_validates():
     receipt_validator.validate(examples["unlinked_billed_provider_receipt"])
     for receipt in examples["additional_source_receipts"]:
         receipt_validator.validate(receipt)
+    decision_validator = Draft202012Validator(
+        schema_for("verification_decision.v1.schema.json"),
+        format_checker=Draft202012Validator.FORMAT_CHECKER,
+    )
+    for decision in examples["additional_verification_decisions"]:
+        decision_validator.validate(decision)
     for key, schema_name in (
         ("verification_decision", "verification_decision.v1.schema.json"),
         ("published_read_report", "published_read_report.v1.schema.json"),
@@ -106,3 +112,24 @@ def test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_r
         list(walk(load_json(schema_path)))
     receipt_schema = schema_for("source_receipt.v1.schema.json")
     assert "transport_delivery_id" not in receipt_schema["properties"]
+
+
+def test_unformatted_strings_and_string_array_items_are_nonempty():
+    def walk(node, path=()):
+        if isinstance(node, dict):
+            kind = node.get("type")
+            unformatted_string = kind == "string" or kind == ["string", "null"]
+            if unformatted_string and not any(
+                key in node for key in ("pattern", "enum", "const", "format")
+            ):
+                assert node.get("minLength") == 1, path
+            if kind == "array" and node.get("items", {}).get("type") == "string":
+                assert node["items"].get("minLength") == 1, path
+            for name, value in node.items():
+                yield from walk(value, path + (name,))
+        elif isinstance(node, list):
+            for index, value in enumerate(node):
+                yield from walk(value, path + (str(index),))
+
+    for schema_path in sorted(SCHEMAS.glob("*.v1.schema.json")):
+        list(walk(load_json(schema_path)))

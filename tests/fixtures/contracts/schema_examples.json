@@ -152,5 +152,39 @@
       "source_reference": "generation-not-billed-example",
       "redaction_status": "SANITIZED"
     }
+  ],
+  "additional_verification_decisions": [
+    {
+      "schema_version": "1",
+      "run_id": "schema-example-f1-mismatch",
+      "manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "scope": "tenant=demo-tenant;period=2026-11-01_UTC",
+      "comparison_status": "EQUAL",
+      "business_verdict": "MISMATCH",
+      "coverage_summary": "independent candidates agree; synthetic invoice differs from policy charge",
+      "source_exclusions": [],
+      "affected_business_keys": ["demo-tenant/2026-11-01_UTC"],
+      "test_receipts": ["F1_two_billed_attempts_one_request.json"],
+      "unresolved_items": [],
+      "policy_version": "demo-v1",
+      "published_eligible": false,
+      "origin": "SYNTHETIC"
+    },
+    {
+      "schema_version": "1",
+      "run_id": "schema-example-mp004-disagreement",
+      "manifest_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "scope": "tenant=demo-tenant;period=2026-11-01_UTC",
+      "comparison_status": "DIFFERENT",
+      "business_verdict": "UNDETERMINED",
+      "coverage_summary": "candidate outputs disagree on the comparable synthetic cut",
+      "source_exclusions": [],
+      "affected_business_keys": ["demo-tenant/request-R-001"],
+      "test_receipts": ["MP-004-wrong-rule-regression"],
+      "unresolved_items": ["candidate outputs differ; failure slice required"],
+      "policy_version": "demo-v1",
+      "published_eligible": false,
+      "origin": "SYNTHETIC"
+    }
   ]
 }

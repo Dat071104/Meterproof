@@ -1,0 +1,29 @@
+{
+  "fixture_id": "N32",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "const",
+    "path": [
+      "known_provider_cost_usd"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-provider-not-billed-example",
+    "source_event_id": "provider-event-not-billed-example",
+    "origin": "SYNTHETIC",
+    "source_kind": "PROVIDER",
+    "tenant_id": "demo-tenant",
+    "logical_request_id": "request-not-billed-example",
+    "provider_attempt_id": "attempt-not-billed-example",
+    "provider_generation_id": "generation-not-billed-example",
+    "occurred_at": "2026-11-18T12:00:00Z",
+    "first_observed_at": "2026-11-19T12:00:00Z",
+    "outcome": "PROVIDER_CONFIRMED_NOT_BILLED",
+    "known_provider_cost_usd": "0.0120",
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "generation-not-billed-example",
+    "redaction_status": "SANITIZED"
+  }
+}

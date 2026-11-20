@@ -1,0 +1,30 @@
+{
+  "fixture_id": "N26",
+  "target_schema": "source_receipt.v1.schema.json",
+  "expected_error": {
+    "validator": "minLength",
+    "path": [
+      "source_reference"
+    ]
+  },
+  "instance": {
+    "schema_version": "1",
+    "source_receipt_id": "receipt-invoice-F1",
+    "source_event_id": "invoice-event-F1",
+    "origin": "SYNTHETIC",
+    "source_kind": "INVOICE",
+    "tenant_id": "demo-tenant",
+    "logical_request_id": null,
+    "provider_attempt_id": null,
+    "provider_generation_id": null,
+    "occurred_at": "2026-11-15T10:00:00Z",
+    "first_observed_at": "2026-11-15T10:00:01Z",
+    "outcome": "INVOICE_OBSERVED",
+    "known_provider_cost_usd": null,
+    "provider_amount_evidence_id": null,
+    "billing_period_id": "2026-11-01_UTC",
+    "source_reference": "",
+    "redaction_status": "SANITIZED",
+    "invoice_amount_usd": "0.10"
+  }
+}

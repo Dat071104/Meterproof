@@ -8,16 +8,16 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`f895e2d`
+`231d9d7`
 
 ## Indexed Source Fingerprint
 
-`sha256:3:a703927ffba10c52c19577b8c2121aea2468524fa7b2eda054e1d0ea62a0cc97`
+`sha256:3:a267675849c914a560a63e440f1bcedd0459c51fce2b955184cf06290d484041`
 
 ## Snapshot
 
 - Branch: `p0/wave-01-p0.2-p0.3`
-- Generated: `2026-11-19`
+- Generated: `2026-11-20`
 - Code files indexed: 3
 - Stack: Unknown
 
@@ -41,24 +41,24 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 ## Symbol Graph
 
-24 symbols, 30 edges (exact 30, heuristic 0, ambiguous 0, weak 0).
+28 symbols, 39 edges (exact 33, heuristic 0, ambiguous 6, weak 0).
 
 ### Most-called symbols
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
-| `load_json` | 6 | `tests/contracts/test_contract_schemas.py:13` |
+| `load_json` | 7 | `tests/contracts/test_contract_schemas.py:13` |
+| `compute_case` | 4 | `tests/contracts/test_expected_facts.py:128` |
 | `schema_for` | 3 | `tests/contracts/test_contract_schemas.py:17` |
-| `compute_case` | 3 | `tests/contracts/test_expected_facts.py:121` |
-| `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:131` |
+| `test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field.walk` | 3 | `tests/contracts/test_contract_schemas.py:96` |
+| `test_unformatted_strings_and_string_array_items_are_nonempty.walk` | 3 | `tests/contracts/test_contract_schemas.py:118` |
+| `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:142` |
 | `money_text` | 3 | `tests/contracts/test_expected_facts.py:23` |
-| `all_cases` | 2 | `tests/contracts/test_expected_facts.py:176` |
+| `all_cases` | 2 | `tests/contracts/test_expected_facts.py:187` |
+| `load_json` | 2 | `tests/contracts/test_expected_facts.py:15` |
 | `flatten` | 1 | `tests/contracts/test_contract_schemas.py:21` |
 | `positive_receipts` | 1 | `tests/contracts/test_contract_schemas.py:27` |
-| `test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field.walk` | 1 | `tests/contracts/test_contract_schemas.py:90` |
-| `canonical_digest` | 1 | `tests/contracts/test_expected_facts.py:157` |
-| `compute_billable_facts` | 1 | `tests/contracts/test_expected_facts.py:27` |
-| `compute_invoice_facts` | 1 | `tests/contracts/test_expected_facts.py:91` |
+| `apply_source_cut` | 1 | `tests/contracts/test_expected_facts.py:27` |
 
 Query it instead of grepping:
 
