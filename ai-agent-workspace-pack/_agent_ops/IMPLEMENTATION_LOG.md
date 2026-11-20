@@ -932,3 +932,24 @@ Committed the unsigned G0 packet and close-out records in `c566c5e20e3a74a790064
 ## 2026-11-20 — WAVE-02 final close-out verification (Codex)
 
 At source SHA `78b129124c08d2fe4ece37cf922a2acd7c3c212f`, the external Python 3.13 environment passed the 14 contract/unit tests, Ruff check/format, mypy, overlay validator, repo hygiene and ADR score checks (all exit 0). Configured Gitleaks history and working-tree scans found no leaks; Docker project-labelled container/volume queries were empty; ignore probes and `git diff --check` passed, and Git status was clean. The initial pytest attempt used an empty auto-created repo `.venv` and exited 2 because pytest was absent; rerun with the recorded external venv passed, and the generated scaffold was removed. Details are in `docs/gates/G0/P0.4_receipt.md`. No gate status changed.
+
+## 2026-11-20 — WAVE-02 review and G0 gate review (advisor, Claude Code)
+
+Re-ran in an external uv venv (scratchpad):
+- locked sync: Python 3.13.2, dbt 1.11.17 with postgres 1.11.0;
+- ruff check and format, mypy;
+- 14 tests;
+- validator, hygiene, ADR checker, `git diff --check`: all exit 0;
+- pack manifest 145/145;
+- pinned gitleaks with the A1-6 config: history and working tree clean; both negative controls detected.
+
+The WAVE-01 adversarial probe now rejects every C1–C5 mutant. It found one new gap, C6: `VERIFIED` with `policy_version = null` is accepted, contrary to `DOMAIN_SPEC_v1.md:23`.
+
+Verdicts:
+- P0.2 FIX1: CHANGES_REQUESTED (C6);
+- P0.3 FIX1: APPROVE;
+- P0.4: APPROVE;
+- G0 packet: approved as a draft;
+- G0: NOT_READY (B1 = C6, B2 = GitHub CI after the owner push).
+
+Wrote `docs/ops/reviews/WAVE-02_REVIEW.md`, `docs/ops/reviews/G0_GATE_REVIEW.md` and `docs/ops/prompts/WAVE-02_FIX1_CODEX.md`, plus a P0.md Reviewer note and RISK-0013. One probe run created a repo-local `.venv`; I removed it and hygiene is back to 0. No gate status changed.
