@@ -835,58 +835,6 @@ Not pushed; no push authorized.
 
 Commit P0.3 on `p0/wave-01-p0.2-p0.3`, run closure checks, then request advisor review of WAVE-01.
 
-## 2026-11-20 — WAVE-02 Step 0: WAVE-01 P0.2/P0.3 fix-up (Codex)
-
-### Date
-
-`2026-11-20`
-
-### Task ID
-
-`TASK-0004`
-
-### Phase / Task
-
-`WAVE-02 Step 0 — P0.2 contract v1 gaps and P0.3 ADR/lineage corrections`
-
-### Files Touched
-
-- `contracts/jsonschema/*.v1.schema.json`, `contracts/jsonschema/CHANGELOG.md`, `docs/contracts/DOMAIN_SPEC_v1.md`
-- `tests/fixtures/contracts/negative/N21`–`N33`, `schema_examples.json`; `tests/contracts/test_contract_schemas.py`, `test_expected_facts.py`
-- ADR-003/005 scores, `docs/architecture/LINEAGE_AND_TRACE.md`, `tools/meterproof/check_adr_scores.py`, `tests/unit/test_check_adr_scores.py`
-- P0.2/P0.3 receipts, `_agent_ops/PROJECT_CONTEXT_CARD.md`, and this log
-
-### What Changed / Evidence Produced
-
-- Committed the six unchanged advisor paths as Commit A2 `231d9d72e1ed8c5e6879d00b061c21c1bb1c770c` on `p0/wave-01-p0.2-p0.3`.
-- Wrote N21–N33 first; all 13 were accepted by schema copies from HEAD `706563c`, then rejected at their declared validator/path by the fixed schemas. No top-level schema fields or root required lists changed.
-- Applied the source cut to every receipt before calculating facts and added an APP success-after-cut control. The five computed F1–F3 fact/verdict records match the saved baseline; F1–F3 fixture bytes are unchanged.
-- Added a 115-line stdlib Decimal ADR scorer and two inline-table unit tests. Baseline identified only ADR-003/005 arithmetic errors; after correction all five tables pass and the chosen options remain ranked first.
-- Updated the contract spec, changelog, lineage/F1 trace, and both P0.2/P0.3 receipts with controls, outputs and changed schema/fixture hashes.
-
-### Tests Run
-
-```text
-uv run --no-project --python C:\Python313\python.exe --with jsonschema==4.23.0 --with rfc3339-validator==0.1.4 --with pytest==8.3.5 python -m pytest -p no:cacheprovider tests/contracts tests/unit -q -> 12 passed, exit 0 (Python 3.13.2; PYTEST_DISABLE_PLUGIN_AUTOLOAD=1; PYTHONDONTWRITEBYTECODE=1)
-HEAD-706563c negative baseline N21-N33 -> all 13 accepted, exit 0; fixed-schema probe -> all 13 rejected at declared validator/path, exit 0
-check_adr_scores.py baseline -> exit 1 for ADR-003/005 only; corrected tables -> exit 0 for ADR-001..005
-validate_overlay.py -> exit 0; check_repo_hygiene.py -> exit 0 (326 tracked, 0 artifacts); git diff --check -> exit 0
-F1-F3 computed fact snapshot comparison -> equal; F1/F2/F3 fixture bytes equal HEAD 706563c
-```
-
-### Results
-
-The WAVE-01 fix-up checkpoint passes. P0.2 and P0.3 remain `IN_PROGRESS` pending advisor re-review; P0/G0 is not a PASS. No runtime pipeline, Docker lab, paid service, cloud, provider, push or merge was used in Step 0.
-
-### Remaining Risks
-
-- OPEN-Q-1 on unlinked billed provider records remains for G1/P1.2 owner confirmation.
-- P0.4 has not begun; verify Docker Engine availability before its authorized image pulls.
-
-### Next Step
-
-Completed: refreshed the repo map for Commit C and D, verified Checkpoint 0, and created `p0/wave-02-p0.4-g0`.
-
 ## 2026-11-20 — WAVE-02 P0.4 partial execution and Amendment 01 STOP (Codex)
 
 ### Date
@@ -980,3 +928,7 @@ Commit the unsigned G0 packet and close-out records by explicit paths. Run closu
 ## 2026-11-20 — WAVE-02 G0 packet committed (Codex)
 
 Committed the unsigned G0 packet and close-out records in `c566c5e20e3a74a79006482f89d9327f179f08bd` (`docs(g0): draft G0 gate packet (unsigned)`). Updated the P0.4 receipt and project handoff with the commit SHA. The packet remains `IN_PROGRESS`; advisor review, owner signoff and GitHub CI remain pending.
+
+## 2026-11-20 — WAVE-02 final close-out verification (Codex)
+
+At source SHA `78b129124c08d2fe4ece37cf922a2acd7c3c212f`, the external Python 3.13 environment passed the 14 contract/unit tests, Ruff check/format, mypy, overlay validator, repo hygiene and ADR score checks (all exit 0). Configured Gitleaks history and working-tree scans found no leaks; Docker project-labelled container/volume queries were empty; ignore probes and `git diff --check` passed, and Git status was clean. The initial pytest attempt used an empty auto-created repo `.venv` and exited 2 because pytest was absent; rerun with the recorded external venv passed, and the generated scaffold was removed. Details are in `docs/gates/G0/P0.4_receipt.md`. No gate status changed.
