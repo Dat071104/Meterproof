@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from datetime import datetime
-from decimal import Decimal, ROUND_HALF_EVEN, ROUND_HALF_UP
+from decimal import ROUND_HALF_EVEN, ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -43,8 +43,7 @@ def compute_billable_facts(policy, receipts):
     successful_requests = {
         receipt["logical_request_id"]
         for receipt in receipts
-        if receipt["source_kind"] == "APP"
-        and receipt["outcome"] == "APP_OBSERVED_SUCCESS"
+        if receipt["source_kind"] == "APP" and receipt["outcome"] == "APP_OBSERVED_SUCCESS"
     }
     billable_units = len(successful_requests)
     charge = (Decimal(policy["unit_price_usd"]) * billable_units).quantize(
@@ -57,22 +56,16 @@ def compute_billable_facts(policy, receipts):
 
 
 def compute_provider_facts(receipts):
-    provider_receipts = [
-        receipt for receipt in receipts if receipt["source_kind"] == "PROVIDER"
-    ]
-    provider_by_generation = {}
+    provider_receipts = [receipt for receipt in receipts if receipt["source_kind"] == "PROVIDER"]
+    provider_by_generation: dict[str, Decimal] = {}
     for receipt in provider_receipts:
         if receipt["outcome"] != "PROVIDER_CONFIRMED_BILLED":
             continue
         provider_by_generation.setdefault(
             receipt["provider_generation_id"], Decimal(receipt["known_provider_cost_usd"])
         )
-    known_spend = (
-        sum(provider_by_generation.values(), Decimal("0"))
-        if provider_receipts
-        else None
-    )
-    unattributed_by_generation = {}
+    known_spend = sum(provider_by_generation.values(), Decimal(0)) if provider_receipts else None
+    unattributed_by_generation: dict[str, Decimal] = {}
     for receipt in provider_receipts:
         if (
             receipt["outcome"] == "PROVIDER_CONFIRMED_BILLED"
@@ -104,7 +97,7 @@ def compute_provider_facts(receipts):
 
 
 def compute_invoice_facts(receipts, charge, source_exclusions):
-    included_by_source_event = {}
+    included_by_source_event: dict[str, Decimal] = {}
     for receipt in receipts:
         if receipt["source_kind"] != "INVOICE":
             continue
@@ -112,9 +105,7 @@ def compute_invoice_facts(receipts, charge, source_exclusions):
             receipt["source_event_id"], Decimal(receipt["invoice_amount_usd"])
         )
     invoice_amount = (
-        sum(included_by_source_event.values(), Decimal("0"))
-        if included_by_source_event
-        else None
+        sum(included_by_source_event.values(), Decimal(0)) if included_by_source_event else None
     )
     invoice_delta = invoice_amount - charge if invoice_amount is not None else None
     return {
@@ -133,17 +124,20 @@ def compute_case(fixture, case=None):
     billable = compute_billable_facts(policy, receipts)
     facts = {**billable, **compute_provider_facts(receipts)}
     facts.update(
-        compute_invoice_facts(
-            receipts, Decimal(billable["customer_charge_usd"]), source_exclusions
-        )
+        compute_invoice_facts(receipts, Decimal(billable["customer_charge_usd"]), source_exclusions)
     )
     return facts
+
 
 def compute_verdicts(fixture, facts, case=None):
     expected = {}
     if facts["invoice_amount_usd"] is not None:
         invoice_verdict = "VERIFIED" if Decimal(facts["invoice_delta"]) == 0 else "MISMATCH"
-        invoice_scope = "invoice_reconciliation" if case is not None and "case_id" in case else "customer_charge_vs_invoice"
+        invoice_scope = (
+            "invoice_reconciliation"
+            if case is not None and "case_id" in case
+            else "customer_charge_vs_invoice"
+        )
         expected[invoice_scope] = invoice_verdict
     provider_scope = fixture.get("provider_scope")
     if provider_scope is not None:
@@ -171,16 +165,22 @@ def canonical_digest(fixture, facts, verdicts):
         if canonical[name] is not None:
             canonical[name] = format(Decimal(canonical[name]).quantize(TWELVE_PLACES), ".12f")
     if canonical["customer_charge_usd"] is not None:
-        canonical["customer_charge_usd"] = format(Decimal(canonical["customer_charge_usd"]).quantize(CENT), ".2f")
+        canonical["customer_charge_usd"] = format(
+            Decimal(canonical["customer_charge_usd"]).quantize(CENT), ".2f"
+        )
     if canonical["invoice_delta"] is not None:
-        canonical["invoice_delta"] = format(Decimal(canonical["invoice_delta"]).quantize(TWELVE_PLACES), ".12f")
+        canonical["invoice_delta"] = format(
+            Decimal(canonical["invoice_delta"]).quantize(TWELVE_PLACES), ".12f"
+        )
     payload = {
         "billing_period_id": fixture["billing_period"]["billing_period_id"],
         "price_policy_version": fixture["price_policy"]["price_policy_version"],
         "facts": canonical,
         "verdicts": verdicts,
     }
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -216,7 +216,9 @@ def test_canonical_facts_digest_is_deterministic():
     for fixture, case in all_cases():
         facts = compute_case(fixture, case)
         verdicts = compute_verdicts(fixture, facts, case)
-        assert canonical_digest(fixture, facts, verdicts) == canonical_digest(fixture, facts, verdicts)
+        assert canonical_digest(fixture, facts, verdicts) == canonical_digest(
+            fixture, facts, verdicts
+        )
 
 
 def test_unlinked_billed_provider_spend_is_known_unattributed_and_undetermined():
@@ -227,9 +229,12 @@ def test_unlinked_billed_provider_spend_is_known_unattributed_and_undetermined()
         "provider_scope": {"complete_within_fixture": True},
     }
     receipt = {
-        "source_kind": "PROVIDER", "outcome": "PROVIDER_CONFIRMED_BILLED",
-        "provider_attempt_id": None, "logical_request_id": None,
-        "provider_generation_id": "generation-orphan", "known_provider_cost_usd": "0.0030",
+        "source_kind": "PROVIDER",
+        "outcome": "PROVIDER_CONFIRMED_BILLED",
+        "provider_attempt_id": None,
+        "logical_request_id": None,
+        "provider_generation_id": "generation-orphan",
+        "known_provider_cost_usd": "0.0030",
         "provider_amount_evidence_id": "provider-evidence-orphan",
         "first_observed_at": "2026-11-19T12:00:00Z",
     }
@@ -259,7 +264,6 @@ def test_app_success_after_source_cut_is_excluded_before_billing():
 
     assert facts["billable_units"] == 1
     assert any(
-        "app-event-success-after-cut" in exclusion
-        and "after source cut" in exclusion
+        "app-event-success-after-cut" in exclusion and "after source cut" in exclusion
         for exclusion in facts["source_exclusions"]
     )

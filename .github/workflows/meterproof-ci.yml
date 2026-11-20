@@ -1,0 +1,86 @@
+name: meterproof-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meterproof-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+  UV_CACHE_DIR: ${{ runner.temp }}/uv-cache
+  UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/meterproof-venv
+
+jobs:
+  python-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: 0.11.20
+          enable-cache: true
+      - name: Install locked environments
+        run: uv sync --locked --all-groups
+      - name: Lint and format
+        run: |
+          uv run --locked ruff check tests tools/meterproof
+          uv run --locked ruff format --check tests tools/meterproof
+      - name: Type check
+        run: uv run --locked mypy --cache-dir "$RUNNER_TEMP/mypy-cache" tests tools/meterproof
+      - name: Contracts and unit tests
+        run: uv run --locked pytest tests/contracts tests/unit -q
+      - name: Validate overlay and repository hygiene
+        run: |
+          uv run --locked python tools/meterproof/validate_overlay.py --target .
+          uv run --locked python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --warn-only-artifacts
+      - name: Check ADR scores
+        run: uv run --locked python tools/meterproof/check_adr_scores.py --root .
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Scan full Git history and working tree
+        run: |
+          docker pull zricethezav/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f
+          docker run --rm -v "$PWD:/repo:ro" -w /repo zricethezav/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f git --config .gitleaks.toml --redact=100 --exit-code 1 .
+          docker run --rm -v "$PWD:/repo:ro" -w /repo zricethezav/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f dir --config .gitleaks.toml --redact=100 --exit-code 1 .
+
+  compose-and-migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: 0.11.20
+          enable-cache: true
+      - name: Validate Compose profile configuration
+        run: |
+          for profile in db cdc stream full; do
+            docker compose -f infra/compose/compose.yaml --profile "$profile" config --quiet
+          done
+      - name: Install locked environments
+        run: uv sync --locked --all-groups
+      - name: Start database and run migration smoke
+        env:
+          METERPROOF_DB_SMOKE: "1"
+          METERPROOF_DATABASE_URL: postgresql+psycopg://meterproof_local:meterproof_local_only@127.0.0.1:54329/meterproof
+        run: |
+          docker compose -f infra/compose/compose.yaml --profile db up -d --wait --pull always
+          uv run --locked pytest tests/integration/test_migration_smoke.py -q
+      - name: Tear down database profile
+        if: always()
+        run: docker compose -f infra/compose/compose.yaml --profile db down -v --remove-orphans

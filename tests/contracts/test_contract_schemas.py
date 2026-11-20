@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMAS = ROOT / "contracts" / "jsonschema"
@@ -87,7 +87,9 @@ def test_every_negative_fixture_fails_for_its_declared_reason():
             and list(error.absolute_path) == expected["path"]
             and ("property" not in expected or expected["property"] in error.message)
         ]
-        assert matching, f"{fixture_path.name}: expected {expected}; got {[e.message for e in flatten(errors)]}"
+        assert matching, (
+            f"{fixture_path.name}: expected {expected}; got {[e.message for e in flatten(errors)]}"
+        )
 
 
 def test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field():

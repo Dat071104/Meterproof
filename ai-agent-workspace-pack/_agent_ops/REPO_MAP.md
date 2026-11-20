@@ -8,18 +8,18 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`2c935d6`
+`76bf22d`
 
 ## Indexed Source Fingerprint
 
-`sha256:5:5c6d0746bdc3b7621b5308628133a7a3f522110ee98bc18d3887ee9bf7aeb3f2`
+`sha256:9:74e6ecb1af338f49964884961e2b37b39c96a7daeacfb0fca557fdd4a2615cd4`
 
 ## Snapshot
 
-- Branch: `p0/wave-01-p0.2-p0.3`
+- Branch: `p0/wave-02-p0.4-g0`
 - Generated: `2026-11-20`
-- Code files indexed: 5
-- Stack: Unknown
+- Code files indexed: 9
+- Stack: Python
 
 ## Modules
 
@@ -28,8 +28,9 @@ code depends on it, so changes there travel further.
 
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
-| `tools` | 2 | 1 | - |
-| `tests` | 3 | 0 | - |
+| `tools` | 3 | 1 | - |
+| `tests` | 4 | 0 | - |
+| `infra` | 2 | 0 | - |
 
 ## Hot Files (widest blast radius)
 
@@ -41,24 +42,24 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 ## Symbol Graph
 
-35 symbols, 48 edges (exact 39, heuristic 3, ambiguous 6, weak 0).
+50 symbols, 63 edges (exact 54, heuristic 3, ambiguous 6, weak 0).
 
 ### Most-called symbols
 
 | Symbol | Called by | Where |
 | --- | --- | --- |
 | `load_json` | 7 | `tests/contracts/test_contract_schemas.py:13` |
-| `compute_case` | 4 | `tests/contracts/test_expected_facts.py:128` |
+| `compute_case` | 4 | `tests/contracts/test_expected_facts.py:119` |
 | `schema_for` | 3 | `tests/contracts/test_contract_schemas.py:17` |
-| `test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field.walk` | 3 | `tests/contracts/test_contract_schemas.py:96` |
-| `test_unformatted_strings_and_string_array_items_are_nonempty.walk` | 3 | `tests/contracts/test_contract_schemas.py:118` |
-| `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:142` |
+| `test_every_usd_schema_field_uses_the_frozen_pattern_and_transport_is_not_a_receipt_field.walk` | 3 | `tests/contracts/test_contract_schemas.py:98` |
+| `test_unformatted_strings_and_string_array_items_are_nonempty.walk` | 3 | `tests/contracts/test_contract_schemas.py:120` |
+| `compute_verdicts` | 3 | `tests/contracts/test_expected_facts.py:132` |
 | `money_text` | 3 | `tests/contracts/test_expected_facts.py:23` |
-| `inspect_markdown` | 3 | `tools/meterproof/check_adr_scores.py:41` |
+| `inspect_markdown` | 3 | `tools/meterproof/check_adr_scores.py:44` |
+| `compose_exec` | 3 | `tools/meterproof/lab_smoke.py:20` |
 | `all_cases` | 2 | `tests/contracts/test_expected_facts.py:187` |
 | `load_json` | 2 | `tests/contracts/test_expected_facts.py:15` |
-| `weighted_tables` | 2 | `tools/meterproof/check_adr_scores.py:22` |
-| `flatten` | 1 | `tests/contracts/test_contract_schemas.py:21` |
+| `require_success` | 2 | `tests/integration/test_migration_smoke.py:52` |
 
 Query it instead of grepping:
 
@@ -74,7 +75,7 @@ python ai-agent-workspace-pack/_agent_ops/tools/explore.py --root . --path <a> <
 
 ## Isolated Files
 
-3 file(s) have no resolved local imports in either direction.
+7 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

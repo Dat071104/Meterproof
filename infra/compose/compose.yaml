@@ -1,0 +1,141 @@
+name: meterproof
+
+# The artifacts profile is deliberately omitted while the official object-store
+# license question is pending; see docs/architecture/TOOLCHAIN_PINS.md.
+services:
+  postgres:
+    image: postgres:18.7@sha256:eb63372c1e05c755f55fa30cbd07aecc443676fc6c0fa90b9002d01537841e1a
+    profiles: [db, cdc, full]
+    environment:
+      POSTGRES_USER: ${METERPROOF_POSTGRES_USER:-meterproof_local}
+      POSTGRES_PASSWORD: ${METERPROOF_POSTGRES_PASSWORD:-meterproof_local_only}
+      POSTGRES_DB: ${METERPROOF_POSTGRES_DB:-meterproof}
+    command:
+      - postgres
+      - -c
+      - wal_level=${METERPROOF_WAL_LEVEL:-logical}
+      - -c
+      - max_wal_senders=${METERPROOF_MAX_WAL_SENDERS:-4}
+      - -c
+      - max_replication_slots=${METERPROOF_MAX_REPLICATION_SLOTS:-4}
+      - -c
+      - max_slot_wal_keep_size=${METERPROOF_MAX_SLOT_WAL_KEEP_SIZE:-1024MB}
+      - -c
+      - shared_buffers=${METERPROOF_SHARED_BUFFERS:-128MB}
+    ports:
+      - 127.0.0.1:${METERPROOF_POSTGRES_PORT:-54329}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    shm_size: 128mb
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  kafka:
+    image: apache/kafka:4.3.2@sha256:852a0d49fc4e656b022e7f23785411802c9a088c78a7c5e39f33969de9c227a7
+    profiles: [cdc, stream, full]
+    environment:
+      CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,PLAINTEXT_HOST://:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_HEAP_OPTS: -Xms512M -Xmx1G
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    ports:
+      - 127.0.0.1:${METERPROOF_KAFKA_PORT:-29092}:29092
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: [CMD-SHELL, "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 8s
+      retries: 20
+      start_period: 20s
+
+  connect:
+    image: quay.io/debezium/connect:3.7.1.Final@sha256:1589366704e1e016bad42b15fbdb364ba48780c61d0094197ca8632cb1271539
+    profiles: [cdc, full]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: meterproof_connect_configs
+      OFFSET_STORAGE_TOPIC: meterproof_connect_offsets
+      STATUS_STORAGE_TOPIC: meterproof_connect_status
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+      KAFKA_HEAP_OPTS: -Xms512M -Xmx768M
+    ports:
+      - 127.0.0.1:${METERPROOF_CONNECT_PORT:-8083}:8083
+    healthcheck:
+      test: [CMD-SHELL, 'curl -fsS http://localhost:8083/connector-plugins | grep -q PostgresConnector']
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  flink-jobmanager:
+    image: flink:2.2.1-java17@sha256:55ccb2ad4b98362c3f3503c5a6d7cd00b92eb25e38815ddaf0be5903ade54ffe
+    profiles: [stream, full]
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jobmanager
+        jobmanager.memory.process.size: 768m
+        taskmanager.memory.process.size: 1024m
+        taskmanager.numberOfTaskSlots: 1
+        parallelism.default: 1
+    ports:
+      - 127.0.0.1:${METERPROOF_FLINK_PORT:-8081}:8081
+    healthcheck:
+      test: [CMD-SHELL, "/opt/flink/bin/flink list -m localhost:8081 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 8s
+      retries: 20
+      start_period: 25s
+
+  flink-taskmanager:
+    image: flink:2.2.1-java17@sha256:55ccb2ad4b98362c3f3503c5a6d7cd00b92eb25e38815ddaf0be5903ade54ffe
+    profiles: [stream, full]
+    depends_on:
+      flink-jobmanager:
+        condition: service_healthy
+    command: taskmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: flink-jobmanager
+        jobmanager.memory.process.size: 768m
+        taskmanager.memory.process.size: 1024m
+        taskmanager.numberOfTaskSlots: 1
+        parallelism.default: 1
+    healthcheck:
+      test: [CMD-SHELL, "/opt/flink/bin/flink list -m flink-jobmanager:8081 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 8s
+      retries: 20
+      start_period: 25s
+
+volumes:
+  postgres_data:
+  kafka_data:

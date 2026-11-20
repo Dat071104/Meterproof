@@ -1,0 +1,11 @@
+title = "METERPROOF gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "PACK_MANIFEST.json values are SHA-256 file digests (key names such as TOKEN_RISK_MATRIX.md trip generic-api-key)"
+condition = "AND"
+regexTarget = "secret"
+paths = ['''^ai-agent-workspace-pack/PACK_MANIFEST\.json$''']
+regexes = ['''^[0-9a-f]{64}$''']

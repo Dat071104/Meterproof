@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import re
-import sys
 from collections.abc import Iterator
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -25,7 +24,11 @@ def weighted_tables(markdown: str) -> Iterator[tuple[list[str], list[list[str]]]
         if not line.lstrip().startswith("|"):
             continue
         header = cells(line)
-        if len(header) < 5 or header[0].strip("* ").lower() != "criterion" or header[1].strip("* ").lower() != "weight":
+        if (
+            len(header) < 5
+            or header[0].strip("* ").lower() != "criterion"
+            or header[1].strip("* ").lower() != "weight"
+        ):
             continue
         rows = []
         for candidate in lines[index + 1 :]:
@@ -70,17 +73,22 @@ def inspect_markdown(markdown: str) -> tuple[list[str], list[str]]:
             errors.append(f"table {number}: missing weighted total row")
             continue
         if len(stated) != len(options):
-            errors.append(f"table {number}: weighted total has {len(stated)} scores; expected {len(options)}")
+            errors.append(
+                f"table {number}: weighted total has {len(stated)} scores; expected {len(options)}"
+            )
             continue
         computed = [
-            sum((weight * scores[index] for _, weight, scores in criteria), Decimal(0)) / Decimal(100)
+            sum((weight * scores[index] for _, weight, scores in criteria), Decimal(0))
+            / Decimal(100)
             for index in range(len(options))
         ]
         for index, option in enumerate(options):
             try:
                 stated_score = decimal_cell(stated[index])
             except InvalidOperation:
-                errors.append(f"table {number}: {option} has a non-numeric stated total {stated[index]!r}")
+                errors.append(
+                    f"table {number}: {option} has a non-numeric stated total {stated[index]!r}"
+                )
                 continue
             if stated_score != computed[index]:
                 errors.append(

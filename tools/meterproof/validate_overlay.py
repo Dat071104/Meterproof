@@ -80,7 +80,7 @@ def main():
             assert doc.get('$schema','').endswith('2020-12/schema'),name+' unsupported schema meta'
             assert 'required' in doc and 'properties' in doc,name+' missing contract'
             try:
-                import jsonschema
+                import jsonschema  # type: ignore[import-untyped]
             except ImportError:
                 pass
             else:

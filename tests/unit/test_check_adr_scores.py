@@ -1,6 +1,5 @@
 from tools.meterproof.check_adr_scores import inspect_markdown
 
-
 TABLE = """\
 | Criterion | Weight | Why | Option 0 | A |
 |---|---:|---|---:|---:|
