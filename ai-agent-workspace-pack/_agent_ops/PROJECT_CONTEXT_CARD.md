@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 remains `IN_PROGRESS`. WAVE-01 fix-up Checkpoint 0 passes; P0.2/P0.3 receipts await advisor re-review. ADR-001–005 remain Proposed. Amendment 01 A1-5 pins mypy 1.19.1 compatible with dbt-core 1.11.17 in the single lock; Step 1.5 passes. A1-6 clears the advisor-reviewed PACK_MANIFEST SHA-256 false positive with an exact path-and-shape allowlist; configured history/working-tree scans pass and both negative controls detect their expected findings. Step 1.7 full profile passed with ~2.20 GiB across five Meterproof containers; in-container Java 17.0.21 verified. Continue P0.4 through the clean offline checkout. P0.4 and G0 are not signed; no product implementation exists. Amendment 01 also selects artifacts `NOT_PINNED` → P3, the maintainer Docker Hub Gitleaks image, and per-command GitHub address overrides. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 remains `IN_PROGRESS`. WAVE-01 fix-up Checkpoint 0 passes; P0.2/P0.3 receipts await advisor re-review. ADR-001–005 remain Proposed. Amendment 01 A1-5 pins mypy 1.19.1 compatible with dbt-core 1.11.17 in the single lock; Step 1.5 passes. A1-6 clears the advisor-reviewed PACK_MANIFEST SHA-256 false positive with an exact path-and-shape allowlist; configured history/working-tree scans pass and both negative controls detect their expected findings. Step 1.7 full profile passed with ~2.20 GiB across five Meterproof containers; in-container Java 17.0.21 verified. The first Step 1.13 clone failed hygiene on tracked `.env.example`; the owner authorized an exact-path exception in the pack helper (DEC-0012), now covered by regression tests. Repeat the clean offline checkout before Checkpoint 1. P0.4 and G0 are not signed; no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -64,7 +64,7 @@ See `RISK_REGISTER.md` (toolchain/mypy compatibility, Docker memory, G1 provider
 
 ## Next Step
 
-Finalize the runbook and receipt; then commit P0.4 artifacts and run the offline no-hardlinks clean checkout. Step 2 and `/meterproof-advisor review WAVE-02` remain downstream of Checkpoint 1.
+Rerun Step 1.13 on a fresh clone after committing DEC-0012's exact-path exception and regression test. Step 2 and `/meterproof-advisor review WAVE-02` remain downstream of that checkpoint.
 
 ## Do Not Do
 

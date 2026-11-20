@@ -1011,3 +1011,9 @@ Reproduced with the pinned image: configured full-history scan exit 0/no leaks; 
 The single `full` Compose profile (postgres, Kafka, Connect, Flink JM/TM; no object store) became healthy and passed the combined db/cdc/stream smoke. `docker stats --no-stream` summed to 2,365,555,999 bytes (~2.20 GiB) across the five Meterproof containers from rounded displayed values; unrelated `dataforge-postgres` (31.25 MiB) was excluded. Docker Desktop allocation is 8,171,610,112 bytes (~7.61 GiB). `docker system df` was unchanged before/after teardown. `down -v --remove-orphans` exited 0; project container/volume counts are 0. The pinned Maven/Temurin image's `java -version` reports 17.0.21; the host JDK was not used.
 
 Next: finalize the runbook/receipt and local CI command ledger, read the tester-team skill, then commit the P0.4 artifacts and perform the no-hardlinks offline clean checkout.
+
+## 2026-11-20 — WAVE-02 Step 1.13 clean-checkout hygiene STOP (Codex)
+
+Created a fresh `--no-hardlinks` clone of branch `p0/wave-02-p0.4-g0` at `d5b2a1eed3de1865f0f832bc5abbe4038e4c6e64`, confirmed its Git status clean, and ran the DEV_BOOTSTRAP offline sequence with a fresh external venv and the existing external uv cache. Offline `uv sync` exited 0; Python 3.13.2, Ruff check/format, mypy, 12 contract/unit tests and the validator passed. The documented hygiene command exited 1 because the committed required `infra/compose/.env.example` matches the pack checker’s forbidden tracked `.env.*` pattern. The checker path is out of scope under the current order. The runbook sequence stopped there; ADR scoring, Compose config and db/migration smoke were not run in this clone. The clone and its unique venv were removed; no Meterproof containers/volumes were created.
+
+P0.4 Checkpoint 1 is not passed. Await an amendment to allow a narrow exact-path checker exception or revise the required placeholder rule; then repeat Step 1.13 before Step 2.

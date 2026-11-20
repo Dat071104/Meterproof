@@ -162,7 +162,7 @@ if (@(docker volume ls --filter "label=com.docker.compose.project=meterproof" --
 
 The verification receipt must report skipped integration tests as skipped, never as passed. The offline clean-checkout run must set `METERPROOF_DB_SMOKE=1` and show the migration smoke actually ran.
 
-The hygiene helper currently treats the required `infra/compose/.env.example` as a filesystem artifact because its scan matches `.env.*` without honoring the `.gitignore` exception. The documented `--warn-only-artifacts` invocation still fails on forbidden tracked files and reports the warning; verify that the warning list contains only this placeholder file and that no generated files are tracked.
+The pack hygiene helper now permits exactly `infra/compose/.env.example` as the required placeholder. It continues to reject `.env.*` at all other paths; `tests/unit/test_repo_hygiene_placeholder.py` checks both the exact exception and neighboring blocked paths. `--warn-only-artifacts` only downgrades untracked filesystem findings, not forbidden tracked files.
 
 ## Teardown
 
@@ -181,6 +181,7 @@ Do not change Docker Desktop CPU or memory settings. The P0.4 receipt records th
 - **Python creates caches in the checkout:** keep `PYTHONDONTWRITEBYTECODE=1`, use `-p no:cacheprovider` from `pyproject.toml`, and place the mypy cache under `%TEMP%`.
 - **Windows reports path-length errors:** configure `git config --global core.longpaths true` only if the owner chooses to change that host setting; it is not needed to run the documented commands unless Git reports a path-length failure.
 - **Docker cannot bind PostgreSQL port 55432:** the runbook uses this loopback port because Windows denied the Compose default 54329 on the measured host. Choose another available port through `METERPROOF_POSTGRES_PORT` and set `METERPROOF_DATABASE_URL` to the same port. This changes only the Compose process environment, not host or Docker settings.
+- **Hygiene check rejects an `.env.*` path:** only `infra/compose/.env.example` is allowed because the project requires it as a placeholder. Other `.env.*` paths remain forbidden even when gitignored; `--warn-only-artifacts` affects only untracked filesystem findings.
 - **A profile cannot become healthy:** capture the service health/logs and Docker allocation, tear down with `down -v --remove-orphans`, and record the failing service. Do not increase Docker Desktop limits as part of this work order.
 
 ## Artifacts profile
