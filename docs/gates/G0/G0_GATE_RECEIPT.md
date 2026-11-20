@@ -6,7 +6,7 @@
 | Status | `IN_PROGRESS — gate packet drafted; advisor gate review and owner signoff pending` |
 | Git branch & SHA | `p0/wave-02-p0.4-g0`; evidence source cut at `aff1b2f8809b8d52349d8452767c3e96428cb4cd` |
 | Origin | `SYNTHETIC / N/A — no provider or invoice data used in P0` |
-| Owner signoff | Pending; block below remains blank. |
+| Owner signoff | Signed PASS by Dat on 2026-11-21 (see block below). |
 
 ## Subphase evidence and review
 
@@ -62,10 +62,20 @@ ADR-001, ADR-002, ADR-003, ADR-004, ADR-005 and ADR-006 are all `Proposed`. No o
 
 ## Owner signoff
 
-Name:
+Name: Dat
 
-Date:
+Date: 2026-11-21
 
-Decision:
+Decision: PASS
 
 Notes:
+- **ADRs accepted:** ADR-001, ADR-002, ADR-003, ADR-004, ADR-005, ADR-006.
+- **Green GitHub CI on `main` @ `20ebe5a976db4bc4633aaf52bb154aad979e4bb3`:**
+  - meterproof-ci run 44787656181: python-checks, secret-scan and compose-and-migrations all succeeded;
+  - overlay run 44787656169 succeeded.
+  - Links: https://github.com/Dat071104/Meterproof/actions/runs/44787656181 and https://github.com/Dat071104/Meterproof/actions/runs/44787656169
+- **CI fixes made before the green run:**
+  - `0cc09bf`: `runner.temp` is not allowed in workflow-level env;
+  - `20ebe5a`: shebang scripts marked executable, for ruff EXE001 on Linux.
+- **Limitations carried forward:** synthetic-only P0; artifacts NOT_PINNED → P3; RISK-0013.
+- Recorded by the advisor (Claude Code) at the owner's explicit instruction in session on 2026-11-21 ("ký", name "Dat"). The decision is the owner's.
