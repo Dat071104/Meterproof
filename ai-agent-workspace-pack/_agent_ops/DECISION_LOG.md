@@ -73,5 +73,5 @@
 
 - **Context:** W2-D9 requires a tracked `infra/compose/.env.example`, but the existing `ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py` treated every tracked `.env.*` file as forbidden. In the first offline clean clone, the runbook hygiene command exited 1 on this required placeholder, so Checkpoint 1 could not pass.
 - **Decision:** allow only the exact path `infra/compose/.env.example` in the tracked-file and filesystem-artifact checks. Keep all other `.env.*` paths forbidden; do not change the placeholder path or loosen the pattern globally.
-- **Evidence:** added an exact one-path exception and unit controls for the allowed Compose example, `infra/compose/.env.local`, and `other/.env.example`. The 14-test Step 1.5 suite and local hygiene check pass. The offline clean checkout must be repeated.
-- **Consequences:** this owner-authorized exception is narrow and tied to the W2-required placeholder. Checkpoint 1 remains pending until Step 1.13 passes with the updated checker.
+- **Evidence:** added an exact one-path exception and unit controls for the allowed Compose example, `infra/compose/.env.local`, and `other/.env.example`. The 14-test Step 1.5 suite and local hygiene check pass. The fresh no-hardlinks offline checkout at `aff1b2f8809b8d52349d8452767c3e96428cb4cd` passes all runbook commands with no tracked forbidden files or filesystem artifact findings.
+- **Consequences:** this owner-authorized exception is narrow and tied to the W2-required placeholder; all other `.env.*` files remain blocked. Checkpoint 1 passes.

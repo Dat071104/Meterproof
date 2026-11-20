@@ -4,7 +4,7 @@
 - **Design status:** planning only; imported from v3.1/v3.2/v3.3 plus Lite and Atlas extensions
 - **Repository:** `D:\DATA_ENGINEER\METERPROOF\Meterproof` → `github.com/Dat071104/Meterproof` (public), branch `main`
 - **Roles:** owner approves; Claude Code = advisor/reviewer; Codex = executor (`docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md`)
-- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1–P0.3 evidence complete; P0.4 and G0 sign-off remain; not a gate PASS)
+- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1–P0.4 evidence complete; unsigned G0 packet drafted; not a gate PASS)
 - **Current Lite milestone:** L0 / LG0 — `NOT_STARTED` (requires G2 released contracts)
 - **Current Atlas milestone:** A0 / AG0 — `NOT_STARTED` (requires G3 verified read model)
 - **Current Adoption milestone:** U0 / UG0 — `NOT_STARTED` (no users claimed)
@@ -35,13 +35,15 @@
 
 - 2026-11-20 — Codex completed P0.3 on `p0/wave-01-p0.2-p0.3` based on P0.2 commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`: ADR-001–005 are review-ready Proposed, planned ERD/lineage and F1 trace added, claims audit found 0 unqualified claims in owned files and the negative control was found. Existing editable diagrams were unchanged. Receipt: `docs/gates/G0/P0.3_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). No runtime CDC/Flink, provider/invoice data, paid/cloud calls, or gate sign-off.
 
+- 2026-11-20 — Codex completed WAVE-02 Step 0 (P0.2/P0.3 fix-up) on `p0/wave-01-p0.2-p0.3`: A2 `231d9d72e1ed8c5e6879d00b061c21c1bb1c770c`, C `2c935d6f1f215e125143e9a3f65c4e2426bace63`, D `a75fdba4bf956d6ea601df1e284829d6a74fc951`; Checkpoint 0 passes and advisor re-review is pending. WAVE-02 P0.4 on `p0/wave-02-p0.4-g0` is at implementation/evidence commits `31eb5cd42a32f97f09fcaf0f1ab3e8c1a89bab6d`, `76bf22dfb87dcccdd2f61a7435a13e277437cb53`, `8d656b365151835bd883734f10b57d5391c12e54`, `d5b2a1eed3de1865f0f832bc5abbe4038e4c6e64`, `8acfabf316bd8d4ba2cfc8b47df1a6b9afbf95a1`, `aff1b2f8809b8d52349d8452767c3e96428cb4cd`. Steps 1.5–1.13 pass on a no-hardlinks offline clone at `aff1b2f`; P0.4 receipt: `docs/gates/G0/P0.4_receipt.md`. The full lab (no object store) used ~2.20 GiB across five Meterproof containers; all project containers/volumes were removed. Local CI commands pass; GitHub CI remains NOT RUN until owner push. G0 is an unsigned draft; ADR-001…006 remain Proposed. No provider/cloud/paid service used, no push or merge.
+
 ## RESUME_POINT
-- **Current branch / evidence base:** `p0/wave-01-p0.2-p0.3`, P0.2 Commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`; P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
-- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1–P0.3 evidence receipts are present; ADRs remain Proposed; advisor review pending; no gate is signed.
-- **Known risk:** the external overlay package still ships the two fixtures under `data/`; DEC-0007 retires the installer here. OPEN-Q-1 on unlinked billed provider records remains deferred to G1/P1.2. See `docs/ops/REPO_OWNERSHIP_MAP.md` and the P0.2 receipt.
+- **Current branches / evidence bases:** `p0/wave-01-p0.2-p0.3` at D `a75fdba4bf956d6ea601df1e284829d6a74fc951` (A2 `231d9d72e1ed8c5e6879d00b061c21c1bb1c770c`, C `2c935d6f1f215e125143e9a3f65c4e2426bace63`); `p0/wave-02-p0.4-g0` at `aff1b2f8809b8d52349d8452767c3e96428cb4cd`, clean-checkout source cut. Earlier P0.1 A/B commits: `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`, `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; original main base `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- **Current state:** P0.1–P0.4 evidence receipts are present; Checkpoint 0 and Checkpoint 1 pass. G0 packet is drafted unsigned; ADR-001…006 remain Proposed; advisor review and owner signature pending. P0 / G0 remains `IN_PROGRESS`.
+- **Known risks/open items:** OPEN-Q-1 on unlinked billed provider records remains deferred to G1/P1.2; artifacts/object store is NOT_PINNED and moves to P3; GitHub CI is not run until owner push; no CDC connector, slot, topic contract or Flink job was exercised. See `RISK_REGISTER.md` and all four G0 receipts.
 - **Cost:** no paid API, cloud, or package installation.
-- **Last validation:** Final WAVE-01 contract regression 8 passed in Python 3.13.2; validator exit 0; hygiene exit 0 (324 tracked, 0 artifacts); cached diff check exit 0. See `docs/gates/G0/P0.3_receipt.md`.
-- **Next exact command:** after WAVE-01 closes, in Claude Code run `/meterproof-advisor review WAVE-01`.
+- **Last validation:** Fresh no-hardlinks offline clone at `aff1b2f8809b8d52349d8452767c3e96428cb4cd` passed the full runbook; 14 unit/contract tests, two migration tests, all Compose configs, hygiene, validator and ADR score checks passed; no project Docker resources remain. See `docs/gates/G0/P0.4_receipt.md`.
+- **Next exact steps:** in Claude Code run `/meterproof-advisor review WAVE-02`, then after approval run `/meterproof-advisor gate G0`.
 - No provider call, cloud action, push or merge is authorized for agents.
 
 ### Update protocol

@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 remains `IN_PROGRESS`. WAVE-01 fix-up Checkpoint 0 passes; P0.2/P0.3 receipts await advisor re-review. ADR-001–005 remain Proposed. Amendment 01 A1-5 pins mypy 1.19.1 compatible with dbt-core 1.11.17 in the single lock; Step 1.5 passes. A1-6 clears the advisor-reviewed PACK_MANIFEST SHA-256 false positive with an exact path-and-shape allowlist; configured history/working-tree scans pass and both negative controls detect their expected findings. Step 1.7 full profile passed with ~2.20 GiB across five Meterproof containers; in-container Java 17.0.21 verified. The first Step 1.13 clone failed hygiene on tracked `.env.example`; the owner authorized an exact-path exception in the pack helper (DEC-0012), now covered by regression tests. Repeat the clean offline checkout before Checkpoint 1. P0.4 and G0 are not signed; no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 remains `IN_PROGRESS`. WAVE-01 fix-up Checkpoint 0 passes; P0.2/P0.3 receipts await advisor re-review. ADR-001–005 remain Proposed. Amendment 01 A1-5 pins mypy 1.19.1 compatible with dbt-core 1.11.17 in the single lock; Step 1.5 passes. A1-6 clears the advisor-reviewed PACK_MANIFEST SHA-256 false positive with an exact path-and-shape allowlist; configured history/working-tree scans pass and both negative controls detect their expected findings. Step 1.7 full profile passed with ~2.20 GiB across five Meterproof containers; in-container Java 17.0.21 verified. The first Step 1.13 clone failed hygiene on tracked `.env.example`; owner DEC-0012 authorized an exact-path exception and its tests pass. The fresh offline clone at `aff1b2f` passes the complete runbook and Checkpoint 1. P0.4 and G0 are not signed; no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -42,7 +42,7 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 
 ## Current Branch / Commit
 
-- Branch: `p0/wave-02-p0.4-g0`; latest commit `31eb5cd` (Apache-2.0 license commit); remaining P0.4 artifacts are uncommitted while the W2-D8 conflict awaits direction.
+- Branch: `p0/wave-02-p0.4-g0`; latest implementation/evidence commit `aff1b2f8809b8d52349d8452767c3e96428cb4cd`; G0/close-out documentation is being prepared.
 - WAVE-01 evidence base: Commit A2 `231d9d72e1ed8c5e6879d00b061c21c1bb1c770c`; Commit C `2c935d6f1f215e125143e9a3f65c4e2426bace63`; Commit D `a75fdba4bf956d6ea601df1e284829d6a74fc951`.
 
 ## How to Run
@@ -55,7 +55,9 @@ python ai-agent-workspace-pack/_agent_ops/tools/session_start.py --root .
 ## How to Test
 
 ```bash
-python tools/meterproof/validate_overlay.py   # structural only; no product tests exist yet
+uv sync --locked --all-groups
+uv run --locked pytest tests/contracts tests/unit -q
+uv run --locked python tools/meterproof/validate_overlay.py
 ```
 
 ## Known Risks
@@ -64,7 +66,7 @@ See `RISK_REGISTER.md` (toolchain/mypy compatibility, Docker memory, G1 provider
 
 ## Next Step
 
-Rerun Step 1.13 on a fresh clone after committing DEC-0012's exact-path exception and regression test. Step 2 and `/meterproof-advisor review WAVE-02` remain downstream of that checkpoint.
+Complete the unsigned G0 receipt and close-out commit; next run `/meterproof-advisor review WAVE-02`, then after approval `/meterproof-advisor gate G0`.
 
 ## Do Not Do
 
@@ -72,7 +74,7 @@ Rerun Step 1.13 on a fresh clone after committing DEC-0012's exact-path exceptio
 
 ## Last Verified Commit
 
-`31eb5cd — latest committed baseline. P0.4 Steps 1.5–1.9 evidence is recorded in docs/gates/G0/P0.4_receipt.md; remaining worktree changes are uncommitted.`
+`aff1b2f8809b8d52349d8452767c3e96428cb4cd — P0.4 source/evidence base. The unsigned G0 packet and close-out docs are in progress; P0.4 evidence is in docs/gates/G0/P0.4_receipt.md.`
 
 ## Last Updated
 

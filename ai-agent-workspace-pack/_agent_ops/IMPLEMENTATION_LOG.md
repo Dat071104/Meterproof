@@ -1017,3 +1017,18 @@ Next: finalize the runbook/receipt and local CI command ledger, read the tester-
 Created a fresh `--no-hardlinks` clone of branch `p0/wave-02-p0.4-g0` at `d5b2a1eed3de1865f0f832bc5abbe4038e4c6e64`, confirmed its Git status clean, and ran the DEV_BOOTSTRAP offline sequence with a fresh external venv and the existing external uv cache. Offline `uv sync` exited 0; Python 3.13.2, Ruff check/format, mypy, 12 contract/unit tests and the validator passed. The documented hygiene command exited 1 because the committed required `infra/compose/.env.example` matches the pack checker’s forbidden tracked `.env.*` pattern. The checker path is out of scope under the current order. The runbook sequence stopped there; ADR scoring, Compose config and db/migration smoke were not run in this clone. The clone and its unique venv were removed; no Meterproof containers/volumes were created.
 
 P0.4 Checkpoint 1 is not passed. Await an amendment to allow a narrow exact-path checker exception or revise the required placeholder rule; then repeat Step 1.13 before Step 2.
+
+## 2026-11-20 — WAVE-02 Step 1.13 clean offline checkout passes (Codex)
+
+After the owner-authorized DEC-0012 exact-path exception for `infra/compose/.env.example`, created a fresh no-hardlinks clone of `p0/wave-02-p0.4-g0` at `aff1b2f8809b8d52349d8452767c3e96428cb4cd`. Followed `DEV_BOOTSTRAP.md` offline: locked sync exit 0, Python 3.13.2, Ruff check/format, mypy, 14 contract/unit tests, validator, hygiene, ADR score checks, Compose config for all four profiles, and db migration smoke (2 passed) all exit 0. Teardown exited 0; no project containers or volumes remained; clone Git status was clean. Removed the clone and its unique external venv. Checkpoint 1 passes; continue to Step 2.
+
+## 2026-11-20 — WAVE-02 Step 2 G0 gate packet draft (Codex)
+
+- Read the repo-hygiene and evidence skills plus the G0 receipt template; WAVE-01 §2.7 claims-audit pattern was run across 54 wave-changed text files (excluding prompts/reviews): 20 qualified/requirement/audit-reference hits across eight files, no unqualified factual product claims. The temporary negative control matched; it was removed.
+- Whole-wave hygiene: tracked files checked, no forbidden paths, no generated artifact findings; `.gitignore` covers the project venv, Compose `.env` and Python caches. The only exact placeholder exception is `infra/compose/.env.example` under DEC-0012.
+- Gitleaks full history and working tree scans both exit 0 under the pinned image and exact A1-6 config. The two negative controls still detect their expected findings. No provider/invoice data, paid service or cloud action.
+- Drafted `docs/gates/G0/G0_GATE_RECEIPT.md` with P0.1–P0.4 evidence/review rows, release-gate items, proposed ADRs, open items, limitations, hygiene hit table, and blank owner signoff. Status remains in progress; no gate PASS claimed.
+
+### Next Step
+
+Commit the unsigned G0 packet and close-out records by explicit paths. Run closure_check and final local checks, then hand the branch to the advisor for WAVE-02 review.
