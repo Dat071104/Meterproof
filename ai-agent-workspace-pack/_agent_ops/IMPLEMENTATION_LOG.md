@@ -941,4 +941,73 @@ The WAVE-01 fix-up checkpoint passes. P0.2 and P0.3 remain `IN_PROGRESS` pending
 
 ### Next Step
 
-Refresh/stage the repo map separately for Commit C and D, make both explicit-path commits on this branch, verify Checkpoint 0, then create `p0/wave-02-p0.4-g0` for P0.4.
+Completed: refreshed the repo map for Commit C and D, verified Checkpoint 0, and created `p0/wave-02-p0.4-g0`.
+
+## 2026-11-20 — WAVE-02 P0.4 partial execution and Amendment 01 STOP (Codex)
+
+### Date
+
+`2026-11-20`
+
+### Task ID
+
+`TASK-0004`
+
+### Phase / Task
+
+`WAVE-02 Step 1 — P0.4 local reproducibility and CI bootstrap; stopped at Step 1.4 under W2-D8`
+
+### What Changed / Evidence Produced
+
+- Applied owner-delegated Amendment 01 A1-1..A1-4: `artifacts` is NOT_PINNED and deferred to P3; dbt-core is constrained to 1.11.17 line; Gitleaks uses the maintainer Docker Hub image; GitHub reads use per-command address overrides with TLS verification.
+- PyPI confirms dbt-core 1.11.17 and dbt-postgres 1.11.0 declare Python 3.13. `uv lock --upgrade` resolves 69 packages; locked sync exits 0; `uv run dbt --version` reports core 1.11.17 and postgres 1.11.0. Lock TOML scan: experimental parser absent; 0 sdist-only packages.
+- Found unresolved D8 conflict: latest stable mypy 2.4.1 requires `pathspec>=1.0.0`; dbt-core 1.11.17 requires `pathspec<0.13`. Current lock selects mypy 1.19.1; the work order says not to pick a version that breaks a pin rule. Stopped before Step 1.5/1.6 pending owner direction.
+- Gitleaks README confirms both official images; Docker Hub index digest `sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f` pulled and inspected (76,584,831 bytes). `git ls-remote` through the A1-4 override resolved checkout v7.0.1 and setup-uv v10.3.3 to the recorded SHAs.
+- Added project scaffolding, Compose profiles, Alembic baseline and integration smoke, CI/runbook/ADR/pin manifest/P0.4 receipt. PostgreSQL 18 volume destination was corrected to `/var/lib/postgresql`; local test port override 55432 worked after Windows denied 54329.
+- db/cdc/stream smoke passed; db migration smoke 2 passed; replica-WAL negative control exited 1. Every run was torn down; project container and volume counts were zero. Ruff check/format, partial non-dbt-group mypy, 12 contracts/unit tests, validator, ADR checker passed. Hygiene exit 0 in warning mode; the only artifact warning is the required `infra/compose/.env.example`.
+- No Gitleaks negative control/scan, full-lab measurement, in-container Java check, clean offline clone, Step 2 G0 packet or Checkpoint 1 claim.
+
+### Results / Next Step
+
+P0.4 remains `IN_PROGRESS`, not passed. Wait for owner/advisor resolution of the latest-mypy/dbt pathspec conflict, then resume at Step 1.5 and continue sequentially. P0/G0 remains unsigned; no push or merge.
+
+## 2026-11-20 — WAVE-02 Amendment A1-5 and Gitleaks STOP (Codex)
+
+### Date
+
+`2026-11-20`
+
+### Task ID
+
+`TASK-0004`
+
+### Phase / Task
+
+`WAVE-02 Step 1.5–1.6 — locked Python checks and secret scan`
+
+### What Changed / Evidence Produced
+
+- Owner authorized A1-5: pin mypy 1.19.1, the newest release resolving in the single lock with dbt-core 1.11.17; latest mypy 2.4.1 is rejected due `pathspec>=1.0.0` versus dbt-core's `pathspec<0.13`.
+- `uv lock --upgrade` and `uv sync --locked --all-groups` exit 0 with 69 packages. Step 1.5 passes under Python 3.13.2: Ruff check/format, mypy, 12 contract/unit tests, validator, ADR scores, hygiene exit 0 in warning mode, and `git diff --check` all exit 0. The required `.env.example` is the only hygiene artifact warning.
+- Gitleaks v8.30.1 version/help exits 0. Synthetic temporary Git repository negative control exits 1 as expected and its temporary directory was removed.
+- Full repository history scan exits 1 with one finding. Redacted JSON/template metadata recovery did not return file/commit/rule fields; no matched value was retained or printed. This triggers the order's STOP. The working-tree scan and all later P0.4 steps were not run.
+
+### Results / Next Step
+
+P0.4 remains `IN_PROGRESS`; Checkpoint 1 is not passed. Await advisor/owner direction on the Gitleaks finding before continuing. No G0 packet, push, or merge.
+
+## 2026-11-20 — Gitleaks finding metadata recovered (Codex)
+
+The initial redacted JSON capture did not expose the report fields. A final metadata-only capture used the documented `--report-path -` with `--redact=100`. It confirmed: file `ai-agent-workspace-pack/PACK_MANIFEST.json`, commit `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`, rule `generic-api-key`. No matched value was retained or printed. The WAVE-02 STOP remains; the working-tree scan and later P0.4 steps were not run.
+
+## 2026-11-20 — WAVE-02 Amendment A1-6 clears the manifest digest false positive (Codex)
+
+The advisor reviewed the Gitleaks history hit as a false positive: the 64-lowercase-hex value for `harness/TOKEN_RISK_MATRIX.md` is that file's SHA-256. Added the exact A1-6 `.gitleaks.toml` (default rules plus one AND allowlist for the exact PACK_MANIFEST path and 64-lowercase-hex secret shape); no manifest edit, history rewrite, fingerprint ignore or rule disable.
+
+Reproduced with the pinned image: configured full-history scan exit 0/no leaks; configured working-tree scan exit 0/no leaks; temporary Git negative control exit 1 with exactly two expected findings—non-hex token under the manifest path (`github-pat`) and the same digest under `api_token` in `other.json` (`generic-api-key`). The digest matched the source file SHA-256. The temporary repo was deleted. Step 1.6 passes; resume at Step 1.7.
+
+## 2026-11-20 — WAVE-02 P0.4 full profile footprint and Java 17 check (Codex)
+
+The single `full` Compose profile (postgres, Kafka, Connect, Flink JM/TM; no object store) became healthy and passed the combined db/cdc/stream smoke. `docker stats --no-stream` summed to 2,365,555,999 bytes (~2.20 GiB) across the five Meterproof containers from rounded displayed values; unrelated `dataforge-postgres` (31.25 MiB) was excluded. Docker Desktop allocation is 8,171,610,112 bytes (~7.61 GiB). `docker system df` was unchanged before/after teardown. `down -v --remove-orphans` exited 0; project container/volume counts are 0. The pinned Maven/Temurin image's `java -version` reports 17.0.21; the host JDK was not used.
+
+Next: finalize the runbook/receipt and local CI command ledger, read the tester-team skill, then commit the P0.4 artifacts and perform the no-hardlinks offline clean checkout.

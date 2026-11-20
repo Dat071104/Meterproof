@@ -12,11 +12,11 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 remains `IN_PROGRESS`. WAVE-01 Step 0 is approved; P0.2/P0.3 received `CHANGES_REQUESTED` and their WAVE-02 FIX1 evidence is complete in the P0.2/P0.3 receipts, awaiting advisor re-review. ADR-001–005 remain Proposed. P0.4 and G0 are not signed; no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 remains `IN_PROGRESS`. WAVE-01 fix-up Checkpoint 0 passes; P0.2/P0.3 receipts await advisor re-review. ADR-001–005 remain Proposed. Amendment 01 A1-5 pins mypy 1.19.1 compatible with dbt-core 1.11.17 in the single lock; Step 1.5 passes. A1-6 clears the advisor-reviewed PACK_MANIFEST SHA-256 false positive with an exact path-and-shape allowlist; configured history/working-tree scans pass and both negative controls detect their expected findings. Step 1.7 full profile passed with ~2.20 GiB across five Meterproof containers; in-container Java 17.0.21 verified. Continue P0.4 through the clean offline checkout. P0.4 and G0 are not signed; no product implementation exists. Amendment 01 also selects artifacts `NOT_PINNED` → P3, the maintainer Docker Hub Gitleaks image, and per-command GitHub address overrides. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
-- Language: Python (project pin decided in P0.4; host has 3.14), Java for Flink (JDK 17 toolchain; host JDK 23 is not supported by Flink), SQL
+- Language: Python 3.13 (`uv`, dbt-core 1.11.17 / dbt-postgres 1.11.0, mypy 1.19.1); Java for Flink (JDK 17 toolchain; host JDK 23 is not supported by Flink), SQL
 - Framework: FastAPI + Pydantic + Alembic; dbt Core; Flink DataStream; Debezium/Kafka Connect
 - Runtime: Docker Compose local lab (host Docker 29.9.3, Windows 11)
 - Database: PostgreSQL (logical WAL, ≥14), Kafka; DuckDB/SQLite for Lite
@@ -42,8 +42,8 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 
 ## Current Branch / Commit
 
-- Branch: `p0/wave-01-p0.2-p0.3` (created from P0.1 Commit B)
-- Evidence base: P0.2 commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`; P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; original main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- Branch: `p0/wave-02-p0.4-g0`; latest commit `31eb5cd` (Apache-2.0 license commit); remaining P0.4 artifacts are uncommitted while the W2-D8 conflict awaits direction.
+- WAVE-01 evidence base: Commit A2 `231d9d72e1ed8c5e6879d00b061c21c1bb1c770c`; Commit C `2c935d6f1f215e125143e9a3f65c4e2426bace63`; Commit D `a75fdba4bf956d6ea601df1e284829d6a74fc951`.
 
 ## How to Run
 
@@ -60,11 +60,11 @@ python tools/meterproof/validate_overlay.py   # structural only; no product test
 
 ## Known Risks
 
-See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope size, public repo hygiene, license).
+See `RISK_REGISTER.md` (toolchain/mypy compatibility, Docker memory, G1 provider correlation, scope size, public repo hygiene, licensing).
 
 ## Next Step
 
-After WAVE-02 Step 0 Commit D, create `p0/wave-02-p0.4-g0` and continue P0.4. After the unsigned G0 packet is committed, run `/meterproof-advisor review WAVE-02` in Claude Code.
+Finalize the runbook and receipt; then commit P0.4 artifacts and run the offline no-hardlinks clean checkout. Step 2 and `/meterproof-advisor review WAVE-02` remain downstream of Checkpoint 1.
 
 ## Do Not Do
 
@@ -72,7 +72,7 @@ After WAVE-02 Step 0 Commit D, create `p0/wave-02-p0.4-g0` and continue P0.4. Af
 
 ## Last Verified Commit
 
-`P0.2 contract suite passed 8 tests in Python 3.13.2 on p0/wave-01-p0.2-p0.3; evidence is documented in docs/gates/G0/P0.2_receipt.md.`
+`31eb5cd — latest committed baseline. P0.4 Steps 1.5–1.9 evidence is recorded in docs/gates/G0/P0.4_receipt.md; remaining worktree changes are uncommitted.`
 
 ## Last Updated
 
