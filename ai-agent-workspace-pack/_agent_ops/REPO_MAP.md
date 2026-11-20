@@ -8,17 +8,17 @@ live" and "what breaks if I touch this" in one Tier-1 read.
 
 ## Last Verified Commit
 
-`76bf22d`
+`d5b2a1e`
 
 ## Indexed Source Fingerprint
 
-`sha256:9:74e6ecb1af338f49964884961e2b37b39c96a7daeacfb0fca557fdd4a2615cd4`
+`sha256:10:d275f489d6af07623670674b63571bed1eaf385a5bd4393a12b74333c6122129`
 
 ## Snapshot
 
 - Branch: `p0/wave-02-p0.4-g0`
 - Generated: `2026-11-20`
-- Code files indexed: 9
+- Code files indexed: 10
 - Stack: Python
 
 ## Modules
@@ -29,7 +29,7 @@ code depends on it, so changes there travel further.
 | Module | Files | Inbound | Entry points |
 | --- | --- | --- | --- |
 | `tools` | 3 | 1 | - |
-| `tests` | 4 | 0 | - |
+| `tests` | 5 | 0 | - |
 | `infra` | 2 | 0 | - |
 
 ## Hot Files (widest blast radius)
@@ -42,7 +42,7 @@ Ranked by fan-in. Treat an edit here as cross-module until proven otherwise.
 
 ## Symbol Graph
 
-50 symbols, 63 edges (exact 54, heuristic 3, ambiguous 6, weak 0).
+52 symbols, 63 edges (exact 54, heuristic 3, ambiguous 6, weak 0).
 
 ### Most-called symbols
 
@@ -75,7 +75,7 @@ python ai-agent-workspace-pack/_agent_ops/tools/explore.py --root . --path <a> <
 
 ## Isolated Files
 
-7 file(s) have no resolved local imports in either direction.
+8 file(s) have no resolved local imports in either direction.
 They are listed only on demand -- enumerating them here would recreate the
 context bloat this map exists to prevent.
 

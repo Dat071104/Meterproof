@@ -69,6 +69,8 @@ ARTIFACT_FILE_PATTERNS = [
     "*.key",
     "*.log",
 ]
+# Owner-authorized exact placeholder exception for the required Compose example.
+ALLOWLISTED_PLACEHOLDER_PATHS = {"infra/compose/.env.example"}
 SKIP_SCAN_DIRS = {".git"}
 
 # Hybrid _agent_ops/ policy: durable project memory is tracked so it survives a
@@ -118,6 +120,8 @@ def tracked_files(root: Path) -> list[str]:
 
 def matches_forbidden(path: str) -> list[str]:
     normalized = path.replace("\\", "/")
+    if normalized in ALLOWLISTED_PLACEHOLDER_PATHS:
+        return []
     name = Path(normalized).name
     matches: list[str] = []
     for pattern in FORBIDDEN_PATTERNS:
@@ -161,6 +165,8 @@ def filesystem_artifacts(root: Path) -> list[tuple[str, str]]:
         if any(part in SKIP_SCAN_DIRS for part in path.parts):
             continue
         rel = path.relative_to(root).as_posix()
+        if rel in ALLOWLISTED_PLACEHOLDER_PATHS:
+            continue
         if path.is_dir():
             at_root = path.parent == root
             if path.name in ARTIFACT_DIR_NAMES or (
