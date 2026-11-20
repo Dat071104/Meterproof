@@ -32,4 +32,4 @@ Both are compared on a **source-consistent cut** against an **independent pure-P
 
 ## License
 
-Not yet selected; see the P0 decision log. Third-party components keep their own licenses.
+License: Apache-2.0 (see LICENSE). Third-party components keep their own licenses.
