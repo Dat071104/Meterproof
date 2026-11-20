@@ -4,7 +4,7 @@
 - **Design status:** planning only; imported from v3.1/v3.2/v3.3 plus Lite and Atlas extensions
 - **Repository:** `D:\DATA_ENGINEER\METERPROOF\Meterproof` → `github.com/Dat071104/Meterproof` (public), branch `main`
 - **Roles:** owner approves; Claude Code = advisor/reviewer; Codex = executor (`docs/ops/ADVISOR_EXECUTOR_WORKFLOW.md`)
-- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1 and P0.2 evidence complete; P0.3/P0.4 remain; not a gate PASS)
+- **Current Core milestone:** P0 / G0 — `IN_PROGRESS` (P0.1–P0.3 evidence complete; P0.4 and G0 sign-off remain; not a gate PASS)
 - **Current Lite milestone:** L0 / LG0 — `NOT_STARTED` (requires G2 released contracts)
 - **Current Atlas milestone:** A0 / AG0 — `NOT_STARTED` (requires G3 verified read model)
 - **Current Adoption milestone:** U0 / UG0 — `NOT_STARTED` (no users claimed)
@@ -31,15 +31,17 @@
 - 2026-11-19 — advisor bootstrap (above). No implementation code exists. No gate evidence exists.
 - 2026-11-19 — Codex completed WAVE-01 Step 0 on `p0/p0.1-preflight` (Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; baseline main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`). P0.1 Verification is checked: installer process exit 2 on both final dry runs; stdout and stderr hashes match independently; two refused `ADD` plans and six conflicts; no installer writes; PACK_MANIFEST 145/145; validator, hygiene, and `git diff --check` pass. Earlier merged-capture hashes differed due stdout buffering/stderr interleaving; retained in the receipt. DEC-0007 retires the installer; `--apply` is never run here. Receipt: `docs/gates/G0/P0.1_receipt.md` (`IN_PROGRESS — evidence complete; advisor re-review pending`). No product tests or paid/cloud calls.
 
-- 2026-11-19 — Codex completed P0.2 on `p0/wave-01-p0.2-p0.3` from Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`: froze the pre-release contract spec, conditional v1 schemas, F1/F2/F3 synthetic fixtures, 20 negative fixtures and contract self-checks. Pre-change control accepted N01-N06, N09-N14 and N16-N20; N07/N08/N15 were already rejected. Final contract suite: 8 passed in Python 3.13.2; validator, hygiene and `git diff --check` rechecks are recorded in the P0.2 receipt. OSS notes: `docs/research/openmeter-review.md` and `lago-review.md` (Lago API checkout path-length limitation recorded; no code copied). Receipt: `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS`, advisor review pending); OPEN-Q-1 remains for G1/P1.2. No production/provider calls, real invoices, paid/cloud calls, or product pipeline runs.
+- 2026-11-19 — Codex completed P0.2 on `p0/wave-01-p0.2-p0.3` from Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`, committed as `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`:  froze the pre-release contract spec, conditional v1 schemas, F1/F2/F3 synthetic fixtures, 20 negative fixtures and contract self-checks. Pre-change control accepted N01-N06, N09-N14 and N16-N20; N07/N08/N15 were already rejected. Final contract suite: 8 passed in Python 3.13.2; validator, hygiene and `git diff --check` rechecks are recorded in the P0.2 receipt. OSS notes: `docs/research/openmeter-review.md` and `lago-review.md` (Lago API checkout path-length limitation recorded; no code copied). Receipt: `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS`, advisor review pending); OPEN-Q-1 remains for G1/P1.2. No production/provider calls, real invoices, paid/cloud calls, or product pipeline runs.
+
+- 2026-11-20 — Codex completed P0.3 on `p0/wave-01-p0.2-p0.3` based on P0.2 commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`: ADR-001–005 are review-ready Proposed, planned ERD/lineage and F1 trace added, claims audit found 0 unqualified claims in owned files and the negative control was found. Existing editable diagrams were unchanged. Receipt: `docs/gates/G0/P0.3_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). No runtime CDC/Flink, provider/invoice data, paid/cloud calls, or gate sign-off.
 
 ## RESUME_POINT
-- **Current branch / evidence base:** `p0/wave-01-p0.2-p0.3`, based on P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; P0.1 Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
-- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1 and P0.2 evidence are recorded in `docs/gates/G0/P0.1_receipt.md` and `docs/gates/G0/P0.2_receipt.md`; P0.3 remains in WAVE-01; no gate is signed.
+- **Current branch / evidence base:** `p0/wave-01-p0.2-p0.3`, P0.2 Commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`; P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- **Current state:** P0 / G0 is `IN_PROGRESS`; P0.1–P0.3 evidence receipts are present; ADRs remain Proposed; advisor review pending; no gate is signed.
 - **Known risk:** the external overlay package still ships the two fixtures under `data/`; DEC-0007 retires the installer here. OPEN-Q-1 on unlinked billed provider records remains deferred to G1/P1.2. See `docs/ops/REPO_OWNERSHIP_MAP.md` and the P0.2 receipt.
 - **Cost:** no paid API, cloud, or package installation.
-- **Last validation:** P0.2 contract suite 8 passed in Python 3.13.2; Step 1.8 validator, hygiene and final diff check are listed in the P0.2 receipt.
-- **Next exact command:** continue WAVE-01 Step 2 P0.3 after the P0.2 commit.
+- **Last validation:** Final WAVE-01 contract regression 8 passed in Python 3.13.2; validator exit 0; hygiene exit 0 (324 tracked, 0 artifacts); cached diff check exit 0. See `docs/gates/G0/P0.3_receipt.md`.
+- **Next exact command:** after WAVE-01 closes, in Claude Code run `/meterproof-advisor review WAVE-01`.
 - No provider call, cloud action, push or merge is authorized for agents.
 
 ### Update protocol

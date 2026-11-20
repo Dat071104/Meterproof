@@ -619,3 +619,218 @@ Not pushed; no push authorized.
 ### Next Step
 
 Stage explicit P0.2 paths, run `refresh_repo_map.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops --stage`, review the staged map and commit P0.2; then begin P0.3.
+
+---
+
+### Date
+
+`2026-11-19`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 P0.2 commit record`
+
+### Files Touched
+
+- `ai-agent-workspace-pack/_agent_ops/IMPLEMENTATION_LOG.md`
+- `ai-agent-workspace-pack/_agent_ops/CURRENT_TASK.md`
+- `ai-agent-workspace-pack/_agent_ops/SESSION_BRIEF.md`
+
+### What Changed / Evidence Produced
+
+- P0.2 committed on `p0/wave-01-p0.2-p0.3` as `5551b243aaed0c81d58aa650ce9e73e5f852ba3b` (`feat(p0.2): freeze contract v1 (spec, schemas, F1-F3, negative fixtures)`).
+- Branch base remains P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; post-commit worktree was clean.
+
+### Why
+
+Record the completed checkpoint and anchor the next WAVE-01 step.
+
+### Tests Run
+
+```text
+git status --short --branch -> clean on p0/wave-01-p0.2-p0.3
+```
+
+### Results
+
+Checkpoint 1 passed with all four evidence-backed P0.2 acceptance items. P0.3 is next; no G0 gate sign-off is claimed.
+
+### Git Commit
+
+`5551b243aaed0c81d58aa650ce9e73e5f852ba3b`
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Next Step
+
+Start P0.3 skill intake and architecture review under WAVE-01.
+
+---
+
+### Date
+
+`2026-11-20`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 2 — P0.3 architecture ADR and schema graph`
+
+### Files Touched
+
+- `docs/adr/ADR_001_INDEPENDENT_PROCESSING.md` through `ADR_005_OUTBOX_CDC_AND_TRANSPORT_IDENTITY.md`
+- `docs/architecture/ERD.md`, `docs/architecture/LINEAGE_AND_TRACE.md`
+- `docs/research/debezium-outbox-review.md`, `docs/research/OSS_REFERENCE_REGISTER.md` (Review cell #2 only)
+- `docs/gates/G0/P0.3_receipt.md`
+- `docs/gates/G0/P0.1_receipt.md`, `docs/gates/G0/P0.2_receipt.md` (final wave review handoff)
+- `docs/milestones/core/P0.md`, `docs/ops/PROJECT_STATUS.md`
+- `ai-agent-workspace-pack/_agent_ops/IMPLEMENTATION_LOG.md`, `PROJECT_CONTEXT_CARD.md`
+
+### What Changed / Evidence Produced
+
+- Expanded ADR-001–004 without changing their decisions; each is Proposed/review-ready with alternatives, criteria weights summing to 100, reversibility, pre-mortem, T-ID failures, invariants and reopen conditions.
+- Added ADR-005 as a Proposed outbox/CDC/transport-identity decision. It compares the Debezium Outbox Event Router, direct receipt-table capture and app-side publishing; it rejects no-CDC under Core scope, separates source_event_id from Kafka topic/partition/offset, and covers snapshot/stream handoff, consumer idempotency and slot/WAL monitoring/recovery.
+- Added a planned ERD with D2 identity keys, tenant-composite keys, append-only/mutable marks, a partial unique key for provider_generation_id and a field-to-column mapping for every v1 schema property. Added LINEAGE_AND_TRACE with trust boundaries, per-hop evidence/disposition and the F1 trace. Existing draw.io/.dot/.svg remain unchanged.
+- Shallow-cloned debezium/debezium-examples at `dbac92d24c5f84f95d8a2799210433ef4739b31d`; only `outbox/` was read. Its example demonstrates transaction-coupled outbox events and event-ID consumer dedupe; its test does not demonstrate connector restart recovery.
+- Claims audit: exact requested `rg` command exited 0 and returned 76 hits after including the P0.3 receipt. All hits were classified as qualified limitations, requirements, questions or audit metadata; 0 unqualified claims in owned artifacts. The external negative-control file was found (exit 0).
+- F1 trace uses `R-001`, attempts A/B, generations A/B, costs 0.0120/0.0090, invoice 0.10 and charge 0.05; its synthetic MISMATCH is denied at publication. No runtime cut or report is claimed.
+- Final P0.2 contract regression: 8 passed in Python 3.13.2. Validator exit 0; final hygiene exit 0 (319 tracked, 0 artifacts); `git diff --check` exit 0; editable diagram diff exit 0.
+
+### Why
+
+Complete the P0.3 design review artifacts and claims audit without changing the v3.1-v3.3 architecture meaning or implying unrun runtime guarantees.
+
+### Tests Run
+
+```text
+uv run --no-project --python C:\Python313\python.exe --with jsonschema==4.23.0 --with rfc3339-validator==0.1.4 --with pytest==8.3.5 python -m pytest tests/contracts -q -> 8 passed, exit 0
+rg -n -i 'exactly[- ]once|guarantee|completeness|real[- ]time|production[- ]ready' docs contracts README.md -> 76 hits classified, exit 0
+negative-control rg on D:\Research\METERPROOF_WAVE01_OSS_20261119\claims-negative-control.txt -> found, exit 0
+python tools/meterproof/validate_overlay.py -> exit 0
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> exit 0 (319 tracked, 0 artifacts)
+git diff --check -> exit 0
+git diff --exit-code -- docs/architecture/METERPROOF_CORE_ATLAS_LITE.drawio docs/architecture/METERPROOF_ARCHITECTURE.dot docs/architecture/METERPROOF_ARCHITECTURE.svg -> exit 0
+```
+
+### Results
+
+P0.3 acceptance evidence is complete; ADRs remain Proposed for owner acceptance at G0. The F1 trace terminates at a denied publication because the scoped verdict is MISMATCH, and no runtime pipeline claim is made. P0.4 and G0 sign-off remain outstanding.
+
+### Bugs Found
+
+- None in the design artifacts. The claims audit hits are qualified or procedural; no unqualified owned claim required a wording change.
+
+### Root Cause
+
+N/A — design/evidence review only.
+
+### Fix Applied
+
+No production code changed. Architecture decisions and trust boundaries are documented for advisor/owner review.
+
+### Git Commit
+
+P0.3 docs commit will be created on `p0/wave-01-p0.2-p0.3` with the work-order message; no push/merge authorized.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- OPEN-Q-1: unlinked billed provider records need owner confirmation at G1/P1.2.
+- Actual source-cut/CDC/Flink/CAS behavior remains untested until the future implementation/lab subphases.
+
+### Next Step
+
+Run final validator/hygiene/pytest/status checks, commit P0.3 docs explicitly, resolve the managed-session Closure Receipt, then request `/meterproof-advisor review WAVE-01`.
+---
+
+### Date
+
+`2026-11-20`
+
+### Task ID
+
+`TASK-0003`
+
+### Phase / Task
+
+`WAVE-01 Step 2 — P0.3 architecture ADR and schema graph completed`
+
+### Files Touched
+
+- `docs/adr/ADR_001_INDEPENDENT_PROCESSING.md`–`ADR_005_OUTBOX_CDC_AND_TRANSPORT_IDENTITY.md`
+- `docs/architecture/ERD.md`, `docs/architecture/LINEAGE_AND_TRACE.md`
+- `docs/research/debezium-outbox-review.md`, `docs/research/OSS_REFERENCE_REGISTER.md` (Review cell #2 only)
+- `docs/gates/G0/P0.3_receipt.md`
+- `docs/gates/G0/P0.1_receipt.md`, `docs/gates/G0/P0.2_receipt.md` (final WAVE-01 handoff)
+- `docs/milestones/core/P0.md`, `docs/ops/PROJECT_STATUS.md`
+- `ai-agent-workspace-pack/_agent_ops/IMPLEMENTATION_LOG.md`, `PROJECT_CONTEXT_CARD.md`
+
+### What Changed / Evidence Produced
+
+- Expanded ADR-001–004 without changing their decisions; each remains Proposed/review-ready with weighted criteria totals of 100, Option 0 plus alternatives, reversibility, pre-mortem, tests/T-IDs, invariants and reopen conditions.
+- Added ADR-005 as a Proposed outbox/CDC/transport-identity decision. It compares the Outbox Event Router, receipt-table capture and app-side publishing; no-CDC is rejected under Core scope. It separates `source_event_id` from Kafka delivery coordinates and covers topic keys, snapshot/stream handoff, consumer idempotency, restart and WAL lifecycle.
+- Added the planned ERD and lineage flow with trust boundaries, field-to-column map and F1 trace. Existing draw.io/.dot/.svg remain unchanged.
+- Debezium shallow clone pinned to `dbac92d24c5f84f95d8a2799210433ef4739b31d`; only `outbox/` was read. The example demonstrates an outbox/router and event-ID consumer dedupe, but its test does not establish connector restart or sink recovery.
+- Claims audit found 76 matching lines after including the audit receipt. All are qualified limitations, verification requirements, questions or procedural text; no unqualified claim appears in wave-owned files. The external negative control was found (exit 0).
+- F1 trace uses `R-001`, attempts A/B, generations A/B, costs 0.0120/0.0090, invoice 0.10 and customer charge 0.05. It reaches a denied publication because of the scoped MISMATCH; no runtime cut or public report is claimed.
+
+### Why
+
+Complete P0.3 design artifacts and evidence while preserving the existing Core topology and avoiding unsupported runtime guarantees.
+
+### Tests Run
+
+```text
+Final WAVE-01 contract regression: uv run --no-project --python C:\Python313\python.exe --with jsonschema==4.23.0 --with rfc3339-validator==0.1.4 --with pytest==8.3.5 python -m pytest tests/contracts -q -> 8 passed, exit 0
+Claims audit rg pattern on docs contracts README.md -> 76 hits classified; exit 0
+Negative-control rg scan outside repo -> expected phrase found; exit 0
+git diff --exit-code -- docs/architecture/METERPROOF_CORE_ATLAS_LITE.drawio docs/architecture/METERPROOF_ARCHITECTURE.dot docs/architecture/METERPROOF_ARCHITECTURE.svg -> exit 0
+python tools/meterproof/validate_overlay.py -> exit 0
+python ai-agent-workspace-pack/_agent_ops/tools/check_repo_hygiene.py --root . --ops-folder ai-agent-workspace-pack/_agent_ops -> exit 0 (319 tracked; 0 artifacts)
+git diff --check -> exit 0
+```
+
+### Results
+
+All four P0.3 acceptance items are evidenced in `docs/gates/G0/P0.3_receipt.md`. ADRs are Proposed and await owner acceptance at G0. F1 trace ends at publication denial; no source cut, SQL/dbt/Flink execution, CAS write or public report is claimed. P0.4 and G0 sign-off remain outstanding.
+
+### Bugs Found
+
+- No unqualified claim was found in wave-owned files. Existing docs contain qualified constraints and unchecked acceptance statements as captured in the audit table.
+
+### Root Cause
+
+N/A — architecture and evidence-design review; no implementation behavior changed.
+
+### Fix Applied
+
+Documentation only. The existing editable diagrams and topology were preserved.
+
+### Git Commit
+
+P0.3 local documentation commit will be recorded after explicit staging; no repo-map refresh is needed because this slice changes no code.
+
+### Push Result
+
+Not pushed; no push authorized.
+
+### Remaining Risks
+
+- OPEN-Q-1 on unlinked billed provider records remains for owner confirmation at G1/P1.2.
+- Source cut, CDC/Flink recovery, CAS and API behavior remain planned and unimplemented; T01–T12 receipts are not claimed by P0.3.
+
+### Next Step
+
+Commit P0.3 on `p0/wave-01-p0.2-p0.3`, run closure checks, then request advisor review of WAVE-01.

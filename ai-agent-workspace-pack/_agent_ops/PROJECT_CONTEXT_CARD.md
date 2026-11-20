@@ -12,7 +12,7 @@ Vietnamese: Kiem chung usage AI, chi phi provider va tien tinh khach hang tu 3 n
 
 ## Current Phase / State
 
-P0 / G0 `IN_PROGRESS`. P0.1 and P0.2 evidence is recorded in `docs/gates/G0/P0.1_receipt.md` and `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). P0.3 remains in WAVE-01; no gate is signed and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
+P0 / G0 `IN_PROGRESS`. P0.1 and P0.2 evidence is recorded in `docs/gates/G0/P0.1_receipt.md` and `docs/gates/G0/P0.2_receipt.md` (`IN_PROGRESS — evidence complete; advisor review pending`). P0.3 evidence is complete in `docs/gates/G0/P0.3_receipt.md`; ADRs are Proposed pending advisor/owner review; P0 / G0 remains IN_PROGRESS and no product implementation exists. Authoritative status: `docs/ops/PROJECT_STATUS.md`.
 
 ## Tech Stack
 
@@ -42,7 +42,7 @@ Canonical: `docs/contracts/DOMAIN_AND_EVIDENCE_CONTRACT.md` (INV-01..INV-12), `d
 ## Current Branch / Commit
 
 - Branch: `p0/wave-01-p0.2-p0.3` (created from P0.1 Commit B)
-- Evidence base: P0.1 Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; Commit B / WAVE-01 base `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; original main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
+- Evidence base: P0.2 commit `5551b243aaed0c81d58aa650ce9e73e5f852ba3b`; P0.1 Commit B `f895e2d680d58257a9cd2f64c5f9cab356d19c1c`; Commit A `95be8bfe4bf5b934e9727784b534f1bbbd181bbb`; original main SHA `2b5f2031c27103fc7f098da6cf073ee3bd547a1a`.
 
 ## How to Run
 
@@ -63,7 +63,7 @@ See `RISK_REGISTER.md` (toolchain, Docker memory, G1 provider correlation, scope
 
 ## Next Step
 
-Continue P0.3 architecture ADR/schema graph on the WAVE-01 branch. Advisor reviews the full wave after P0.3.
+After P0.3 commit and closure checks, run `/meterproof-advisor review WAVE-01` in Claude Code.
 
 ## Do Not Do
 
@@ -75,4 +75,4 @@ Continue P0.3 architecture ADR/schema graph on the WAVE-01 branch. Advisor revie
 
 ## Last Updated
 
-`2026-11-19`
+`2026-11-20`
