@@ -953,3 +953,11 @@ Verdicts:
 - G0: NOT_READY (B1 = C6, B2 = GitHub CI after the owner push).
 
 Wrote `docs/ops/reviews/WAVE-02_REVIEW.md`, `docs/ops/reviews/G0_GATE_REVIEW.md` and `docs/ops/prompts/WAVE-02_FIX1_CODEX.md`, plus a P0.md Reviewer note and RISK-0013. One probe run created a repo-local `.venv`; I removed it and hygiene is back to 0. No gate status changed.
+
+## 2026-11-20 — WAVE-02 FIX1 C6 (Codex)
+
+At the `f1d28e5` schema baseline, added N34 with a VERIFIED decision, `comparison_status = EQUAL`, `published_eligible = false`, and `policy_version = null`. The direct Draft202012Validator probe accepted N34; the pre-fix contract/unit run exited 1 as expected (13 passed, the negative-fixture test failed only on N34). Commit 1 (`d491345`) was docs-only, so the schema used for the baseline probe was unchanged from `f1d28e5`.
+
+Added exactly one top-level `allOf` condition requiring a non-empty string `policy_version` when `business_verdict = VERIFIED`; no schema field, type, required list, or existing rule changed. The post-fix probe rejected N34 with validator `type` at `policy_version`; `pytest tests/contracts tests/unit` passed 14 tests. F1–F3 fixture paths are unchanged in the diff against `f1d28e5`, and the unit suite passed. RISK-0011 now says `Closes on merge`; P0.2 receipt, changelog, project resume point, and P0 resume point record C6 and the owner next step.
+
+All Python checks used the external locked environment and uv cache in offline mode. Ruff check and format, mypy, overlay validation, repo hygiene and ADR score checks exited 0; `git diff --check` exited 0; no repository-local `.venv` was created. No Docker, network, push, merge, or gate signature was used.

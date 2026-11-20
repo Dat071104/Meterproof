@@ -43,7 +43,7 @@
 - **Known risks/open items:** OPEN-Q-1 on unlinked billed provider records remains deferred to G1/P1.2; artifacts/object store is NOT_PINNED and moves to P3; GitHub CI is not run until owner push; no CDC connector, slot, topic contract or Flink job was exercised. See `RISK_REGISTER.md` and all four G0 receipts.
 - **Cost:** no paid API, cloud, or package installation.
 - **Last validation:** Fresh no-hardlinks offline clone at `aff1b2f8809b8d52349d8452767c3e96428cb4cd` passed the full runbook; 14 unit/contract tests, two migration tests, all Compose configs, hygiene, validator and ADR score checks passed; no project Docker resources remain. See `docs/gates/G0/P0.4_receipt.md`.
-- **Next exact steps:** in Claude Code run `/meterproof-advisor review WAVE-02`, then after approval run `/meterproof-advisor gate G0`.
+- **Next exact steps:** owner: fast-forward main, push, CI; then `/meterproof-advisor gate G0`
 - No provider call, cloud action, push or merge is authorized for agents.
 
 ### Update protocol

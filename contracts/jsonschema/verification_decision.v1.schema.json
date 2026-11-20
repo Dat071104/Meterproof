@@ -182,6 +182,26 @@
           "business_verdict"
         ]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "business_verdict": {
+            "const": "VERIFIED"
+          }
+        },
+        "required": [
+          "business_verdict"
+        ]
+      },
+      "then": {
+        "properties": {
+          "policy_version": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     }
   ]
 }
